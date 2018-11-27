@@ -68,6 +68,9 @@
     <Compile Include="Country.cs">
       <DependentUpon>BetterDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Member.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Person.cs">
       <DependentUpon>BetterDb.tt</DependentUpon>
     </Compile>
