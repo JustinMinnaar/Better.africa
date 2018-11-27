@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebApplication1.Providers
+namespace Better.Benefits.Provider
 {
     public class CItem
     {

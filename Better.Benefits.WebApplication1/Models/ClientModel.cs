@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Better.Benefits.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using WebApplication1.Data;
 
 namespace WebApplication1.Models
 {

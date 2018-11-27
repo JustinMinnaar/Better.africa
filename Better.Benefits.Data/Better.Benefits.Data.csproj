@@ -31,8 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,11 +50,88 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="BetterDb.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BetterDb.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BetterDb.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BetterDb.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BetterDb.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Country.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Person.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonIdentity.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PersonName.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Person_Identity.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Person_IdentityType.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy_Member.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy_Receipt.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy_Status.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy_Type.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Row.cs">
+      <DependentUpon>BetterDb.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BetterDb.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BetterDb.Context.cs</LastGenOutput>
+      <DependentUpon>BetterDb.edmx</DependentUpon>
+    </Content>
+    <Content Include="BetterDb.edmx.sql" />
+    <Content Include="BetterDb.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BetterDb.edmx</DependentUpon>
+      <LastGenOutput>BetterDb.cs</LastGenOutput>
+    </Content>
     <Content Include="Entities.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="BetterDb.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BetterDb.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="BetterDb.edmx.diagram">
+      <DependentUpon>BetterDb.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

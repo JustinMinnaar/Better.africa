@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using WebApplication1.Data;
-using WebApplication1.Providers;
 using WebApplication1.Models;
+using Better.Benefits.Provider;
 
 namespace WebApplication1.Controllers
 {
     public class ClientsController : Controller
     {
-        private BenefitsDBProvider provider = new BenefitsDBProvider();
+        private DbProvider provider = new DbProvider();
 
         // GET: Clients
         public async Task<ActionResult> Index()

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Better.Benefits.WebApplicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Better.Benefits.Data", "Better.Benefits.Data\Better.Benefits.Data.csproj", "{23F2C6FE-674E-4913-8389-82663986FD6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Better.Benefits.Provider", "Better.Benefits.Provider\Better.Benefits.Provider.csproj", "{6038318A-EE90-4570-B6EE-CD142995B75C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{23F2C6FE-674E-4913-8389-82663986FD6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23F2C6FE-674E-4913-8389-82663986FD6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23F2C6FE-674E-4913-8389-82663986FD6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6038318A-EE90-4570-B6EE-CD142995B75C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6038318A-EE90-4570-B6EE-CD142995B75C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6038318A-EE90-4570-B6EE-CD142995B75C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6038318A-EE90-4570-B6EE-CD142995B75C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
