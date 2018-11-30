@@ -8,7 +8,7 @@ namespace Benefits.Shared
 {
     public static class Clock
     {
-        private static DateTime? _Now = null;
+        public static DateTime? _Now = null;
 
         public static DateTime Now => _Now ?? DateTime.Now;
     }

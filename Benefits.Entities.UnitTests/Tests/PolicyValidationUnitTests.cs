@@ -21,11 +21,15 @@ namespace Benefits.Entities.UnitTests
         [TestMethod]
         public void PrincipalAge18OrAbove()
         {
+            Clock._Now = new System.DateTime(2019, 1, 1);
+
             var m1 = new Membership()
                 .WithInceptionDate(mm: 1, yy: 2019)
                 .WithPrincipal(p3Charles11);
-
             Assert.IsNotNull(m1.PrincipalError);
+
+            m1.Principal.DateOfBirth = new System.DateTime(1969, 7, 31);
+            Assert.IsNull(m1.PrincipalError);
         }
 
         [TestMethod]
