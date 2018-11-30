@@ -39,6 +39,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.4.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.1.4.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -59,9 +65,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Benefits.Entities.UnitTests\Benefits.Entities.UnitTests.csproj">
+      <Project>{3874c35d-731c-4b9d-adcf-e5e72756f356}</Project>
+      <Name>Benefits.Entities.UnitTests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Benefits.Entities\Benefits.Entities.csproj">
       <Project>{D82D7EE2-236B-4A91-ADB0-CF79E00D3323}</Project>
       <Name>Benefits.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Benefits.Shared\Benefits.Shared.csproj">
+      <Project>{F621104F-F9A1-49AD-8C3E-ED699A9391E0}</Project>
+      <Name>Benefits.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

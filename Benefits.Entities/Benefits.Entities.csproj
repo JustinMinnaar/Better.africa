@@ -48,10 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseEntity.cs" />
+    <Compile Include="Membership\Contract.cs" />
     <Compile Include="BenefitsDbContext.cs" />
-    <Compile Include="Member.cs" />
-    <Compile Include="Person.cs" />
+    <Compile Include="Membership\Membership.cs" />
+    <Compile Include="Membership\Person.cs" />
+    <Compile Include="Aul\AulPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
