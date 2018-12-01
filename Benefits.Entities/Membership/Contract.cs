@@ -41,10 +41,14 @@ namespace Benefits.Entities
         {
             get
             {
+                if (SignDate == null) return "Sign Date is required to calculate InceptionDate";
+
                 var isNull = (InceptionDate == null);
-                var isOutOfRange = (InceptionDate < new DateTime(2018, 12, 1) || InceptionDate > new DateTime(2028, 1, 1));
+                var minDate = new DateTime(2018, 12, 1);
+                var maxDate = SignDate.Value.AddMonths(6);
+                var isOutOfRange = (InceptionDate < minDate || InceptionDate > maxDate);
                 if (isNull || isOutOfRange)
-                    return "Inception date is required and must be on or after 2018-12-01 and before 2028-12-01.";
+                    return $"Inception date is required and must be on or after {minDate.ToShortDateString()} and before {maxDate.ToShortDateString()}.";
 
                 if (SignDate != null)
                 {

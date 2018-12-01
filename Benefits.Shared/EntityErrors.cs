@@ -5,6 +5,8 @@ namespace Benefits.Shared
 {
     public class EntityError
     {
+        public override string ToString() => FieldName + ": " + Message;
+
         public string FieldName { get; set; }
         public string Message { get; set; }
     }

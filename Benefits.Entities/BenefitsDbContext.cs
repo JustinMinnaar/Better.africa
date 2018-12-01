@@ -30,12 +30,13 @@ namespace Benefits.Entities
         {
             MapPerson(modelBuilder);
             MapMember(modelBuilder); // depends on person
-            // TODO: MapPolicy(modelBuilder); // depends on member
+            MapPolicy(modelBuilder); // depends on member
+            MapPolicyPlan(modelBuilder);
         }
 
         private static EntityTypeConfiguration<T> MapBase<T>(DbModelBuilder modelBuilder) where T : BaseEntity
         {
-            modelBuilder.Entity<T>().HasKey<Guid>(s => s.Id);
+            modelBuilder.Entity<T>().HasKey(s => s.Id);
 
             var e = modelBuilder.Entity<T>();
             e.Property(p => p.RowVersion).IsRequired().IsConcurrencyToken();
@@ -63,12 +64,39 @@ namespace Benefits.Entities
             member.Property(p => p.Number).IsOptional().HasMaxLength(50);
         }
 
-        //private static void MapPolicy(DbModelBuilder modelBuilder)
-        //{
-        //    var member = MapBase<Policy>(modelBuilder);
+        private static void MapPolicy(DbModelBuilder modelBuilder)
+        {
+            var member = MapBase<AulPolicy>(modelBuilder);
 
-        //    member.Property(p => p.Number).IsOptional().HasMaxLength(50);
-        //}
+            member.Property(p => p.Number).IsOptional().HasMaxLength(50);
+            member.Property(p => p.InceptionDate).IsOptional();
+            member.Property(p => p.PlanId).IsOptional();
+            member.Property(p => p.SignDate).IsOptional();
+
+            var dependecies = modelBuilder.Entity<AulPolicyDependency>()
+                .HasKey(s => new { s.PolicyId, s.PersonId });
+        }
+
+        private void MapPolicyPlan(DbModelBuilder modelBuilder)
+        {
+            var plan = MapBase<AulPolicyPlan>(modelBuilder);
+
+            plan.Property(p => p.LastPolicyNumberIssued).IsRequired();
+            plan.Property(p => p.MonthlyCostChild).IsRequired();
+            plan.Property(p => p.MonthlyCostChildren).IsRequired();
+            plan.Property(p => p.MonthlyCostFamily).IsRequired();
+            plan.Property(p => p.MonthlyCostPrincipal).IsRequired();
+            plan.Property(p => p.MonthlyCostSpouse).IsRequired();
+            plan.Property(p => p.MaxAgeAdult).IsRequired();
+            plan.Property(p => p.MaxAgeChild).IsRequired();
+            plan.Property(p => p.MaxAgeChildScholar).IsRequired();
+            plan.Property(p => p.MaxAgePrincipal).IsRequired();
+            plan.Property(p => p.MaxAgeSpouse).IsRequired();
+            plan.Property(p => p.MinAgeAdult).IsRequired();
+            plan.Property(p => p.MinAgeChild).IsRequired();
+            plan.Property(p => p.MinAgePrincipal).IsRequired();
+            plan.Property(p => p.MinAgeSpouse).IsRequired();
+        }
     }
 
     //public class BenefitsDbContextInitializer : dropCreateDatabase<BenefitsDbContext>
