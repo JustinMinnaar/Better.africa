@@ -64,10 +64,12 @@ namespace Benefits.Entities
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(Name))
+                var name = Name;
+
+                if (string.IsNullOrWhiteSpace(name))
                     return "Name is required";
 
-                if (Name.Length > 100)
+                if (name.Length > 100)
                     return "Name cannot exceed 100 characters.";
 
                 return null;
@@ -138,7 +140,7 @@ namespace Benefits.Entities
             errors.Add(nameof(Name), NameError);
             errors.Add(nameof(Identity), IdentityError);
             errors.Add(nameof(Membership), MembershipError);
-            Errors.Add(nameof(DateOfBirth), DateOfBirthError);
+            errors.Add(nameof(DateOfBirth), DateOfBirthError);
         }
 
         public Person WithDateOfBirth(int yy, int mm, int dd)
