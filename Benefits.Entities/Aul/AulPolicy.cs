@@ -37,8 +37,19 @@ namespace Benefits.Entities
             {
                 if (Principal != null)
                     yield return new CostItem(name: "Principal", cost: Plan.MonthlyCostPrincipal);
+
                 if (Spouse != null)
                     yield return new CostItem(name: "Spouse", cost: Plan.MonthlyCostSpouse);
+
+                var childrenCount = Children.Count();
+                if (childrenCount > 0)
+                    yield return new CostItem(name: "Children",
+                        cost: Plan.MonthlyCostChildren + childrenCount * Plan.MonthlyCostChild);
+
+                var personCount = Family.Count();
+                if (personCount > 0)
+                    yield return new CostItem(name: "Family",
+                        cost: personCount * Plan.MonthlyCostFamily);
             }
         }
 
@@ -50,18 +61,21 @@ namespace Benefits.Entities
         public ICollection<AulPolicyDependency> Dependancies { get; } = new HashSet<AulPolicyDependency>();
 
         /// <summary>All Dependencies marked as the specific type.</summary>
-        public IList<AulPolicyDependency> GetDependencies(MembershipType type)
+        public IEnumerable<Person> GetPeople(MembershipType type)
         {
-            return Dependancies.Where(p => p.Type == MembershipType.Principal).ToList();
+            foreach (var dependency in Dependancies.Where(p => p.Type == type))
+            {
+                yield return dependency.Person;
+            }
         }
 
         /// <summary>The dependency marked as Principal, or null.</summary>
-        public AulPolicyDependency Principal
+        public Person Principal
         {
             get
             {
                 var dependants = Dependancies.Where(p => p.Type == MembershipType.Principal).ToList();
-                if (dependants.Count == 1) return dependants[0];
+                if (dependants.Count == 1) return dependants[0].Person;
                 return null;
             }
         }
@@ -79,12 +93,12 @@ namespace Benefits.Entities
         }
 
         /// <summary>The Dependency marked as Spouse, or null.</summary>
-        public AulPolicyDependency Spouse
+        public Person Spouse
         {
             get
             {
                 var dependants = Dependancies.Where(p => p.Type == MembershipType.Spouse).ToList();
-                if (dependants.Count == 1) return dependants[0];
+                if (dependants.Count == 1) return dependants[0].Person;
                 if (dependants.Count > 1)
                     throw new BenefitsException($"{Err} has {dependants.Count} spouses. Only 1 is allowed.");
 
@@ -97,8 +111,8 @@ namespace Benefits.Entities
         {
             get
             {
-                var spouses = GetDependencies(MembershipType.Spouse);
-                if (spouses.Count > 1)
+                var spouses = GetPeople(MembershipType.Spouse);
+                if (spouses.Count() > 1)
                     return $"There cannot be more than one spouse for policy {Number}.";
 
                 return null;
@@ -106,10 +120,10 @@ namespace Benefits.Entities
         }
 
         /// <summary>Persons covered by the policy as children.</summary>
-        public Person[] Children { get; set; }
+        public IEnumerable<Person> Children => GetPeople(MembershipType.Child);
 
         /// <summary>Persons covered by the policy as family.</summary>
-        public Person[] Family { get; set; }
+        public IEnumerable<Person> Family => GetPeople(MembershipType.Family);
 
         protected override void BeforeSaveOverride(EntityErrors errors)
         {
@@ -132,7 +146,7 @@ namespace Benefits.Entities
                     var minAgeInYears = Plan.MinAgeInYears(type);
                     var maxAgeInYears = Plan.MaxAgeInYears(type, person.IsScholar);
 
-                    var personYears = Spouse.Person.AgeInYearsAsAt(InceptionDate.Value);
+                    var personYears = person.AgeInYearsAsAt(InceptionDate.Value);
                     if (personYears < minAgeInYears || personYears > maxAgeInYears)
                         errors.Add(nameof(Dependancies),
                             $"{person.Err} must be between {minAgeInYears} and {maxAgeInYears} years old on inception date {InceptionDate} for {Plan.Err} for {Err}.");
@@ -158,13 +172,13 @@ namespace Benefits.Entities
 
     public class CostItem
     {
-        private string name;
-        private decimal cost;
+        public string Name { get; set; }
+        public decimal Cost { get; set; }
 
         public CostItem(string name, decimal cost)
         {
-            this.name = name;
-            this.cost = cost;
+            this.Name = name;
+            this.Cost = cost;
         }
     }
 
@@ -199,8 +213,7 @@ namespace Benefits.Entities
         public decimal MonthlyCostSpouse { get; set; }
         public decimal MonthlyCostChildren { get; set; }
         public decimal MonthlyCostChild { get; set; }
-        public decimal MonthlyCostPersons { get; set; }
-        public decimal MonthlyCostPerson { get; set; }
+        public decimal MonthlyCostFamily { get; set; }
 
         public int MinAgePrincipal { get; set; } = 18;
         public int MaxAgePrincipal { get; set; } = 65;
@@ -228,8 +241,7 @@ namespace Benefits.Entities
             MonthlyCostSpouse.Bound(0m, 9999m);
             MonthlyCostChild.Bound(0m, 9999m);
             MonthlyCostChildren.Bound(0m, 9999m);
-            MonthlyCostPerson.Bound(0m, 9999m);
-            MonthlyCostPersons.Bound(0m, 9999m);
+            MonthlyCostFamily.Bound(0m, 9999m);
 
             MinAgePrincipal.Bound(0, 99);
             MaxAgePrincipal.Bound(MinAgePrincipal, 99);

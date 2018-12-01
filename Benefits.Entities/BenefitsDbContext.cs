@@ -7,6 +7,16 @@ namespace Benefits.Entities
 {
     public class BenefitsDbContext : DbContext
     {
+        public DbSet<Membership> Members { get; set; }
+
+        public DbSet<Person> People { get; set; }
+
+        public DbSet<AulPolicyPlan> PolicyPlans { get; set; }
+
+        public DbSet<AulPolicy> Policies { get; set; }
+
+        public DbSet<AulPolicyDependency> PolicyDependencies { get; set; }
+
         public BenefitsDbContext() : base("name=Benefits")
         {
             Database.CommandTimeout = 3;
@@ -59,12 +69,6 @@ namespace Benefits.Entities
 
         //    member.Property(p => p.Number).IsOptional().HasMaxLength(50);
         //}
-
-        public DbSet<Membership> Members { get; set; }
-
-        public DbSet<Person> People { get; set; }
-
-        //public DbSet<Policy> Policies { get; set; }
     }
 
     //public class BenefitsDbContextInitializer : dropCreateDatabase<BenefitsDbContext>
