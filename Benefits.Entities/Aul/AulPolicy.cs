@@ -30,12 +30,52 @@ namespace Benefits.Entities
             }
         }
 
-        /// <summary>All persons covered by the plan, including the principal.</summary>
-        public ICollection<AulPolicyDependency> Dependancies { get; } = new HashSet<AulPolicyDependency>();
+        // Although the Person has a membership type in Better Africa, each policy
+        // could be unique and actually cover a different person as Principal, etc.
+        // For example, extended family member may need their own policy for medical cover.
 
-        public override void BeforeSave(EntityErrors errors)
+        /// <summary>A person covered by the policy as the principal responsible for the policy.</summary>
+        public Person Principal { get; set; }
+
+        /// <summary>An error message, otherwise null.</summary>
+        public string PrincipalError
         {
-            base.BeforeSave(errors);
+            get
+            {
+                if (Principal == null)
+                    return $"There must be one principal for policy {Number}.";
+
+                if (Principal.AgeInYearsAsAt(InceptionDate))
+
+                    return null;
+            }
+        }
+
+        /// <summary>A person covered by the policy as the spouse.</summary>
+        public Person Spouse { get; set; }
+
+        /// <summary>An error message, otherwise null.</summary>
+        public string SpouseError
+        {
+            get
+            {
+                var spouses = GetDependencies(MembershipType.Spouse);
+                if (spouses.Count > 1)
+                    return $"There cannot be more than one spouse for policy {Number}.";
+
+                return null;
+            }
+        }
+
+        /// <summary>Persons covered by the policy as children.</summary>
+        public Person[] Children { get; set; }
+
+        /// <summary>Persons covered by the policy as family.</summary>
+        public Person[] Family { get; set; }
+
+        protected override void BeforeSaveOverride(EntityErrors errors)
+        {
+            base.BeforeSaveOverride(errors);
 
             errors.Add(nameof(Plan), PlanError);
             if (Plan == null) return;
@@ -65,59 +105,6 @@ namespace Benefits.Entities
             }
         }
 
-        /// <summary>The dependency marked as Principal, or null.</summary>
-        public AulPolicyDependency Principal
-        {
-            get
-            {
-                var dependants = Dependancies.Where(p => p.Type == MembershipType.Principal).ToList();
-                if (dependants.Count == 0) return dependants[0];
-                return null;
-            }
-        }
-
-        /// <summary>The Dependency marked as Spouse, or null.</summary>
-        public AulPolicyDependency Spouse
-        {
-            get
-            {
-                var dependants = Dependancies.Where(p => p.Type == MembershipType.Spouse).ToList();
-                if (dependants.Count == 0) return dependants[0];
-                return null;
-            }
-        }
-
-        /// <summary>All Dependencies marked as the specific type.</summary>
-        public IList<AulPolicyDependency> GetDependencies(MembershipType type)
-        {
-            return Dependancies.Where(p => p.Type == MembershipType.Principal).ToList();
-        }
-
-        /// <summary>An error message, otherwise null.</summary>
-        public string PrincipalError
-        {
-            get
-            {
-                if (Principal == null)
-                    return $"There must be one principal for policy {Number}.";
-
-                return null;
-            }
-        }
-
-        /// <summary>An error message, otherwise null.</summary>
-        public string SpouseError
-        {
-            get
-            {
-                var spouses = GetDependencies(MembershipType.Spouse);
-                if (spouses.Count > 1)
-                    return $"There cannot be more than one spouse for policy {Number}.";
-
-                return null;
-            }
-        }
-
         /// <summary>Add a person of a specific type to be covered.</summary>
         public AulPolicy WithDependency(Person person, MembershipType type)
         {
@@ -129,25 +116,6 @@ namespace Benefits.Entities
             });
             return this;
         }
-    }
-
-    /// <summary>
-    ///     A person of a particular type to be covered by the policy.
-    /// </summary>
-    public class AulPolicyDependency
-    {
-        public Guid PolicyId { get; set; }
-        public AulPolicy Policy { get; set; }
-
-        public Guid PersonId { get; set; }
-        public Person Person { get; set; }
-
-        /// <summary>
-        /// Although the Person has a membership type in Better Africa, each policy
-        /// could be unique and actually cover a different person as Principal, etc.
-        /// For example, extended family member may need their own policy for medical cover.
-        /// </summary>
-        public MembershipType Type { get; set; }
     }
 
     public class AulPolicyPlan : BaseEntity
@@ -183,9 +151,9 @@ namespace Benefits.Entities
         public int MinAgeAdult { get; private set; } = 0;
         public int MaxAgeAdult { get; private set; } = 65;
 
-        public override void BeforeSave(EntityErrors errors)
+        protected override void BeforeSaveOverride(EntityErrors errors)
         {
-            base.BeforeSave(errors);
+            base.BeforeSaveOverride(errors);
 
             MonthlyCostPrincipal.Bound(0m, 9999m);
             MonthlyCostSpouse.Bound(0m, 9999m);

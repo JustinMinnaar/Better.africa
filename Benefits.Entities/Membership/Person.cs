@@ -131,9 +131,9 @@ namespace Benefits.Entities
 
         public DateTime? DateOfDeath { get; set; }
 
-        public override void BeforeSave(EntityErrors errors)
+        protected override void BeforeSaveOverride(EntityErrors errors)
         {
-            base.BeforeSave(errors);
+            base.BeforeSaveOverride(errors);
 
             errors.Add(nameof(Name), NameError);
             errors.Add(nameof(Identity), IdentityError);

@@ -71,9 +71,9 @@ namespace Benefits.Entities
 
         #region BeforeSave
 
-        public override void BeforeSave(EntityErrors errors)
+        protected override void BeforeSaveOverride(EntityErrors errors)
         {
-            base.BeforeSave(errors);
+            base.BeforeSaveOverride(errors);
 
             errors.Add(nameof(SignDate), SignDateError);
             errors.Add(nameof(InceptionDate), InceptionDateError);

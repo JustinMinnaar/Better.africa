@@ -12,9 +12,9 @@ namespace Benefits.Entities
 
         #region BeforeSave
 
-        public override void BeforeSave(EntityErrors errors)
+        protected override void BeforeSaveOverride(EntityErrors errors)
         {
-            base.BeforeSave(errors);
+            base.BeforeSaveOverride(errors);
 
             errors.Add(nameof(Principal), PrincipalError);
             errors.Add(nameof(Spouse), SpouseError);
@@ -31,10 +31,12 @@ namespace Benefits.Entities
                 var principalValid = People.Count(p => p.MembershipType == MembershipType.Principal) == 1;
                 if (!principalValid) return "There must be one principal.";
 
-
-                var principalYears = Principal.AgeInYearsAsAt(InceptionDate.Value);
-                if (principalYears < 18 || principalYears > 65)
-                    return "Principal must be between 18 and 65 years old on inception date.";
+                if (InceptionDate != null)
+                {
+                    var principalYears = Principal.AgeInYearsAsAt(InceptionDate.Value);
+                    if (principalYears < 18 || principalYears > 65)
+                        return "Principal must be between 18 and 65 years old on inception date.";
+                }
 
                 return null;
             }
@@ -48,9 +50,12 @@ namespace Benefits.Entities
                 if (!spouseValid)
                     return "There may not be more than one spouse.";
 
-                var spouseYears = Spouse.AgeInYearsAsAt(InceptionDate.Value);
-                if (spouseYears < 18 || spouseYears > 65)
-                    return "Spouse must be between 18 and 65 years old on inception date.";
+                if (InceptionDate != null)
+                {
+                    var spouseYears = Spouse.AgeInYearsAsAt(InceptionDate.Value);
+                    if (spouseYears < 18 || spouseYears > 65)
+                        return "Spouse must be between 18 and 65 years old on inception date.";
+                }
 
                 return null;
             }

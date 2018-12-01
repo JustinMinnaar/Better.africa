@@ -31,7 +31,12 @@ namespace Benefits.Shared
             }
         }
 
-        public virtual void BeforeSave(EntityErrors errors)
+        public void BeforeSave(EntityErrors errors)
+        {
+            BeforeSaveOverride(errors);
+        }
+
+        protected virtual void BeforeSaveOverride(EntityErrors errors)
         {
         }
     }
