@@ -27,7 +27,7 @@ namespace Benefits.Entities.UnitTests
         }
 
         [TestMethod]
-        public void MemberCannotBelongToMultipleMemberships()
+        public void Membership_MemberCannotBelongToMultipleMemberships()
         {
             using (var db = new BenefitsDbContext())
             {

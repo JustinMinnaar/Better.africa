@@ -4,6 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Benefits.Entities.UnitTests
 {
+    public class FuneralPolicy_UnitTests : BaseValidationUnitTests
+    {
+    }
+
     [TestClass]
     public class PolicyValidationUnitTests : BaseValidationUnitTests
     {

@@ -7,7 +7,7 @@ namespace Benefits.Entities.UnitTests
     {
         // NOTE: It is necessary for testing duplications to always create a new person
 
-        protected Person p1Adam49 = new Person
+        protected Person p1Adam49 => new Person
         {
             NameFirst = "Adam",
             NameLast = "Adams",
@@ -15,7 +15,7 @@ namespace Benefits.Entities.UnitTests
             Gender = PersonGenders.Male,
         };
 
-        protected Person p2Bertha47 = new Person
+        protected Person p2Bertha47 => new Person
         {
             NameFirst = "Bertha",
             NameLast = "Adams",
@@ -23,7 +23,7 @@ namespace Benefits.Entities.UnitTests
             Gender = PersonGenders.Female,
         };
 
-        protected Person p3Charles11 = new Person
+        protected Person p3Charles11 => new Person
         {
             NameFirst = "Charles",
             NameLast = "Adams",
@@ -31,7 +31,7 @@ namespace Benefits.Entities.UnitTests
             Gender = PersonGenders.Male,
         };
 
-        protected Person p4Debbie1 = new Person
+        protected Person p4Debbie1 => new Person
         {
             NameFirst = "Debbie",
             NameLast = "Adams",

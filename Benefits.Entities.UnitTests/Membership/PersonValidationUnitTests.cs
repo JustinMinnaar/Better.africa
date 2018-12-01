@@ -17,9 +17,11 @@ namespace Benefits.Entities.UnitTests
         [TestMethod]
         public void Person_RequiresIdentity()
         {
+            // no identity fails
             var p1 = new Person();
             Assert.IsNotNull(p1.IdentityError);
 
+            // a valid identity passes
             Assert.IsNull(p1Adam49.IdentityError);
         }
     }
