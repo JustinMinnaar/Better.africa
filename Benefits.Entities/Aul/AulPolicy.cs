@@ -12,7 +12,8 @@ namespace Benefits.Entities
     {
         public string Err => $"Policy '{Number}'";
 
-        public Guid PlanId { get; set; }
+        [ForeignKey(nameof(Plan))]
+        public Guid? PlanId { get; set; }
 
         /// <summary>The plan to be applied to this policy.</summary>
         public AulPolicyPlan Plan { get; set; }
@@ -34,8 +35,25 @@ namespace Benefits.Entities
         // could be unique and actually cover a different person as Principal, etc.
         // For example, extended family member may need their own policy for medical cover.
 
-        /// <summary>A person covered by the policy as the principal responsible for the policy.</summary>
-        public Person Principal { get; set; }
+        /// <summary>All persons covered by the plan, including the principal.</summary>
+        public ICollection<AulPolicyDependency> Dependancies { get; } = new HashSet<AulPolicyDependency>();
+
+        /// <summary>All Dependencies marked as the specific type.</summary>
+        public IList<AulPolicyDependency> GetDependencies(MembershipType type)
+        {
+            return Dependancies.Where(p => p.Type == MembershipType.Principal).ToList();
+        }
+
+        /// <summary>The dependency marked as Principal, or null.</summary>
+        public AulPolicyDependency Principal
+        {
+            get
+            {
+                var dependants = Dependancies.Where(p => p.Type == MembershipType.Principal).ToList();
+                if (dependants.Count == 1) return dependants[0];
+                return null;
+            }
+        }
 
         /// <summary>An error message, otherwise null.</summary>
         public string PrincipalError
@@ -45,14 +63,23 @@ namespace Benefits.Entities
                 if (Principal == null)
                     return $"There must be one principal for policy {Number}.";
 
-                if (Principal.AgeInYearsAsAt(InceptionDate))
-
-                    return null;
+                return null;
             }
         }
 
-        /// <summary>A person covered by the policy as the spouse.</summary>
-        public Person Spouse { get; set; }
+        /// <summary>The Dependency marked as Spouse, or null.</summary>
+        public AulPolicyDependency Spouse
+        {
+            get
+            {
+                var dependants = Dependancies.Where(p => p.Type == MembershipType.Spouse).ToList();
+                if (dependants.Count == 1) return dependants[0];
+                if (dependants.Count > 1)
+                    throw new BenefitsException($"{Err} has {dependants.Count} spouses. Only 1 is allowed.");
+
+                return null;
+            }
+        }
 
         /// <summary>An error message, otherwise null.</summary>
         public string SpouseError
@@ -118,6 +145,25 @@ namespace Benefits.Entities
         }
     }
 
+    /// <summary>
+    ///     A person of a particular type to be covered by the policy.
+    /// </summary>
+    public class AulPolicyDependency
+    {
+        public Guid PolicyId { get; set; }
+        public AulPolicy Policy { get; set; }
+
+        public Guid PersonId { get; set; }
+        public Person Person { get; set; }
+
+        /// <summary>
+        /// Although the Person has a membership type in Better Africa, each policy
+        /// could be unique and actually cover a different person as Principal, etc.
+        /// For example, extended family member may need their own policy for medical cover.
+        /// </summary>
+        public MembershipType Type { get; set; }
+    }
+
     public class AulPolicyPlan : BaseEntity
     {
         public string Err => $"Plan '{Name}'";
@@ -130,8 +176,8 @@ namespace Benefits.Entities
         public decimal MonthlyCostSpouse { get; set; }
         public decimal MonthlyCostChildren { get; set; }
         public decimal MonthlyCostChild { get; set; }
-        public decimal MonthlyCostExtendedPersons { get; set; }
-        public decimal MonthlyCostExtendedPerson { get; set; }
+        public decimal MonthlyCostPersons { get; set; }
+        public decimal MonthlyCostPerson { get; set; }
 
         public int MinAgePrincipal { get; set; } = 18;
         public int MaxAgePrincipal { get; set; } = 65;
@@ -139,13 +185,13 @@ namespace Benefits.Entities
         public int MinAgeSpouse { get; set; } = 18;
         public int MaxAgeSpouse { get; set; } = 65;
 
-        /// <summary>The minimum age of a child on this policy, under Children or Extended Family.</summary>
+        /// <summary>The minimum age of a child on this policy, under Children or under Family.</summary>
         public int MinAgeChild { get; set; } = 0;
 
-        /// <summary>The maximum age of a child on this policy, under Children or Extended Family.</summary>
+        /// <summary>The maximum age of a child on this policy, under Children or under Family.</summary>
         public int MaxAgeChild { get; set; } = 18;
 
-        /// <summary>The maximum age of a child that is studying on this policy, under Children or Extended Family.</summary>
+        /// <summary>The maximum age of a child that is studying on this policy, under Children or under Family.</summary>
         public int MaxAgeChildScholar { get; set; } = 25;
 
         public int MinAgeAdult { get; private set; } = 0;
@@ -159,8 +205,8 @@ namespace Benefits.Entities
             MonthlyCostSpouse.Bound(0m, 9999m);
             MonthlyCostChild.Bound(0m, 9999m);
             MonthlyCostChildren.Bound(0m, 9999m);
-            MonthlyCostExtendedPerson.Bound(0m, 9999m);
-            MonthlyCostExtendedPersons.Bound(0m, 9999m);
+            MonthlyCostPerson.Bound(0m, 9999m);
+            MonthlyCostPersons.Bound(0m, 9999m);
 
             MinAgePrincipal.Bound(0, 99);
             MaxAgePrincipal.Bound(MinAgePrincipal, 99);
