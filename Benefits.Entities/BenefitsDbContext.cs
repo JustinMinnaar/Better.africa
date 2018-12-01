@@ -43,7 +43,7 @@ namespace Benefits.Entities
             person.Property(p => p.DateOfDeath).IsOptional().HasColumnType("date");
             person.Property(p => p.NameFirst).IsOptional().HasMaxLength(40);
             person.Property(p => p.NameLast).IsOptional().HasMaxLength(40);
-            person.Property(p => p.Type).IsOptional();
+            person.Property(p => p.MembershipType).IsOptional();
         }
 
         private static void MapMember(DbModelBuilder modelBuilder)

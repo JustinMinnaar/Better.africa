@@ -6,18 +6,54 @@ namespace Benefits.Entities
 {
     // TODO: Check each month if any member is going to soon be too old to be covered
     // TODO: A child becomes extended member when to old to be a child, or scholar.
-    public enum PersonType { Person = 0, Principal = 1, Spouse = 2, Child = 3, Family = 4 }
+    public enum MembershipType
+    {
+        /// <summary>No membership</summary>
+        Person = 0,
 
+        /// <summary>The principal member is responsible for payment and receives payouts unless he/she dies.</summary>
+        Principal = 1,
+
+        /// <summary></summary>
+        Spouse = 2,
+
+        /// <summary></summary>
+        Child = 3,
+
+        /// <summary></summary>
+        Family = 4
+    }
+
+    /// <summary>
+    ///     A person that may be a member of a membership.
+    /// </summary>
     public class Person : BaseEntity
     {
-        public string Err => $"{Type} '{Name}'";
+        public string Err => $"{MembershipType} '{Name}'";
 
         public Guid MembershipId { get; set; }
 
+        /// <summary></summary>
         public Membership Membership { get; set; }
 
-        public PersonType Type { get; set; }
+        public string MembershipError
+        {
+            get
+            {
+                if (MembershipType != MembershipType.Person)
+                {
+                    if (Membership == null)
+                        return $"A member account must be assigned for '{Name}'.";
+                }
 
+                return null;
+            }
+        }
+
+        /// <summary>This is Person if not a member, or Principal, Spouse, Child or Family member if a member.</summary>
+        public MembershipType MembershipType { get; set; }
+
+        /// <summary>True if the child is studying at a tertiary institution, which allows child to be covered while studying.</summary>
         public bool IsScholar { get; set; }
 
         #region Name
@@ -68,6 +104,22 @@ namespace Benefits.Entities
 
         public DateTime? DateOfBirth { get; set; }
 
+        public string DateOfBirthError
+        {
+            get
+            {
+                if (DateOfBirth != null)
+                {
+                    var min = Clock.Now.AddYears(-100);
+                    var max = Clock.Now.AddYears(10); // system lifespan is 10 years
+                    if (DateOfBirth < min && DateOfBirth > max)
+                        return $"must be after {min} (under 100 years old) and before {max}.";
+                }
+
+                return null;
+            }
+        }
+
         public float AgeInYearsAsAt(DateTime date)
         {
             if (DateOfBirth == null) return 0;
@@ -83,8 +135,10 @@ namespace Benefits.Entities
         {
             base.BeforeSave(errors);
 
-            if (Membership == null)
-                errors.Add(nameof(Membership.People), $"A member account must be assigned for '{Name}'.");
+            errors.Add(nameof(Name), NameError);
+            errors.Add(nameof(Identity), IdentityError);
+            errors.Add(nameof(Membership), MembershipError);
+            Errors.Add(nameof(DateOfBirth), DateOfBirthError);
         }
     }
 

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Benefits.Entities
 {
-    public class Membership : Contract<Membership>
+    public class Membership : Contract
     {
         public ICollection<Person> People { get; } = new HashSet<Person>();
 
@@ -28,7 +28,7 @@ namespace Benefits.Entities
         {
             get
             {
-                var principalValid = People.Count(p => p.Type == PersonType.Principal) == 1;
+                var principalValid = People.Count(p => p.MembershipType == MembershipType.Principal) == 1;
                 if (!principalValid) return "There must be one principal.";
                 return null;
             }
@@ -38,7 +38,7 @@ namespace Benefits.Entities
         {
             get
             {
-                var spouseValid = People.Count(p => p.Type == PersonType.Spouse) <= 1;
+                var spouseValid = People.Count(p => p.MembershipType == MembershipType.Spouse) <= 1;
                 if (!spouseValid)
                     return "There may not be more than one spouse.";
 
@@ -55,16 +55,16 @@ namespace Benefits.Entities
         #region Helper Properties
 
         [NotMapped]
-        public Person Principal => People.FirstOrDefault(p => p.Type == PersonType.Principal);
+        public Person Principal => People.FirstOrDefault(p => p.MembershipType == MembershipType.Principal);
 
         [NotMapped]
-        public Person Spouse => People.FirstOrDefault(p => p.Type == PersonType.Spouse);
+        public Person Spouse => People.FirstOrDefault(p => p.MembershipType == MembershipType.Spouse);
 
         [NotMapped]
-        public IList<Person> Children => People.Where(p => p.Type == PersonType.Child).ToList();
+        public IList<Person> Children => People.Where(p => p.MembershipType == MembershipType.Child).ToList();
 
         [NotMapped]
-        public IList<Person> Extended => People.Where(p => p.Type == PersonType.Family).ToList();
+        public IList<Person> Extended => People.Where(p => p.MembershipType == MembershipType.Family).ToList();
 
         #endregion Helper Properties
 
@@ -73,10 +73,10 @@ namespace Benefits.Entities
         public Membership WithPrincipal(Person principal)
         {
             // can't add person twice during testing
-            if (principal.Type != PersonType.Person)
+            if (principal.MembershipType != MembershipType.Person)
                 throw new BenefitsException(principal.Name);
 
-            principal.Type = PersonType.Principal;
+            principal.MembershipType = MembershipType.Principal;
             principal.Membership = this;
             People.Add(principal);
             return this;
@@ -85,10 +85,10 @@ namespace Benefits.Entities
         public Membership WithSpouse(Person spouse)
         {
             // can't add person twice during testing
-            if (spouse.Type != PersonType.Person)
+            if (spouse.MembershipType != MembershipType.Person)
                 throw new BenefitsException(spouse.Name);
 
-            spouse.Type = PersonType.Spouse;
+            spouse.MembershipType = MembershipType.Spouse;
             spouse.Membership = this;
             People.Add(spouse);
             return this;
@@ -99,10 +99,10 @@ namespace Benefits.Entities
             foreach (var child in children)
             {
                 // can't add person twice during testing
-                if (child.Type != PersonType.Person)
+                if (child.MembershipType != MembershipType.Person)
                     throw new BenefitsException(child.Name);
 
-                child.Type = PersonType.Child;
+                child.MembershipType = MembershipType.Child;
                 child.Membership = this;
                 People.Add(child);
             }
@@ -114,10 +114,10 @@ namespace Benefits.Entities
             foreach (var person in family)
             {
                 // can't add person twice during testing
-                if (person.Type != PersonType.Person)
+                if (person.MembershipType != MembershipType.Person)
                     throw new BenefitsException(person.Name);
 
-                person.Type = PersonType.Family;
+                person.MembershipType = MembershipType.Family;
                 person.Membership = this;
                 People.Add(person);
             }

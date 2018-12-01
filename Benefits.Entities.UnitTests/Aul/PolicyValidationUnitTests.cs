@@ -8,13 +8,17 @@ namespace Benefits.Entities.UnitTests
     public class PolicyValidationUnitTests : BaseValidationUnitTests
     {
         [TestMethod]
-        public void PrincipalIsRequired()
+        public void OnlyOnePrincipalIsPermittedAndPrincipalIsRequired()
         {
-            var a1 = new AulPolicy();
-            var m1 = new Membership()
-                .WithInceptionDate(mm: 1, yy: 2019)
-                .WithSpouse(p2Bertha47);
+            var m1 = new Membership().WithInceptionDate(yy: 2019, mm: 1);
+            Assert.IsNotNull(m1.PrincipalError);
 
+            // one principal
+            m1.WithPrincipal(p1Adam49);
+            Assert.IsNull(m1.PrincipalError);
+
+            // two principals
+            m1.WithPrincipal(p2Bertha47);
             Assert.IsNotNull(m1.PrincipalError);
         }
 
@@ -24,7 +28,7 @@ namespace Benefits.Entities.UnitTests
             Clock._Now = new System.DateTime(2019, 1, 1);
 
             var m1 = new Membership()
-                .WithInceptionDate(mm: 1, yy: 2019)
+                .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p3Charles11);
             Assert.IsNotNull(m1.PrincipalError);
 
@@ -33,11 +37,11 @@ namespace Benefits.Entities.UnitTests
         }
 
         [TestMethod]
-        public void SpouseIsRequired()
+        public void OnlyOneSpouseIsPermitted()
         {
             var a1 = new AulPolicy();
             var m1 = new Membership()
-                .WithInceptionDate(mm: 1, yy: 2019)
+                .WithInceptionDate(yy: 2019, mm: 1)
                 .WithSpouse(p2Bertha47)
                 .WithSpouse(p3Charles11);
 
@@ -48,7 +52,7 @@ namespace Benefits.Entities.UnitTests
         public void SpouseAge18OrAbove()
         {
             var m1 = new Membership()
-                .WithInceptionDate(mm: 1, yy: 2019)
+                .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p1Adam49)
                 .WithSpouse(p3Charles11);
 
@@ -59,8 +63,8 @@ namespace Benefits.Entities.UnitTests
         public void ChildrenWithinAge()
         {
             var m1 = new Membership()
-                .WithSignDate(dd: 7, mm: 1, yy: 2019)
-                .WithInceptionDate(mm: 1, yy: 2019)
+                .WithSignDate(yy: 2019, mm: 1, dd: 7)
+                .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p1Adam49)
                 .WithSpouse(p2Bertha47)
                 .WithChildren(p3Charles11, p4Debbie1, p5Eddie27);
@@ -74,7 +78,7 @@ namespace Benefits.Entities.UnitTests
         public void Policy_CantAddSameMemberTwiceToPolicy()
         {
             var m1 = new Membership()
-                .WithInceptionDate(mm: 1, yy: 2019)
+                .WithInceptionDate(yy: 2019, mm: 1)
                .WithPrincipal(p1Adam49)
                .WithSpouse(p1Adam49);
 

@@ -5,9 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Benefits.Entities
 {
-    public abstract class Contract<T> : BaseEntity where T : Contract<T>
+    public class Contract : BaseEntity
     {
         public string Number { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Number} (" +
+                $"signed: {SignDate?.ToShortDateString()} " +
+                $"inception: {InceptionDate?.ToShortDateString()})";
+        }
 
         #region SignDate
 
@@ -22,12 +29,6 @@ namespace Benefits.Entities
 
                 return null;
             }
-        }
-
-        public T WithSignDate(int dd, int mm, int yy)
-        {
-            SignDate = new DateTime(yy, mm, 1);
-            return (T)this;
         }
 
         #endregion SignDate
@@ -66,12 +67,6 @@ namespace Benefits.Entities
             }
         }
 
-        public T WithInceptionDate(int mm, int yy)
-        {
-            InceptionDate = new DateTime(yy, mm, 1);
-            return (T)this;
-        }
-
         #endregion InceptionDate
 
         #region BeforeSave
@@ -85,5 +80,22 @@ namespace Benefits.Entities
         }
 
         #endregion BeforeSave
+    }
+
+    public static class ContractHelpers
+    {
+        public static T WithSignDate<T>(this T contract, int yy, int mm, int dd)
+            where T : Contract
+        {
+            contract.SignDate = new DateTime(yy, mm, dd);
+            return (T)contract;
+        }
+
+        public static T WithInceptionDate<T>(this T contract, int yy, int mm)
+            where T : Contract
+        {
+            contract.InceptionDate = new DateTime(yy, mm, 1);
+            return (T)contract;
+        }
     }
 }

@@ -8,14 +8,16 @@ using System.Threading.Tasks;
 
 namespace Benefits.Entities
 {
-    public class AulPolicy : Contract<AulPolicy>
+    public class AulPolicy : Contract
     {
         public string Err => $"Policy '{Number}'";
 
         public Guid PlanId { get; set; }
 
+        /// <summary>The plan to be applied to this policy.</summary>
         public AulPolicyPlan Plan { get; set; }
 
+        /// <summary>Returns an error message, or null if ok.</summary>
         public string PlanError
         {
             get
@@ -28,6 +30,7 @@ namespace Benefits.Entities
             }
         }
 
+        /// <summary>All persons covered by the plan, including the principal.</summary>
         public ICollection<AulPolicyDependency> Dependancies { get; } = new HashSet<AulPolicyDependency>();
 
         public override void BeforeSave(EntityErrors errors)
@@ -47,7 +50,7 @@ namespace Benefits.Entities
 
                 if (InceptionDate != null)
                 {
-                    var type = person.Type;
+                    var type = person.MembershipType;
                     var minAgeInYears = Plan.MinAgeInYears(type);
                     var maxAgeInYears = Plan.MaxAgeInYears(type, person.IsScholar);
 
@@ -57,36 +60,40 @@ namespace Benefits.Entities
                             $"{person.Err} must be between {minAgeInYears} and {maxAgeInYears} years old on inception date {InceptionDate} for {Plan.Err} for {Err}.");
 
                     if (person.AgeInYearsAsAt(Clock.Now) >= maxAgeInYears)
-                        Errors.Add(nameof(Membership.People), $"{person.Type} '{person.Name}' cannot be older than {maxAgeInYears} for policy {Number}.");
+                        Errors.Add(nameof(Membership.People), $"{person.MembershipType} '{person.Name}' cannot be older than {maxAgeInYears} for policy {Number}.");
                 }
             }
         }
 
+        /// <summary>The dependency marked as Principal, or null.</summary>
         public AulPolicyDependency Principal
         {
             get
             {
-                var dependants = Dependancies.Where(p => p.Type == PersonType.Principal).ToList();
+                var dependants = Dependancies.Where(p => p.Type == MembershipType.Principal).ToList();
                 if (dependants.Count == 0) return dependants[0];
                 return null;
             }
         }
 
+        /// <summary>The Dependency marked as Spouse, or null.</summary>
         public AulPolicyDependency Spouse
         {
             get
             {
-                var dependants = Dependancies.Where(p => p.Type == PersonType.Spouse).ToList();
+                var dependants = Dependancies.Where(p => p.Type == MembershipType.Spouse).ToList();
                 if (dependants.Count == 0) return dependants[0];
                 return null;
             }
         }
 
-        public IList<AulPolicyDependency> GetDependencies(PersonType type)
+        /// <summary>All Dependencies marked as the specific type.</summary>
+        public IList<AulPolicyDependency> GetDependencies(MembershipType type)
         {
-            return Dependancies.Where(p => p.Type == PersonType.Principal).ToList();
+            return Dependancies.Where(p => p.Type == MembershipType.Principal).ToList();
         }
 
+        /// <summary>An error message, otherwise null.</summary>
         public string PrincipalError
         {
             get
@@ -98,11 +105,12 @@ namespace Benefits.Entities
             }
         }
 
+        /// <summary>An error message, otherwise null.</summary>
         public string SpouseError
         {
             get
             {
-                var spouses = GetDependencies(PersonType.Spouse);
+                var spouses = GetDependencies(MembershipType.Spouse);
                 if (spouses.Count > 1)
                     return $"There cannot be more than one spouse for policy {Number}.";
 
@@ -110,7 +118,8 @@ namespace Benefits.Entities
             }
         }
 
-        public AulPolicy Cover(Person person, PersonType type)
+        /// <summary>Add a person of a specific type to be covered.</summary>
+        public AulPolicy WithDependency(Person person, MembershipType type)
         {
             Dependancies.Add(new AulPolicyDependency
             {
@@ -122,6 +131,9 @@ namespace Benefits.Entities
         }
     }
 
+    /// <summary>
+    ///     A person of a particular type to be covered by the policy.
+    /// </summary>
     public class AulPolicyDependency
     {
         public Guid PolicyId { get; set; }
@@ -130,7 +142,12 @@ namespace Benefits.Entities
         public Guid PersonId { get; set; }
         public Person Person { get; set; }
 
-        public PersonType Type { get; set; }
+        /// <summary>
+        /// Although the Person has a membership type in Better Africa, each policy
+        /// could be unique and actually cover a different person as Principal, etc.
+        /// For example, extended family member may need their own policy for medical cover.
+        /// </summary>
+        public MembershipType Type { get; set; }
     }
 
     public class AulPolicyPlan : BaseEntity
@@ -191,26 +208,26 @@ namespace Benefits.Entities
             MaxAgeAdult.Bound(0, 99);
         }
 
-        public int MaxAgeInYears(PersonType type, bool isScholar)
+        public int MaxAgeInYears(MembershipType type, bool isScholar)
         {
             switch (type)
             {
-                case PersonType.Principal: return MaxAgePrincipal;
-                case PersonType.Spouse: return MaxAgeSpouse;
-                case PersonType.Child: return isScholar ? MaxAgeChildScholar : MaxAgeChild;
-                case PersonType.Family: return MaxAgeAdult;
+                case MembershipType.Principal: return MaxAgePrincipal;
+                case MembershipType.Spouse: return MaxAgeSpouse;
+                case MembershipType.Child: return isScholar ? MaxAgeChildScholar : MaxAgeChild;
+                case MembershipType.Family: return MaxAgeAdult;
                 default: return 0;
             }
         }
 
-        public int MinAgeInYears(PersonType type)
+        public int MinAgeInYears(MembershipType type)
         {
             switch (type)
             {
-                case PersonType.Principal: return MinAgePrincipal;
-                case PersonType.Spouse: return MinAgeSpouse;
-                case PersonType.Child: return MinAgeChild;
-                case PersonType.Family: return MinAgeAdult;
+                case MembershipType.Principal: return MinAgePrincipal;
+                case MembershipType.Spouse: return MinAgeSpouse;
+                case MembershipType.Child: return MinAgeChild;
+                case MembershipType.Family: return MinAgeAdult;
                 default: return 0;
             }
         }

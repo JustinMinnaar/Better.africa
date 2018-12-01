@@ -56,13 +56,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Tests\BaseValidationUnitTests.cs" />
-    <Compile Include="Tests\ContractUnitTests.cs" />
-    <Compile Include="Tests\MembershipValidationUnitTests.cs" />
+    <Compile Include="Base\BaseValidationUnitTests.cs" />
+    <Compile Include="Base\ContractUnitTests.cs" />
+    <Compile Include="Membership\MembershipValidationUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\PersonValidationUnitTests.cs" />
-    <Compile Include="Tests\PolicyValidationUnitTests.cs" />
-    <Compile Include="Tests\UnitTest1.cs" />
+    <Compile Include="Membership\PersonValidationUnitTests.cs" />
+    <Compile Include="Aul\PolicyValidationUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
