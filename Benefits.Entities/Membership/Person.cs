@@ -140,6 +140,12 @@ namespace Benefits.Entities
             errors.Add(nameof(Membership), MembershipError);
             Errors.Add(nameof(DateOfBirth), DateOfBirthError);
         }
+
+        public Person WithDateOfBirth(int yy, int mm, int dd)
+        {
+            DateOfBirth = new DateTime(yy, mm, dd);
+            return this;
+        }
     }
 
     public enum PersonGenders

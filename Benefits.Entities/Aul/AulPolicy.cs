@@ -31,6 +31,17 @@ namespace Benefits.Entities
             }
         }
 
+        public IEnumerable<CostItem> CalculatedMonthlyCost()
+        {
+            if (Plan != null)
+            {
+                if (Principal != null)
+                    yield return new CostItem(name: "Principal", cost: Plan.MonthlyCostPrincipal);
+                if (Spouse != null)
+                    yield return new CostItem(name: "Spouse", cost: Plan.MonthlyCostSpouse);
+            }
+        }
+
         // Although the Person has a membership type in Better Africa, each policy
         // could be unique and actually cover a different person as Principal, etc.
         // For example, extended family member may need their own policy for medical cover.
@@ -142,6 +153,18 @@ namespace Benefits.Entities
                 Type = type
             });
             return this;
+        }
+    }
+
+    public class CostItem
+    {
+        private string name;
+        private decimal cost;
+
+        public CostItem(string name, decimal cost)
+        {
+            this.name = name;
+            this.cost = cost;
         }
     }
 
