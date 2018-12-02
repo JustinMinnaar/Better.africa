@@ -114,68 +114,71 @@ namespace Benefits.Provider
             using (var db = new BenefitsDbContext())
             {
                 var p = db.People.Find(person.Id);
+                if (p == null)
+                    throw new BenefitsException($"{person.Err} does not exist and cannot be updated.");
+
                 if (p.RowVersion != person.RowVersion)
                     throw new BenefitsException($"{person.Err} has been modified by another user.");
                 p.RowVersion++;
 
-                var msg = "";
-
-                if (p.CellPhone != person.CellPhone)
-                { msg += $"CellPhone='{person.CellPhone}' "; p.CellPhone = person.CellPhone; }
-
-                if (p.DateOfBirth != person.DateOfBirth)
-                { msg += $"DateOfBirth='{person.DateOfBirth:yyyy-mm-dd}'"; p.DateOfBirth = person.DateOfBirth; }
-
-                if (p.DateOfDeath != person.DateOfDeath)
-                { msg += $"DateOfDeath='{person.DateOfDeath:yyyy-mm-dd}'"; p.DateOfDeath = person.DateOfDeath; }
-
-                // TODO: audit
-                if (p.EmailAddress != person.EmailAddress) { p.EmailAddress = person.EmailAddress; }
-
-                if (p.EmployedAt != person.EmployedAt) { p.EmployedAt = person.EmployedAt; }
-                if (p.EmployedAtPhone != person.EmployedAtPhone) { p.EmployedAtPhone = person.EmployedAtPhone; }
-                if (p.FirstName != person.FirstName) { p.FirstName = person.FirstName; }
-                if (p.HomePhone != person.HomePhone) { p.HomePhone = person.HomePhone; }
-                if (p.LastName != person.LastName) { p.LastName = person.LastName; }
-                if (p.WorkPhone != person.WorkPhone) { p.WorkPhone = person.WorkPhone; }
-
-                var audit = new BAudit
-                {
-                    Action = BAuditAction.Update,
-                    EntityId = p.Id,
-                    EntityType = BEntityType.Person,
-                    UserId = UserId,
-                    When = Clock.Now,
-                    Description = msg,
-                };
-                db.Audits.Add(audit);
+                SetPropertiesAndAudit(db, person, p, BAuditAction.Update);
 
                 db.SaveChanges();
             }
+        }
+
+        private String SetPropertiesAndAudit(BenefitsDbContext db, BPerson person, BPerson p, BAuditAction action)
+        {
+            var msg = "";
+
+            if (p.CellPhone != person.CellPhone)
+            { msg += $"CellPhone='{person.CellPhone}' "; p.CellPhone = person.CellPhone; }
+
+            if (p.DateOfBirth != person.DateOfBirth)
+            { msg += $"DateOfBirth='{person.DateOfBirth:yyyy-mm-dd}'"; p.DateOfBirth = person.DateOfBirth; }
+
+            if (p.DateOfDeath != person.DateOfDeath)
+            { msg += $"DateOfDeath='{person.DateOfDeath:yyyy-mm-dd}'"; p.DateOfDeath = person.DateOfDeath; }
+
+            // TODO: audit
+            if (p.EmailAddress != person.EmailAddress) { p.EmailAddress = person.EmailAddress; }
+
+            if (p.EmployedAt != person.EmployedAt) { p.EmployedAt = person.EmployedAt; }
+            if (p.EmployedAtPhone != person.EmployedAtPhone) { p.EmployedAtPhone = person.EmployedAtPhone; }
+            if (p.FirstName != person.FirstName) { p.FirstName = person.FirstName; }
+            if (p.HomePhone != person.HomePhone) { p.HomePhone = person.HomePhone; }
+            if (p.LastName != person.LastName) { p.LastName = person.LastName; }
+            if (p.WorkPhone != person.WorkPhone) { p.WorkPhone = person.WorkPhone; }
+
+            var audit = new BAudit
+            {
+                Action = action,
+                EntityId = p.Id,
+                EntityType = BEntityType.Person,
+                UserId = UserId,
+                When = Clock.Now,
+                Description = msg,
+            };
+            db.Audits.Add(audit);
+
+            return msg;
         }
 
         public void CreatePerson(BPerson person)
         {
             using (var db = new BenefitsDbContext())
             {
-                person.Id = Guid.NewGuid();
-                person.CreatedById = UserId;
-                person.CreatedOn = DateTime.Now;
-                person.RowVersion = 1;
-
-                db.People.Add(person);
-
-                var audit = new BAudit
+                var p = new BPerson
                 {
-                    Action = BAuditAction.Create,
-                    EntityId = person.Id,
-                    EntityType = BEntityType.Person,
-                    UserId = UserId,
-                    When = Clock.Now,
-                    Description = msg,
+                    Id = person.Id,
+                    CreatedById = UserId,
+                    CreatedOn = DateTime.Now,
+                    RowVersion = 1,
                 };
-                db.Audits.Add(audit);
 
+                var msg = SetPropertiesAndAudit(db, person, p, action: BAuditAction.Create);
+
+                db.People.Add(p);
 
                 db.SaveChanges();
             }
