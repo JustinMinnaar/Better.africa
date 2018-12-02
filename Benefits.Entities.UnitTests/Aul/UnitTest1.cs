@@ -24,7 +24,7 @@ namespace Benefits.Entities.UnitTests.Aul
             };
 
             var policy = new BAulPolicy { Plan = plan }
-            .WithDependency(p1, BMembershipType.Principal)
+            .WithDependency(p1, BDependencyType.Principal)
             .WithSignDate(2019, 1, 1)
             .WithInceptionDate(2019, 1);
 
@@ -32,25 +32,25 @@ namespace Benefits.Entities.UnitTests.Aul
             Assert.AreEqual(10, c1);
 
             var p2 = new BPerson().WithDateOfBirth(1971, 5, 4);
-            policy.WithDependency(p2, BMembershipType.Spouse);
+            policy.WithDependency(p2, BDependencyType.Spouse);
 
             var c2 = policy.CalculatedMonthlyCost().Sum(a => a.Cost);
             Assert.AreEqual(19, c2);
 
             var p3 = new BPerson().WithDateOfBirth(2010, 1, 1);
-            policy.WithDependency(p3, BMembershipType.Child);
+            policy.WithDependency(p3, BDependencyType.Child);
 
             var p4 = new BPerson().WithDateOfBirth(2011, 1, 1);
-            policy.WithDependency(p4, BMembershipType.Child);
+            policy.WithDependency(p4, BDependencyType.Child);
 
             var p5 = new BPerson().WithDateOfBirth(2012, 1, 1);
-            policy.WithDependency(p5, BMembershipType.Child);
+            policy.WithDependency(p5, BDependencyType.Child);
 
             var c3 = policy.CalculatedMonthlyCost().Sum(a => a.Cost);
             Assert.AreEqual(36, c3);
 
             var p6 = new BPerson().WithDateOfBirth(2000, 1, 1);
-            policy.WithDependency(p6, BMembershipType.Family);
+            policy.WithDependency(p6, BDependencyType.Person);
 
             var c4 = policy.CalculatedMonthlyCost().Sum(a => a.Cost);
             Assert.AreEqual(45.5m, c4);

@@ -2,6 +2,7 @@
 using Benefits.Shared;
 using Knights.Core.Common;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,8 +60,9 @@ namespace Benefits.Provider
                 };
                 db.Memberships.Add(m);
 
-                foreach (var person in membership.People)
+                foreach (var dependency in membership.Dependencies)
                 {
+                    var person = dependency.Person;
                     var p = new BPerson
                     {
                         Id = person.Id,
@@ -70,15 +72,19 @@ namespace Benefits.Provider
                         DateOfDeath = person.DateOfDeath,
                         Gender = person.Gender,
                         IdentityNumber = person.IdentityNumber,
-                        IsScholar = person.IsScholar,
-                        Membership = m,
-                        MembershipType = person.MembershipType,
                         NameFirst = person.NameFirst,
                         NameLast = person.NameLast,
                         RowVersion = 1,
                         WorkflowStatus = WorkflowStatuses.New,
                     };
-                    m.People.Add(p);
+                    // db.People.Add(person);
+
+                    var d = new BMembershipDependency
+                    {
+                        Membership = m,
+                        Person = p
+                    };
+                    m.Dependencies.Add(d);
                 }
 
                 //var a = new UserAction();
@@ -105,10 +111,10 @@ namespace Benefits.Provider
         {
             using (var db = new BenefitsDbContext())
             {
-                var membership = db.Memberships.Find(id);
-                //var agent = db.People.Find(membership.AgentId);
+                var membership = db.GetMembership(id);
 
                 ChangeStatus(membership, WorkflowStatuses.New, WorkflowStatuses.Pending);
+
                 // TODO: audit
                 var msg = $"{UserId} submitted membership {id}.";
                 db.SaveChanges();
@@ -148,7 +154,8 @@ namespace Benefits.Provider
             using (var db = new BenefitsDbContext())
             {
                 var q = db.Memberships
-                    .Include(nameof(BMembership.People))
+                    .Include(nameof(BMembership.Dependencies))
+                    .Include(m => m.Dependencies.Select(d => d.Person))
                     .Include(nameof(BMembership.Agent))
                     .AsQueryable();
 

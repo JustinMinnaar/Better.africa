@@ -62,7 +62,7 @@ namespace Benefits.Entities
         public ICollection<AulPolicyDependency> Dependancies { get; } = new HashSet<AulPolicyDependency>();
 
         /// <summary>All Dependencies marked as the specific type.</summary>
-        public IEnumerable<BPerson> GetPeople(BMembershipType type)
+        public IEnumerable<BPerson> GetDependencies(BDependencyType type)
         {
             foreach (var dependency in Dependancies.Where(p => p.Type == type))
             {
@@ -75,7 +75,7 @@ namespace Benefits.Entities
         {
             get
             {
-                var dependants = Dependancies.Where(p => p.Type == BMembershipType.Principal).ToList();
+                var dependants = Dependancies.Where(p => p.Type == BDependencyType.Principal).ToList();
                 if (dependants.Count == 1) return dependants[0].Person;
                 return null;
             }
@@ -98,7 +98,7 @@ namespace Benefits.Entities
         {
             get
             {
-                var dependants = Dependancies.Where(p => p.Type == BMembershipType.Spouse).ToList();
+                var dependants = Dependancies.Where(p => p.Type == BDependencyType.Spouse).ToList();
                 if (dependants.Count == 1) return dependants[0].Person;
                 if (dependants.Count > 1)
                     throw new BenefitsException($"{Err} has {dependants.Count} spouses. Only 1 is allowed.");
@@ -112,7 +112,7 @@ namespace Benefits.Entities
         {
             get
             {
-                var spouses = GetPeople(BMembershipType.Spouse);
+                var spouses = GetDependencies(BDependencyType.Spouse).ToList();
                 if (spouses.Count() > 1)
                     return $"There cannot be more than one spouse for policy {Number}.";
 
@@ -121,10 +121,10 @@ namespace Benefits.Entities
         }
 
         /// <summary>Persons covered by the policy as children.</summary>
-        public IEnumerable<BPerson> Children => GetPeople(BMembershipType.Child);
+        public IEnumerable<BPerson> Children => GetDependencies(BDependencyType.Child);
 
         /// <summary>Persons covered by the policy as family.</summary>
-        public IEnumerable<BPerson> Family => GetPeople(BMembershipType.Family);
+        public IEnumerable<BPerson> Family => GetDependencies(BDependencyType.Person);
 
         protected override void BeforeSaveOverride(EntityErrors errors)
         {
@@ -143,9 +143,9 @@ namespace Benefits.Entities
 
                 if (InceptionDate != null)
                 {
-                    var type = person.MembershipType;
+                    var type = dependancy.Type;
                     var minAgeInYears = Plan.MinAgeInYears(type);
-                    var maxAgeInYears = Plan.MaxAgeInYears(type, person.IsScholar);
+                    var maxAgeInYears = Plan.MaxAgeInYears(type, dependancy.IsTertiaryStudent);
 
                     var personYears = person.AgeInYearsAsAt(InceptionDate.Value);
                     if (personYears < minAgeInYears || personYears > maxAgeInYears)
@@ -153,13 +153,13 @@ namespace Benefits.Entities
                             $"{person.Err} must be between {minAgeInYears} and {maxAgeInYears} years old on inception date {InceptionDate} for {Plan.Err} for {Err}.");
 
                     if (person.AgeInYearsAsAt(Clock.Now) >= maxAgeInYears)
-                        Errors.Add(nameof(BMembership.People), $"{person.MembershipType} '{person.Name}' cannot be older than {maxAgeInYears} for policy {Number}.");
+                        Errors.Add(nameof(BMembership.Dependencies), $"{type} '{person.Name}' cannot be older than {maxAgeInYears} for policy {Number}.");
                 }
             }
         }
 
         /// <summary>Add a person of a specific type to be covered.</summary>
-        public BAulPolicy WithDependency(BPerson person, BMembershipType type)
+        public BAulPolicy WithDependency(BPerson person, BDependencyType type)
         {
             Dependancies.Add(new AulPolicyDependency
             {
@@ -168,118 +168,6 @@ namespace Benefits.Entities
                 Type = type
             });
             return this;
-        }
-    }
-
-    public class CostItem
-    {
-        public string Name { get; set; }
-        public decimal Cost { get; set; }
-
-        public CostItem(string name, decimal cost)
-        {
-            this.Name = name;
-            this.Cost = cost;
-        }
-    }
-
-    /// <summary>
-    ///     A person of a particular type to be covered by the policy.
-    /// </summary>
-    public class AulPolicyDependency
-    {
-        public Guid PolicyId { get; set; }
-        public BAulPolicy Policy { get; set; }
-
-        public Guid PersonId { get; set; }
-        public BPerson Person { get; set; }
-
-        /// <summary>
-        /// Although the Person has a membership type in Better Africa, each policy
-        /// could be unique and actually cover a different person as Principal, etc.
-        /// For example, extended family member may need their own policy for medical cover.
-        /// </summary>
-        public BMembershipType Type { get; set; }
-    }
-
-    public class AulPolicyPlan : BaseEntity
-    {
-        public string Err => $"Plan '{Name}'";
-
-        public string Name { get; set; }
-
-        public int LastPolicyNumberIssued { get; set; }
-
-        public decimal MonthlyCostPrincipal { get; set; }
-        public decimal MonthlyCostSpouse { get; set; }
-        public decimal MonthlyCostChildren { get; set; }
-        public decimal MonthlyCostChild { get; set; }
-        public decimal MonthlyCostFamily { get; set; }
-
-        public int MinAgePrincipal { get; set; } = 18;
-        public int MaxAgePrincipal { get; set; } = 65;
-
-        public int MinAgeSpouse { get; set; } = 18;
-        public int MaxAgeSpouse { get; set; } = 65;
-
-        /// <summary>The minimum age of a child on this policy, under Children or under Family.</summary>
-        public int MinAgeChild { get; set; } = 0;
-
-        /// <summary>The maximum age of a child on this policy, under Children or under Family.</summary>
-        public int MaxAgeChild { get; set; } = 18;
-
-        /// <summary>The maximum age of a child that is studying on this policy, under Children or under Family.</summary>
-        public int MaxAgeChildScholar { get; set; } = 25;
-
-        public int MinAgeAdult { get; private set; } = 0;
-        public int MaxAgeAdult { get; private set; } = 65;
-
-        protected override void BeforeSaveOverride(EntityErrors errors)
-        {
-            base.BeforeSaveOverride(errors);
-
-            MonthlyCostPrincipal.Bound(0m, 9999m);
-            MonthlyCostSpouse.Bound(0m, 9999m);
-            MonthlyCostChild.Bound(0m, 9999m);
-            MonthlyCostChildren.Bound(0m, 9999m);
-            MonthlyCostFamily.Bound(0m, 9999m);
-
-            MinAgePrincipal.Bound(0, 99);
-            MaxAgePrincipal.Bound(MinAgePrincipal, 99);
-
-            MinAgeSpouse.Bound(0, 99);
-            MaxAgeSpouse.Bound(MinAgeSpouse, 99);
-
-            MinAgeChild.Bound(0, 99);
-            MaxAgeChild.Bound(0, 99);
-            MaxAgeChildScholar.Bound(0, 99);
-
-            MinAgeAdult.Bound(0, 99);
-            MaxAgeAdult.Bound(0, 99);
-        }
-
-        public int MaxAgeInYears(BMembershipType type, bool isScholar)
-        {
-            switch (type)
-            {
-                case BMembershipType.Principal: return MaxAgePrincipal;
-                case BMembershipType.Spouse: return MaxAgeSpouse;
-                case BMembershipType.Child: return isScholar ? MaxAgeChildScholar : MaxAgeChild;
-                case BMembershipType.Family: return MaxAgeAdult;
-                default: return 0;
-            }
-        }
-
-        public int MinAgeInYears(BMembershipType type)
-        {
-            switch (type)
-            {
-                case BMembershipType.Principal: return MinAgePrincipal;
-                case BMembershipType.Spouse: return MinAgeSpouse;
-                case BMembershipType.Child: return MinAgeChild;
-                case BMembershipType.Family: return MinAgeAdult;
-                default: return 0;
-            }
         }
     }
 }

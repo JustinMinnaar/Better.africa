@@ -2,6 +2,7 @@
 using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
+using System.Linq;
 
 namespace Benefits.Entities
 {
@@ -12,6 +13,19 @@ namespace Benefits.Entities
         public DbSet<BAudit> Audits { get; set; }
 
         public DbSet<BMembership> Memberships { get; set; }
+
+        public DbSet<BMembershipDependency> MembershipDependencies { get; set; }
+
+        public BMembership GetMembership(Guid id)
+        {
+            var membership = Memberships
+                .Include(nameof(BMembership.Dependencies))
+                .Include(m => m.Dependencies.Select(d => d.Person))
+                .Include(nameof(BMembership.Agent))
+                .AsQueryable()
+                .FirstOrDefault(m => m.Id == id);
+            return membership;
+        }
 
         public DbSet<BPerson> People { get; set; }
 
@@ -90,12 +104,10 @@ namespace Benefits.Entities
         {
             var person = MapBase<BPerson>(modelBuilder, "Person");
 
-            person.Property(p => p.MembershipId).IsOptional();
             person.Property(p => p.DateOfBirth).IsOptional().HasColumnType("date");
             person.Property(p => p.DateOfDeath).IsOptional().HasColumnType("date");
             person.Property(p => p.NameFirst).IsOptional().HasMaxLength(40);
             person.Property(p => p.NameLast).IsOptional().HasMaxLength(40);
-            person.Property(p => p.MembershipType).IsOptional();
         }
 
         private static void MapMembership(DbModelBuilder modelBuilder)
@@ -109,6 +121,11 @@ namespace Benefits.Entities
             membership.Property(p => p.InceptionDate).IsOptional();
             membership.Property(p => p.Number).IsRequired();
             membership.Property(p => p.SignDate).IsOptional();
+
+            var e = modelBuilder.Entity<BMembershipDependency>();
+            e.ToTable("MembershipDependency");
+            e.HasKey(s => new { s.MembershipId, s.PersonId });
+            e.Property(p => p.Type).IsRequired();
         }
 
         private static void MapPolicy(DbModelBuilder modelBuilder)
@@ -120,9 +137,10 @@ namespace Benefits.Entities
             member.Property(p => p.PlanId).IsOptional();
             member.Property(p => p.SignDate).IsOptional();
 
-            var dependecies = modelBuilder.Entity<AulPolicyDependency>()
-                .HasKey(s => new { s.PolicyId, s.PersonId })
-                .ToTable("PolicyDependency");
+            var e = modelBuilder.Entity<AulPolicyDependency>();
+            e.ToTable("PolicyDependency");
+            e.HasKey(s => new { s.PolicyId, s.PersonId });
+            e.Property(p => p.Type).IsRequired();
         }
 
         private void MapPolicyPlan(DbModelBuilder modelBuilder)

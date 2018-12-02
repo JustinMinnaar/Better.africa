@@ -16,14 +16,14 @@ namespace Benefits.Shared
             var month = r.Next(1, 12);
             var day = r.Next(1, DateTime.DaysInMonth(year, month) + 1);
             var gender = r.Next(0, 10);
-            var middle = r.Next(0, 10000);
+            var middle = r.Next(0, 1000);
             var citizen = SaCitizen ? 0 : r.Next(0, 10);
 
             var id = new SouthAfricanIdentityNumber
             {
-                Number = $"{(year % 100):00}{month:00}{day:00}{gender:0}{middle:000}{citizen:0}"
+                Number = $"{(year % 100):00}{month:00}{day:00}{gender:0}{middle:000}{citizen:0}0"
             };
-
+            // Number = "581127524005" and id.Number = "09081333036006" fail
             var checksum = id.GetControlDigit();
             id.Number += $"{checksum:0}";
 
@@ -67,7 +67,7 @@ namespace Benefits.Shared
 
         public bool IsSouthAfricanCitizen => Citizenship == '0';
 
-        public bool ControlDigitIsValid => GetControlDigit() == Number[12];
+        public bool ControlDigitIsValid => Number != null && Number.Length == 13 && GetControlDigit() == Number[12];
 
         public bool IsValid => ControlDigitIsValid && Birthdate != null;
 
@@ -77,7 +77,7 @@ namespace Benefits.Shared
 
         /// <summary>
         ///     Calculates the valid digit expected for the ID number specified.
-        ///     This method assumes that the 13-digit id number has valid digits in position 0 through 11.
+        ///     This method assumes that the 13-digit id number has valid digits in position 0 through 11 and control digit in position 12.
         /// </summary>
         /// <returns>space if it fails, otherwise the digit from 0 to 9.</returns>
         private char GetControlDigit()
@@ -91,7 +91,7 @@ namespace Benefits.Shared
                     a += int.Parse(Number[2 * i].ToString());
                 }
                 int b = 0;
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     b = b * 10 + int.Parse(Number[2 * i + 1].ToString());
                 }

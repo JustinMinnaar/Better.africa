@@ -51,17 +51,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BAudit.cs" />
-    <Compile Include="BOptions.cs" />
+    <Compile Include="Aul\AulPolicyDependency.cs" />
+    <Compile Include="Aul\AulPolicyPlan.cs" />
+    <Compile Include="Shared\CostItem.cs" />
+    <Compile Include="Shared\BAudit.cs" />
+    <Compile Include="Shared\BOptions.cs" />
     <Compile Include="Membership\BContract.cs" />
     <Compile Include="BenefitsDbContext.cs" />
     <Compile Include="Membership\BMembership.cs" />
-    <Compile Include="Membership\BMembershipType.cs" />
+    <Compile Include="Membership\BMembershipDependency.cs" />
+    <Compile Include="Shared\BDependencyType.cs" />
     <Compile Include="Membership\BPerson.cs" />
     <Compile Include="Aul\BAulPolicy.cs" />
+    <Compile Include="Shared\BDependency.cs" />
     <Compile Include="Membership\BPersonGenders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BUser.cs" />
+    <Compile Include="Shared\BUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

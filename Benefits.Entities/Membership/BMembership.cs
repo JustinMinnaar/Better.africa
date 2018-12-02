@@ -8,7 +8,7 @@ namespace Benefits.Entities
 {
     public class BMembership : BContract
     {
-        public virtual ICollection<BPerson> People { get; } = new HashSet<BPerson>();
+        public virtual ICollection<BMembershipDependency> Dependencies { get; } = new HashSet<BMembershipDependency>();
 
         #region BeforeSave
 
@@ -18,9 +18,9 @@ namespace Benefits.Entities
 
             errors.Add(nameof(PeoplePrincipal), PrincipalError);
             errors.Add(nameof(PeopleSpouse), SpouseError);
-            foreach (var person in People)
+            foreach (var dependency in Dependencies)
             {
-                person.BeforeSave(errors);
+                dependency.Person.BeforeSave(errors);
             }
         }
 
@@ -28,8 +28,8 @@ namespace Benefits.Entities
         {
             get
             {
-                var principalValid = People.Count(p => p.MembershipType == BMembershipType.Principal) == 1;
-                if (!principalValid) return "There must be one principal.";
+                var principalsCount = Dependencies.Count(p => p.Type == BDependencyType.Principal);
+                if (principalsCount != 1) return "There must be one principal.";
 
                 if (InceptionDate != null)
                 {
@@ -49,7 +49,7 @@ namespace Benefits.Entities
                 var spouse = PeopleSpouse;
                 if (spouse == null) return null;
 
-                var spouseValid = People.Count(p => p.MembershipType == BMembershipType.Spouse) == 1;
+                var spouseValid = Dependencies.Count(p => p.Type == BDependencyType.Spouse) == 1;
                 if (!spouseValid) return "There may not be more than one spouse.";
 
                 if (InceptionDate != null)
@@ -68,16 +68,21 @@ namespace Benefits.Entities
         #region Helper Properties
 
         [NotMapped]
-        public BPerson PeoplePrincipal => People.FirstOrDefault(p => p.MembershipType == BMembershipType.Principal);
+        public BPerson PeoplePrincipal => GetPeople(BDependencyType.Principal).FirstOrDefault();
 
         [NotMapped]
-        public BPerson PeopleSpouse => People.FirstOrDefault(p => p.MembershipType == BMembershipType.Spouse);
+        public BPerson PeopleSpouse => GetPeople(BDependencyType.Spouse).FirstOrDefault();
 
         [NotMapped]
-        public IList<BPerson> PeopleChildren => People.Where(p => p.MembershipType == BMembershipType.Child).ToList();
+        public IList<BPerson> PeopleChildren => GetPeople(BDependencyType.Child).ToList();
 
         [NotMapped]
-        public IList<BPerson> PeopleExtended => People.Where(p => p.MembershipType == BMembershipType.Family).ToList();
+        public IList<BPerson> PeopleExtended => GetPeople(BDependencyType.Person).ToList();
+
+        private IEnumerable<BPerson> GetPeople(BDependencyType type)
+        {
+            return from d in Dependencies where d.Type == type select d.Person;
+        }
 
         #endregion Helper Properties
 
@@ -85,25 +90,23 @@ namespace Benefits.Entities
 
         public BMembership WithPrincipal(BPerson principal)
         {
-            // can't add person twice during testing
-            if (principal.MembershipType != BMembershipType.Person)
-                throw new BenefitsException(principal.Name);
-
-            principal.MembershipType = BMembershipType.Principal;
-            principal.Membership = this;
-            People.Add(principal);
+            Dependencies.Add(new BMembershipDependency
+            {
+                Membership = this,
+                Person = principal,
+                Type = BDependencyType.Principal
+            });
             return this;
         }
 
         public BMembership WithSpouse(BPerson spouse)
         {
-            // can't add person twice during testing
-            if (spouse.MembershipType != BMembershipType.Person)
-                throw new BenefitsException(spouse.Name);
-
-            spouse.MembershipType = BMembershipType.Spouse;
-            spouse.Membership = this;
-            People.Add(spouse);
+            Dependencies.Add(new BMembershipDependency
+            {
+                Membership = this,
+                Person = spouse,
+                Type = BDependencyType.Spouse
+            });
             return this;
         }
 
@@ -111,28 +114,26 @@ namespace Benefits.Entities
         {
             foreach (var child in children)
             {
-                // can't add person twice during testing
-                if (child.MembershipType != BMembershipType.Person)
-                    throw new BenefitsException(child.Name);
-
-                child.MembershipType = BMembershipType.Child;
-                child.Membership = this;
-                People.Add(child);
+                Dependencies.Add(new BMembershipDependency
+                {
+                    Membership = this,
+                    Person = child,
+                    Type = BDependencyType.Child
+                });
             }
             return this;
         }
 
-        public BMembership WithFamily(params BPerson[] family)
+        public BMembership WithPerson(params BPerson[] persons)
         {
-            foreach (var person in family)
+            foreach (var person in persons)
             {
-                // can't add person twice during testing
-                if (person.MembershipType != BMembershipType.Person)
-                    throw new BenefitsException(person.Name);
-
-                person.MembershipType = BMembershipType.Family;
-                person.Membership = this;
-                People.Add(person);
+                Dependencies.Add(new BMembershipDependency
+                {
+                    Membership = this,
+                    Person = person,
+                    Type = BDependencyType.Person
+                });
             }
             return this;
         }

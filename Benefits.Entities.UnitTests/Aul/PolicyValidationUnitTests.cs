@@ -50,7 +50,7 @@ namespace Benefits.Entities.UnitTests
                 .WithSpouse(p2Bertha47)
                 .WithSpouse(p3Charles11);
 
-            Assert.IsNotNull(a1.SpouseError);
+            Assert.IsNotNull(m1.SpouseError);
         }
 
         [TestMethod]

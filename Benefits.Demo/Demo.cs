@@ -1,6 +1,7 @@
 ﻿using Benefits.Entities;
 using Benefits.Entities.UnitTests;
 using Benefits.Provider;
+using Benefits.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,9 @@ namespace Benefits.Demo
                 .WithPrincipal(p1Adam49)
                 .WithSpouse(p2Bertha47)
                 .WithChildren(p3Charles11)
-                .WithFamily(p5Eddie27);
+                .WithPerson(p5Eddie27);
+
+            if (!m1.IsValid) throw new BenefitsException();
             bp.CreateMembership(m1);
 
             var m2 = new BMembership()
@@ -104,7 +107,11 @@ namespace Benefits.Demo
 
         private void Output(BMembership m)
         {
-            Console.WriteLine("Membership " + m.Number + " for '" + m.PeoplePrincipal?.Name + "' status=" + m.WorkflowStatus + " valid=" + m.IsValid);
+            Console.WriteLine("Membership " + m.Number + " status=" + m.WorkflowStatus + " valid=" + m.IsValid);
+            foreach (var dependency in m.Dependencies)
+            {
+                Console.WriteLine($"{dependency.Type} {dependency.Person.NameFirst} {dependency.Person.NameLast}");
+            }
         }
 
         private void CreateMembers()
