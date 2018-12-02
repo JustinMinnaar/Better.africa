@@ -18,6 +18,10 @@ namespace Benefits.Shared
 
         public WorkflowStatuses WorkflowStatus { get; set; }
 
+        public Guid WorkflowByUserId { get; set; }
+
+        public DateTime? WorkflowOn { get; set; }
+
         public bool IsValid => Errors.Count == 0;
 
         [NotMapped]

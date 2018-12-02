@@ -18,16 +18,14 @@ namespace Benefits.Provider
 
         public Guid UserId { get; }
 
-        public void CreateMembership(MembershipModel model)
+        public void CreateMembership(Membership membership)
         {
             // Create a single transaction to ensure everything saves, or nothing changes.
             using (var db = new BenefitsDbContext())
             {
                 var options = db.Options.First();
 
-                var agent = db.People.Find(model.AgentId);
-                if (agent == null)
-                    throw new BenefitsException("Membership requires an agent be assigned!");
+                // var agent = db.People.Find(membership.AgentId);
 
                 // We increment the contract number in Options, and assign it to this contract
                 // If this transaction fails, the LastContractNumber will not be changed and our
@@ -38,18 +36,18 @@ namespace Benefits.Provider
 
                 var m = new Membership
                 {
-                    AgentId = model.AgentId,
+                    AgentId = membership.AgentId,
                     CreatedById = UserId,
                     CreatedOn = createOn,
-                    InceptionDate = model.InceptionDate,
-                    SignDate = model.SignDate,
+                    InceptionDate = membership.InceptionDate,
+                    SignDate = membership.SignDate,
                     Number = number,
                     RowVersion = 1,
                     WorkflowStatus = WorkflowStatuses.New,
                 };
                 db.Memberships.Add(m);
 
-                foreach (var person in model.People)
+                foreach (var person in membership.People)
                 {
                     var p = new Person
                     {
@@ -75,9 +73,42 @@ namespace Benefits.Provider
                 db.SaveChanges();
 
                 // Update the in-memory model with the changes made.
-                model.CreatedById = m.CreatedById;
-                model.CreatedOn = m.CreatedOn;
-                model.Number = m.Number;
+                membership.CreatedById = m.CreatedById;
+                membership.CreatedOn = m.CreatedOn;
+                membership.Number = m.Number;
+            }
+        }
+
+        public void SubmitMembership(Guid id)
+        {
+            using (var db = new BenefitsDbContext())
+            {
+                var membership = db.Memberships.Find(id);
+                ChangeStatus(membership, WorkflowStatuses.New, WorkflowStatuses.Pending);
+                // TODO: audit
+                var msg = $"{UserId} submitted membership {id}.";
+                db.SaveChanges();
+            }
+        }
+
+        private void ChangeStatus(Membership membership, WorkflowStatuses currentStatus, WorkflowStatuses newStatus)
+        {
+            if (membership.Errors.Count != 0)
+                throw new BenefitsException($"Membership {membership.Number} has errors.");
+
+            if (membership.WorkflowStatus != currentStatus)
+                throw new BenefitsException($"Membership {membership.Number} is not {currentStatus}.");
+
+            membership.WorkflowStatus = newStatus;
+            membership.WorkflowByUserId = UserId;
+            membership.WorkflowOn = Clock.Now;
+        }
+
+        public IEnumerable<Membership> ListMembershipsWithErrors()
+        {
+            using (var db = new BenefitsDbContext())
+            {
+                return db.Memberships.Where(m => !m.IsValid);
             }
         }
     }

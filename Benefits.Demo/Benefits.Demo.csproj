@@ -63,6 +63,10 @@
       <Project>{3874c35d-731c-4b9d-adcf-e5e72756f356}</Project>
       <Name>Benefits.Entities.UnitTests</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Benefits.Entities\Benefits.Entities.csproj">
+      <Project>{d82d7ee2-236b-4a91-adb0-cf79e00d3323}</Project>
+      <Name>Benefits.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Benefits.Provider\Benefits.Provider.csproj">
       <Project>{081c0efa-5397-434c-93d2-ca327d0e5115}</Project>
       <Name>Benefits.Provider</Name>

@@ -55,8 +55,10 @@
     <Compile Include="Membership\Contract.cs" />
     <Compile Include="BenefitsDbContext.cs" />
     <Compile Include="Membership\Membership.cs" />
+    <Compile Include="Membership\MembershipType.cs" />
     <Compile Include="Membership\Person.cs" />
     <Compile Include="Aul\AulPolicy.cs" />
+    <Compile Include="Membership\PersonGenders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
