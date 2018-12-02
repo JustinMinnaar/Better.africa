@@ -10,32 +10,7 @@ namespace Benefits.Entities
     /// </summary>
     public class BPerson : BaseEntity
     {
-        public string Err => $"{MembershipType} '{Name}'";
-
-        public Guid? MembershipId { get; set; }
-
-        /// <summary></summary>
-        public virtual BMembership Membership { get; set; }
-
-        public string MembershipError
-        {
-            get
-            {
-                if (MembershipType != BMembershipType.Person)
-                {
-                    if (Membership == null)
-                        return $"A member account must be assigned for '{Name}'.";
-                }
-
-                return null;
-            }
-        }
-
-        /// <summary>This is Person if not a member, or Principal, Spouse, Child or Family member if a member.</summary>
-        public BMembershipType MembershipType { get; set; }
-
-        /// <summary>True if the child is studying at a tertiary institution, which allows child to be covered while studying.</summary>
-        public bool IsScholar { get; set; }
+        public string Err => $"Person '{Name}'";
 
         #region Name
 
@@ -135,7 +110,6 @@ namespace Benefits.Entities
 
             errors.Add(nameof(Name), NameError);
             errors.Add(nameof(IdentityNumber), IdentityNumberError);
-            errors.Add(nameof(Membership), MembershipError);
             errors.Add(nameof(DateOfBirth), DateOfBirthError);
         }
 

@@ -59,8 +59,9 @@ namespace Benefits.Provider
                 };
                 db.Memberships.Add(m);
 
-                foreach (var person in membership.People)
+                foreach (var dependency in membership.Dependencies)
                 {
+                    var person = dependency.Person;
                     var p = new BPerson
                     {
                         Id = person.Id,
@@ -70,15 +71,19 @@ namespace Benefits.Provider
                         DateOfDeath = person.DateOfDeath,
                         Gender = person.Gender,
                         IdentityNumber = person.IdentityNumber,
-                        IsScholar = person.IsScholar,
-                        Membership = m,
-                        MembershipType = person.MembershipType,
                         NameFirst = person.NameFirst,
                         NameLast = person.NameLast,
                         RowVersion = 1,
                         WorkflowStatus = WorkflowStatuses.New,
                     };
-                    m.People.Add(p);
+                    db.People.Add(person);
+
+                    var d = new BMembershipDependency
+                    {
+                        Membership = m,
+                        Person = p
+                    };
+                    m.Dependencies.Add(d);
                 }
 
                 //var a = new UserAction();
@@ -148,7 +153,7 @@ namespace Benefits.Provider
             using (var db = new BenefitsDbContext())
             {
                 var q = db.Memberships
-                    .Include(nameof(BMembership.People))
+                    .Include(nameof(BMembership.Dependencies))
                     .Include(nameof(BMembership.Agent))
                     .AsQueryable();
 

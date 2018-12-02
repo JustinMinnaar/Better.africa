@@ -76,10 +76,10 @@ namespace Benefits.Entities
         {
             var e = modelBuilder.Entity<T>();
 
+            e.ToTable(tableName);
             e.HasKey(s => s.Id);
             e.Map(m => m.MapInheritedProperties());
 
-            e.ToTable(tableName);
             e.Property(p => p.RowVersion).IsRequired().IsConcurrencyToken();
             e.Property(p => p.WorkflowStatus).IsRequired();
 
@@ -90,12 +90,10 @@ namespace Benefits.Entities
         {
             var person = MapBase<BPerson>(modelBuilder, "Person");
 
-            person.Property(p => p.MembershipId).IsOptional();
             person.Property(p => p.DateOfBirth).IsOptional().HasColumnType("date");
             person.Property(p => p.DateOfDeath).IsOptional().HasColumnType("date");
             person.Property(p => p.NameFirst).IsOptional().HasMaxLength(40);
             person.Property(p => p.NameLast).IsOptional().HasMaxLength(40);
-            person.Property(p => p.MembershipType).IsOptional();
         }
 
         private static void MapMembership(DbModelBuilder modelBuilder)
@@ -109,6 +107,10 @@ namespace Benefits.Entities
             membership.Property(p => p.InceptionDate).IsOptional();
             membership.Property(p => p.Number).IsRequired();
             membership.Property(p => p.SignDate).IsOptional();
+
+            var e = modelBuilder.Entity<BMembershipDependency>();
+            e.ToTable("MembershipPerson");
+            e.HasKey(s => new { s.MembershipId, s.PersonId });
         }
 
         private static void MapPolicy(DbModelBuilder modelBuilder)

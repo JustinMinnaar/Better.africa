@@ -32,7 +32,7 @@ namespace Benefits.Demo
                 .WithPrincipal(p1Adam49)
                 .WithSpouse(p2Bertha47)
                 .WithChildren(p3Charles11)
-                .WithFamily(p5Eddie27);
+                .WithPerson(p5Eddie27);
             bp.CreateMembership(m1);
 
             var m2 = new BMembership()
