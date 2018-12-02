@@ -16,23 +16,26 @@ namespace Benefits.Demo
         {
             // We can create any number of memberships with members, even if there are errors in the data
             // This allows editing the data until correct, then submitting it for approval
-            var m1 = new Membership()
+
+            var m1 = new MembershipModel()
                 .WithSignDate(2018, 12, 01)
                 .WithInceptionDate(2019, 02)
                 .WithPrincipal(p1Adam49)
                 .WithSpouse(p2Bertha47)
-                .WithChildren(p3Charles11);
+                .WithChildren(p3Charles11)
+                .WithFamily(p5Eddie27);
 
-            var m2 = new Membership()
+            var m2 = new MembershipModel()
                 .WithSignDate(2018, 12, 2)
                 .WithInceptionDate(2020, 1)
                 .WithSpouse(p2Bertha47);
 
-            var m3 = new Membership()
+            var m3 = new MembershipModel()
                 .WithPrincipal(p2Bertha47)
                 .WithSpouse(p1Adam49);
 
-            // We can save these to the database
+            // We can save these to the database, even though they contain errors.
+            var bp = new BenefitsProvider(Guid.NewGuid());
 
             // We can list all memberships with errors
 
@@ -47,7 +50,7 @@ namespace Benefits.Demo
             }
             else using (var db = new BenefitsDbContext())
                 {
-                    db.Members.AddRange(new[] { m1, m2, m3 });
+                    db.Memberships.AddRange(new[] { m1, m2, m3 });
                     try
                     {
                         db.SaveChanges();

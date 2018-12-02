@@ -1,4 +1,5 @@
 ﻿using Benefits.Shared;
+using Knights.Core.Common;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 

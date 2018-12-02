@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-namespace Benefits.Shared
-{
-    public static class Clock
-    {
-        public static DateTime? _Now = null;
+//namespace Benefits.Shared
+//{
+//    public static class Clock
+//    {
+//        public static DateTime? _Now = null;
 
-        public static DateTime Now => _Now ?? DateTime.Now;
-    }
-}
+//        public static DateTime Now => _Now ?? DateTime.Now;
+//    }
+//}

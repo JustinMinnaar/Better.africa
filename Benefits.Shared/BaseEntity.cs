@@ -12,7 +12,7 @@ namespace Benefits.Shared
 
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
-        public Guid? CreatedBy { get; set; }
+        public Guid? CreatedById { get; set; }
 
         public int RowVersion { get; set; } = 1;
 

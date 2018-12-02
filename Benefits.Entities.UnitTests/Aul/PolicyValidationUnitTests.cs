@@ -1,5 +1,6 @@
 ﻿using Benefits.Entities;
 using Benefits.Shared;
+using Knights.Core.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Benefits.Entities.UnitTests
@@ -29,14 +30,14 @@ namespace Benefits.Entities.UnitTests
         [TestMethod]
         public void PrincipalAge18OrAbove()
         {
-            Clock._Now = new System.DateTime(2019, 1, 1);
+            Clock.FreezeAt(new System.DateTime(2019, 1, 1));
 
             var m1 = new Membership()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p3Charles11);
             Assert.IsNotNull(m1.PrincipalError);
 
-            m1.Principal.DateOfBirth = new System.DateTime(1969, 7, 31);
+            m1.PeoplePrincipal.DateOfBirth = new System.DateTime(1969, 7, 31);
             Assert.IsNull(m1.PrincipalError);
         }
 

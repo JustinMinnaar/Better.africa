@@ -7,7 +7,7 @@ namespace Benefits.Entities
 {
     public class BenefitsDbContext : DbContext
     {
-        public DbSet<Membership> Members { get; set; }
+        public DbSet<Membership> Memberships { get; set; }
 
         public DbSet<Person> People { get; set; }
 
@@ -16,6 +16,8 @@ namespace Benefits.Entities
         public DbSet<AulPolicy> Policies { get; set; }
 
         public DbSet<AulPolicyDependency> PolicyDependencies { get; set; }
+
+        public DbSet<DbOptions> Options { get; internal set; }
 
         public BenefitsDbContext() : base("name=Benefits")
         {
@@ -28,17 +30,26 @@ namespace Benefits.Entities
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            MapOptions(modelBuilder);
             MapPerson(modelBuilder);
-            MapMember(modelBuilder); // depends on person
+            MapMembership(modelBuilder); // depends on person
             MapPolicy(modelBuilder); // depends on member
             MapPolicyPlan(modelBuilder);
         }
 
-        private static EntityTypeConfiguration<T> MapBase<T>(DbModelBuilder modelBuilder) where T : BaseEntity
+        private void MapOptions(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<T>().HasKey(s => s.Id);
+            var options = MapBase<DbOptions>(modelBuilder, "Options");
 
+            options.Property(p => p.LastContractNumber).IsRequired();
+        }
+
+        private static EntityTypeConfiguration<T> MapBase<T>
+            (DbModelBuilder modelBuilder, string tableName) where T : BaseEntity
+        {
             var e = modelBuilder.Entity<T>();
+            e.HasKey(s => s.Id);
+            e.ToTable(tableName);
             e.Property(p => p.RowVersion).IsRequired().IsConcurrencyToken();
             e.Property(p => p.WorkflowStatus).IsRequired();
             e.Map(m => m.MapInheritedProperties());
@@ -48,7 +59,7 @@ namespace Benefits.Entities
 
         private static void MapPerson(DbModelBuilder modelBuilder)
         {
-            var person = MapBase<Person>(modelBuilder);
+            var person = MapBase<Person>(modelBuilder, "Person");
 
             person.Property(p => p.DateOfBirth).IsOptional().HasColumnType("date");
             person.Property(p => p.DateOfDeath).IsOptional().HasColumnType("date");
@@ -57,29 +68,37 @@ namespace Benefits.Entities
             person.Property(p => p.MembershipType).IsOptional();
         }
 
-        private static void MapMember(DbModelBuilder modelBuilder)
+        private static void MapMembership(DbModelBuilder modelBuilder)
         {
-            var member = MapBase<Membership>(modelBuilder);
+            var membership = MapBase<Membership>(modelBuilder, "Membership");
 
-            member.Property(p => p.Number).IsOptional().HasMaxLength(50);
+            membership.Property(p => p.Number).IsOptional();
+            membership.Property(p => p.AgentId).IsOptional();
+            membership.Property(p => p.CreatedById).IsRequired();
+            membership.Property(p => p.CreatedOn).IsRequired();
+            membership.Property(p => p.InceptionDate).IsOptional();
+            membership.Property(p => p.IsValid).IsRequired(); // ?? can we write a read-only property to the database?
+            membership.Property(p => p.Number).IsRequired();
+            membership.Property(p => p.SignDate).IsOptional();
         }
 
         private static void MapPolicy(DbModelBuilder modelBuilder)
         {
-            var member = MapBase<AulPolicy>(modelBuilder);
+            var member = MapBase<AulPolicy>(modelBuilder, "Policy");
 
-            member.Property(p => p.Number).IsOptional().HasMaxLength(50);
+            member.Property(p => p.Number).IsRequired();
             member.Property(p => p.InceptionDate).IsOptional();
             member.Property(p => p.PlanId).IsOptional();
             member.Property(p => p.SignDate).IsOptional();
 
             var dependecies = modelBuilder.Entity<AulPolicyDependency>()
-                .HasKey(s => new { s.PolicyId, s.PersonId });
+                .HasKey(s => new { s.PolicyId, s.PersonId })
+                .ToTable("PolicyDependency");
         }
 
         private void MapPolicyPlan(DbModelBuilder modelBuilder)
         {
-            var plan = MapBase<AulPolicyPlan>(modelBuilder);
+            var plan = MapBase<AulPolicyPlan>(modelBuilder, "PolicyPlan");
 
             plan.Property(p => p.LastPolicyNumberIssued).IsRequired();
             plan.Property(p => p.MonthlyCostChild).IsRequired();

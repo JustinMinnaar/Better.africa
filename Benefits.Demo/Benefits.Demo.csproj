@@ -69,9 +69,9 @@
       <Project>{3874c35d-731c-4b9d-adcf-e5e72756f356}</Project>
       <Name>Benefits.Entities.UnitTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Benefits.Entities\Benefits.Entities.csproj">
-      <Project>{D82D7EE2-236B-4A91-ADB0-CF79E00D3323}</Project>
-      <Name>Benefits.Entities</Name>
+    <ProjectReference Include="..\Benefits.Provider\Benefits.Provider.csproj">
+      <Project>{081c0efa-5397-434c-93d2-ca327d0e5115}</Project>
+      <Name>Benefits.Provider</Name>
     </ProjectReference>
     <ProjectReference Include="..\Benefits.Shared\Benefits.Shared.csproj">
       <Project>{F621104F-F9A1-49AD-8C3E-ED699A9391E0}</Project>

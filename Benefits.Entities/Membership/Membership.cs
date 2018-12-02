@@ -16,8 +16,8 @@ namespace Benefits.Entities
         {
             base.BeforeSaveOverride(errors);
 
-            errors.Add(nameof(Principal), PrincipalError);
-            errors.Add(nameof(Spouse), SpouseError);
+            errors.Add(nameof(PeoplePrincipal), PrincipalError);
+            errors.Add(nameof(PeopleSpouse), SpouseError);
             foreach (var person in People)
             {
                 person.BeforeSave(errors);
@@ -33,7 +33,7 @@ namespace Benefits.Entities
 
                 if (InceptionDate != null)
                 {
-                    var principalYears = Principal.AgeInYearsAsAt(InceptionDate.Value);
+                    var principalYears = PeoplePrincipal.AgeInYearsAsAt(InceptionDate.Value);
                     if (principalYears < 18 || principalYears > 65)
                         return "Principal must be between 18 and 65 years old on inception date.";
                 }
@@ -52,7 +52,7 @@ namespace Benefits.Entities
 
                 if (InceptionDate != null)
                 {
-                    var spouseYears = Spouse.AgeInYearsAsAt(InceptionDate.Value);
+                    var spouseYears = PeopleSpouse.AgeInYearsAsAt(InceptionDate.Value);
                     if (spouseYears < 18 || spouseYears > 65)
                         return "Spouse must be between 18 and 65 years old on inception date.";
                 }
@@ -66,16 +66,16 @@ namespace Benefits.Entities
         #region Helper Properties
 
         [NotMapped]
-        public Person Principal => People.FirstOrDefault(p => p.MembershipType == MembershipType.Principal);
+        public Person PeoplePrincipal => People.FirstOrDefault(p => p.MembershipType == MembershipType.Principal);
 
         [NotMapped]
-        public Person Spouse => People.FirstOrDefault(p => p.MembershipType == MembershipType.Spouse);
+        public Person PeopleSpouse => People.FirstOrDefault(p => p.MembershipType == MembershipType.Spouse);
 
         [NotMapped]
-        public IList<Person> Children => People.Where(p => p.MembershipType == MembershipType.Child).ToList();
+        public IList<Person> PeopleChildren => People.Where(p => p.MembershipType == MembershipType.Child).ToList();
 
         [NotMapped]
-        public IList<Person> Extended => People.Where(p => p.MembershipType == MembershipType.Family).ToList();
+        public IList<Person> PeopleExtended => People.Where(p => p.MembershipType == MembershipType.Family).ToList();
 
         #endregion Helper Properties
 

@@ -7,7 +7,20 @@ namespace Benefits.Entities
 {
     public class Contract : BaseEntity
     {
-        public string Number { get; set; }
+        public int Number { get; set; }
+
+        public Guid? AgentId { get; set; }
+
+        public Person Agent { get; set; }
+
+        public string AgentError
+        {
+            get
+            {
+                if (AgentId == null) return "An Agent is required.";
+                return null;
+            }
+        }
 
         public override string ToString()
         {
@@ -79,6 +92,7 @@ namespace Benefits.Entities
         {
             base.BeforeSaveOverride(errors);
 
+            errors.Add(nameof(Agent), AgentError);
             errors.Add(nameof(SignDate), SignDateError);
             errors.Add(nameof(InceptionDate), InceptionDateError);
         }

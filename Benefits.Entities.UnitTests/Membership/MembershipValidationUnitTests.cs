@@ -35,13 +35,13 @@ namespace Benefits.Entities.UnitTests
                 var m1 = new Membership()
                     .WithInceptionDate(yy: 2019, mm: 1)
                     .WithPrincipal(p1Adam49);
-                db.Members.Add(m1);
+                db.Memberships.Add(m1);
 
                 // Membership 2 with Adam
                 var m2 = new Membership()
                     .WithInceptionDate(yy: 2019, mm: 1)
                     .WithPrincipal(p1Adam49);
-                db.Members.Add(m2);
+                db.Memberships.Add(m2);
 
                 db.SaveChanges();
             }
