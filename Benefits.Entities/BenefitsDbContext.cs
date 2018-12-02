@@ -67,6 +67,7 @@ namespace Benefits.Entities
             audit.Property(p => p.EntityType).IsRequired();
             audit.Property(p => p.UserId).IsRequired();
             audit.Property(p => p.When).IsRequired();
+            audit.Property(p => p.Description).IsOptional();
         }
 
         private void MapUsers(DbModelBuilder modelBuilder)
@@ -106,8 +107,8 @@ namespace Benefits.Entities
 
             person.Property(p => p.DateOfBirth).IsOptional().HasColumnType("date");
             person.Property(p => p.DateOfDeath).IsOptional().HasColumnType("date");
-            person.Property(p => p.NameFirst).IsOptional().HasMaxLength(40);
-            person.Property(p => p.NameLast).IsOptional().HasMaxLength(40);
+            person.Property(p => p.FirstName).IsOptional().HasMaxLength(40);
+            person.Property(p => p.LastName).IsOptional().HasMaxLength(40);
         }
 
         private static void MapMembership(DbModelBuilder modelBuilder)

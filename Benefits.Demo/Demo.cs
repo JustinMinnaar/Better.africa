@@ -16,15 +16,69 @@ namespace Benefits.Demo
     {
         public Demo()
         {
-            // We can create any number of memberships with members, even if there are errors in the data
+            // We capture forms using a Model as below
+            var applicationForMembership = new AppMembershipForm
+            {
+                Principal = new AppPerson
+                {
+                    FirstName = "Justin",
+                    LastName = "Minnaar",
+                    IdentityNumber = "6907315115089",
+                    CellPhone = "0813702097",
+                    HomePhone = "",
+                    WorkPhone = "",
+                    EmailAddress = "",
+                    EmployedAt = "",
+                    EmployedAtPhone = "",
+                },
+                Area = new AppArea
+                {
+                    PostalAddress = "",
+                    City = "Benoni",
+                    State = "Gauteng",
+                    Country = "South Africa",
+                    Code = "1501",
+                },
+                Communication = new AppCommunication
+                {
+                    ReceiveNewsLetters = BReceiveNewsLetters.Agent,
+                    ReceiveSms = true,
+                    HomeLanguage = "English",
+                },
+                Spouse = new AppPerson
+                {
+                    FirstName = "Justin",
+                    LastName = "Minnaar",
+                    IdentityNumber = "6907315115089",
+                    CellPhone = "0813702097",
+                    HomePhone = "",
+                    WorkPhone = "",
+                },
+                Child01 = new AppPerson
+                {
+                    FirstName = "Faybienne",
+                    LastName = "Minnaar",
+                    IdentityNumber = "020228",
+                },
+            };
 
-            // This allows editing the data until correct, then submitting it for approval
-
+            // We can create memberships even if there are errors in the data
             // We can save these to the database, even though they contain errors.
+            // This allows editing the data until correct, then submitting it
+
             var bp = new BenefitsProvider(Guid.NewGuid());
 
-            var agent = new BPerson { NameFirst = "Luke " };
+            var agent = new BPerson
+            {
+                FirstName = "Luke",
+                LastName = "Griqua",
+                IdentityNumber = "9503145173088",
+                Gender = BPersonGenders.Male
+            };
             bp.CreatePerson(agent);
+
+            agent.CellPhone = "x";
+            bp.UpdatePerson(agent);
 
             var m1 = new BMembership()
                 .WithAgent(agent)
@@ -95,6 +149,11 @@ namespace Benefits.Demo
             Console.ReadLine();
         }
 
+        private void Output(string message)
+        {
+            Console.WriteLine(message);
+        }
+
         private void Output(string title, IList<BMembership> memberships)
         {
             Console.WriteLine();
@@ -110,7 +169,7 @@ namespace Benefits.Demo
             Console.WriteLine("  Membership " + m.Number + " status=" + m.WorkflowStatus + " valid=" + m.IsValid);
             foreach (var dependency in m.Dependencies)
             {
-                Console.WriteLine($"  - {dependency.Type} {dependency.Person.NameFirst} {dependency.Person.NameLast}");
+                Console.WriteLine($"  - {dependency.Type} {dependency.Person.FirstName} {dependency.Person.LastName}");
             }
         }
 

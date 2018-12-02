@@ -14,13 +14,17 @@ namespace Benefits.Entities
         public Guid EntityId { get; set; }
         public DateTime When { get; set; }
         public BAuditAction Action { get; set; }
+        public string Description { get; set; }
     }
 
     public enum BAuditAction : short
     {
+        Update,
+        Create
     }
 
     public enum BEntityType : short
     {
+        Person
     }
 }
