@@ -19,10 +19,10 @@ namespace Benefits.Entities.UnitTests
         {
             // no identity fails
             var p1 = new BPerson();
-            Assert.IsNotNull(p1.IdentityError);
+            Assert.IsNotNull(p1.IdentityNumberError);
 
             // a valid identity passes
-            Assert.IsNull(p1Adam49.IdentityError);
+            Assert.IsNull(p1Adam49.IdentityNumberError);
         }
     }
 }

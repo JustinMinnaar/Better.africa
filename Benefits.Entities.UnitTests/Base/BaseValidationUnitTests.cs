@@ -1,4 +1,5 @@
 ﻿using Benefits.Entities;
+using Benefits.Shared;
 using System;
 
 namespace Benefits.Entities.UnitTests
@@ -13,7 +14,7 @@ namespace Benefits.Entities.UnitTests
             NameLast = "Adams",
             DateOfBirth = new DateTime(1969, 07, 31),
             Gender = BPersonGenders.Male,
-            Identity = "690731",
+            IdentityNumber = SouthAfricanIdentityNumber.Random(1960, 1980, true).Number
         };
 
         protected BPerson p2Bertha47 => new BPerson
@@ -22,7 +23,7 @@ namespace Benefits.Entities.UnitTests
             NameLast = "Adams",
             DateOfBirth = new DateTime(1971, 11, 12),
             Gender = BPersonGenders.Female,
-            Identity = "711112",
+            IdentityNumber = SouthAfricanIdentityNumber.Random(1960, 1980, true).Number
         };
 
         protected BPerson p3Charles11 => new BPerson
@@ -31,7 +32,7 @@ namespace Benefits.Entities.UnitTests
             NameLast = "Adams",
             DateOfBirth = new DateTime(2007, 3, 7),
             Gender = BPersonGenders.Male,
-            Identity = "070307",
+            IdentityNumber = SouthAfricanIdentityNumber.Random(2007, 2009, true).Number
         };
 
         protected BPerson p4Debbie1 => new BPerson
@@ -40,7 +41,7 @@ namespace Benefits.Entities.UnitTests
             NameLast = "Adams",
             DateOfBirth = new DateTime(2017, 11, 17),
             Gender = BPersonGenders.Female,
-            Identity = "171117",
+            IdentityNumber = SouthAfricanIdentityNumber.Random(2017, 2018, true).Number
         };
 
         protected BPerson p5Eddie27 = new BPerson
@@ -49,7 +50,7 @@ namespace Benefits.Entities.UnitTests
             NameLast = "Adams",
             DateOfBirth = new DateTime(1991, 3, 4),
             Gender = BPersonGenders.Male,
-            Identity = "910304",
+            IdentityNumber = SouthAfricanIdentityNumber.Random(1940, 1960, true).Number
         };
     }
 }

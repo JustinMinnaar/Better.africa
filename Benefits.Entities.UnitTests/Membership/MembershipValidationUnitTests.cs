@@ -25,26 +25,5 @@ namespace Benefits.Entities.UnitTests
 
             Assert.IsNotNull(m1.PrincipalError);
         }
-
-        [TestMethod]
-        public void Membership_MemberCannotBelongToMultipleMemberships()
-        {
-            using (var db = new BenefitsDbContext())
-            {
-                // Membership 1 with Adam
-                var m1 = new BMembership()
-                    .WithInceptionDate(yy: 2019, mm: 1)
-                    .WithPrincipal(p1Adam49);
-                db.Memberships.Add(m1);
-
-                // Membership 2 with Adam
-                var m2 = new BMembership()
-                    .WithInceptionDate(yy: 2019, mm: 1)
-                    .WithPrincipal(p1Adam49);
-                db.Memberships.Add(m2);
-
-                db.SaveChanges();
-            }
-        }
     }
 }

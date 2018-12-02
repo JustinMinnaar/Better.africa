@@ -16,6 +16,7 @@ namespace Benefits.Demo
         public Demo()
         {
             // We can create any number of memberships with members, even if there are errors in the data
+
             // This allows editing the data until correct, then submitting it for approval
 
             // We can save these to the database, even though they contain errors.
@@ -65,6 +66,8 @@ namespace Benefits.Demo
 
             var approvedMemberships = bp.ListMemberships(Shared.WorkflowStatuses.Approved);
             Output("approvedMemberships", approvedMemberships);
+
+            // Output("MemberCannotBelongToMultipleMemberships");
 
             //if (m1.Errors.Count > 0)
             //{

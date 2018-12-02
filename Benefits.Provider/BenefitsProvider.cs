@@ -69,7 +69,7 @@ namespace Benefits.Provider
                         DateOfBirth = person.DateOfBirth,
                         DateOfDeath = person.DateOfDeath,
                         Gender = person.Gender,
-                        Identity = person.Identity,
+                        IdentityNumber = person.IdentityNumber,
                         IsScholar = person.IsScholar,
                         Membership = m,
                         MembershipType = person.MembershipType,

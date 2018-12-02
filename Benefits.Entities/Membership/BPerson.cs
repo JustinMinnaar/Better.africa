@@ -65,17 +65,32 @@ namespace Benefits.Entities
 
         #region Identity
 
-        public string Identity { get; set; }
+        public string IdentityNumber { get; set; }
 
-        public string IdentityError
+        public string IdentityNumberError
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(Identity))
+                if (string.IsNullOrWhiteSpace(IdentityNumber))
                     return $"{Err} requires Identity.";
 
-                if (Identity.Length != 6 && Identity.Length != 13)
-                    return "{Err} requires Identity to be 6 characters (birth date only) or 13 characters for South Africa.";
+                if (IdentityNumber.Length != 6 && IdentityNumber.Length != 13)
+                    return $"{Err} requires Identity to be 6 characters (birth date only) or 13 characters for South Africa.";
+
+                if (IdentityNumber.Length == 13)
+                {
+                    var saId = new SouthAfricanIdentityNumber { Number = IdentityNumber };
+                    if (saId.IsValid)
+                    {
+                        DateOfBirth = saId.Birthdate;
+                        if (saId.IsMale) Gender = BPersonGenders.Male;
+                        if (saId.IsFemale) Gender = BPersonGenders.Female;
+                    }
+                    else
+                    {
+                        return $"{Err} requires a valid 13 character South African Identity Number.";
+                    }
+                }
 
                 return null;
             }
@@ -83,7 +98,7 @@ namespace Benefits.Entities
 
         #endregion Identity
 
-        public BPersonGenders Gender { get; set; }
+        public BPersonGenders? Gender { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
 
@@ -119,7 +134,7 @@ namespace Benefits.Entities
             base.BeforeSaveOverride(errors);
 
             errors.Add(nameof(Name), NameError);
-            errors.Add(nameof(Identity), IdentityError);
+            errors.Add(nameof(IdentityNumber), IdentityNumberError);
             errors.Add(nameof(Membership), MembershipError);
             errors.Add(nameof(DateOfBirth), DateOfBirthError);
         }
