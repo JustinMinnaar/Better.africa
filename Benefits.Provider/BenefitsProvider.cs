@@ -141,11 +141,24 @@ namespace Benefits.Provider
             membership.WorkflowOn = Clock.Now;
         }
 
-        public IList<BMembership> ListMembershipsWithErrors()
+        public IList<BMembership> ListMemberships(
+            WorkflowStatuses? status = null,
+            bool? isValid = null)
         {
             using (var db = new BenefitsDbContext())
             {
-                return db.Memberships.Where(m => !m.IsValid).ToList();
+                var q = db.Memberships
+                    .Include(nameof(BMembership.People))
+                    .Include(nameof(BMembership.Agent))
+                    .AsQueryable();
+
+                if (status != null)
+                    q = q.Where(m => m.WorkflowStatus == status);
+
+                if (isValid != null)
+                    q = q.Where(m => m.IsValid == isValid);
+
+                return q.ToList();
             }
         }
     }

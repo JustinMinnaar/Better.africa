@@ -4,7 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Benefits.Shared
 {
-    public enum WorkflowStatuses : byte { New = 0, Pending, Approved, Rejected, Deleted }
+    public enum WorkflowStatuses : byte
+    {
+        New = 0, Pending, Approved, Rejected, Deleted,
+    }
 
     public abstract class BaseRow
     {
