@@ -9,6 +9,8 @@ namespace Benefits.Entities
     {
         public DbSet<BUser> Users { get; set; }
 
+        public DbSet<BAudit> Audits { get; set; }
+
         public DbSet<BMembership> Memberships { get; set; }
 
         public DbSet<BPerson> People { get; set; }
@@ -33,11 +35,24 @@ namespace Benefits.Entities
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             MapUsers(modelBuilder);
+            MapAudits(modelBuilder);
             MapOptions(modelBuilder);
             MapPerson(modelBuilder);
             MapMembership(modelBuilder); // depends on person
             MapPolicy(modelBuilder); // depends on member
             MapPolicyPlan(modelBuilder);
+        }
+
+        private void MapAudits(DbModelBuilder modelBuilder)
+        {
+            var audit = modelBuilder.Entity<BAudit>();
+            audit.HasKey(s => s.Id);
+            audit.ToTable("Audit");
+            audit.Property(p => p.Action).IsRequired();
+            audit.Property(p => p.EntityId).IsRequired();
+            audit.Property(p => p.EntityType).IsRequired();
+            audit.Property(p => p.UserId).IsRequired();
+            audit.Property(p => p.When).IsRequired();
         }
 
         private void MapUsers(DbModelBuilder modelBuilder)

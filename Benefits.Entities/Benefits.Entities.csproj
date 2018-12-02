@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BAudit.cs" />
     <Compile Include="BOptions.cs" />
     <Compile Include="Membership\BContract.cs" />
     <Compile Include="BenefitsDbContext.cs" />
