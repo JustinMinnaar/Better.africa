@@ -21,10 +21,10 @@ namespace Benefits.Demo
             // We can save these to the database, even though they contain errors.
             var bp = new BenefitsProvider(Guid.NewGuid());
 
-            var agent = new Person { NameFirst = "Luke " };
+            var agent = new BPerson { NameFirst = "Luke " };
             bp.CreatePerson(agent);
 
-            var m1 = new Membership()
+            var m1 = new BMembership()
                 .WithAgent(agent)
                 .WithSignDate(2018, 12, 01)
                 .WithInceptionDate(2019, 02)

@@ -8,20 +8,20 @@ namespace Benefits.Entities
     /// <summary>
     ///     A person that may be a member of a membership.
     /// </summary>
-    public class Person : BaseEntity
+    public class BPerson : BaseEntity
     {
         public string Err => $"{MembershipType} '{Name}'";
 
         public Guid? MembershipId { get; set; }
 
         /// <summary></summary>
-        public virtual Membership Membership { get; set; }
+        public virtual BMembership Membership { get; set; }
 
         public string MembershipError
         {
             get
             {
-                if (MembershipType != MembershipType.Person)
+                if (MembershipType != BMembershipType.Person)
                 {
                     if (Membership == null)
                         return $"A member account must be assigned for '{Name}'.";
@@ -32,7 +32,7 @@ namespace Benefits.Entities
         }
 
         /// <summary>This is Person if not a member, or Principal, Spouse, Child or Family member if a member.</summary>
-        public MembershipType MembershipType { get; set; }
+        public BMembershipType MembershipType { get; set; }
 
         /// <summary>True if the child is studying at a tertiary institution, which allows child to be covered while studying.</summary>
         public bool IsScholar { get; set; }
@@ -83,7 +83,7 @@ namespace Benefits.Entities
 
         #endregion Identity
 
-        public PersonGenders Gender { get; set; }
+        public BPersonGenders Gender { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
 
@@ -124,7 +124,7 @@ namespace Benefits.Entities
             errors.Add(nameof(DateOfBirth), DateOfBirthError);
         }
 
-        public Person WithDateOfBirth(int yy, int mm, int dd)
+        public BPerson WithDateOfBirth(int yy, int mm, int dd)
         {
             DateOfBirth = new DateTime(yy, mm, dd);
             return this;

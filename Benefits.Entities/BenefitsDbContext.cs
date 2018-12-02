@@ -9,17 +9,17 @@ namespace Benefits.Entities
     {
         public DbSet<BUser> Users { get; set; }
 
-        public DbSet<Membership> Memberships { get; set; }
+        public DbSet<BMembership> Memberships { get; set; }
 
-        public DbSet<Person> People { get; set; }
+        public DbSet<BPerson> People { get; set; }
 
         public DbSet<AulPolicyPlan> PolicyPlans { get; set; }
 
-        public DbSet<AulPolicy> Policies { get; set; }
+        public DbSet<BAulPolicy> Policies { get; set; }
 
         public DbSet<AulPolicyDependency> PolicyDependencies { get; set; }
 
-        public DbSet<DbOptions> Options { get; set; }
+        public DbSet<BOptions> Options { get; set; }
 
         public BenefitsDbContext() : base("name=Benefits")
         {
@@ -50,7 +50,7 @@ namespace Benefits.Entities
 
         private void MapOptions(DbModelBuilder modelBuilder)
         {
-            var options = modelBuilder.Entity<DbOptions>();
+            var options = modelBuilder.Entity<BOptions>();
             options.HasKey(s => s.Id);
             options.ToTable("Options");
             options.Property(p => p.LastContractNumber).IsRequired();
@@ -73,7 +73,7 @@ namespace Benefits.Entities
 
         private static void MapPerson(DbModelBuilder modelBuilder)
         {
-            var person = MapBase<Person>(modelBuilder, "Person");
+            var person = MapBase<BPerson>(modelBuilder, "Person");
 
             person.Property(p => p.MembershipId).IsOptional();
             person.Property(p => p.DateOfBirth).IsOptional().HasColumnType("date");
@@ -85,7 +85,7 @@ namespace Benefits.Entities
 
         private static void MapMembership(DbModelBuilder modelBuilder)
         {
-            var membership = MapBase<Membership>(modelBuilder, "Membership");
+            var membership = MapBase<BMembership>(modelBuilder, "Membership");
 
             membership.Property(p => p.Number).IsOptional();
             membership.Property(p => p.AgentId).IsOptional();
@@ -98,7 +98,7 @@ namespace Benefits.Entities
 
         private static void MapPolicy(DbModelBuilder modelBuilder)
         {
-            var member = MapBase<AulPolicy>(modelBuilder, "Policy");
+            var member = MapBase<BAulPolicy>(modelBuilder, "Policy");
 
             member.Property(p => p.Number).IsRequired();
             member.Property(p => p.InceptionDate).IsOptional();

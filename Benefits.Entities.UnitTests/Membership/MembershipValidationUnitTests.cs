@@ -8,8 +8,8 @@ namespace Benefits.Entities.UnitTests
         [TestMethod]
         public void Membership_PrincipalIsRequired()
         {
-            var a1 = new AulPolicy();
-            var m1 = new Membership()
+            var a1 = new BAulPolicy();
+            var m1 = new BMembership()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithSpouse(p2Bertha47);
 
@@ -19,7 +19,7 @@ namespace Benefits.Entities.UnitTests
         [TestMethod]
         public void Membership_PrincipalMustBeAge18OrAbove()
         {
-            var m1 = new Membership()
+            var m1 = new BMembership()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p3Charles11);
 
@@ -32,13 +32,13 @@ namespace Benefits.Entities.UnitTests
             using (var db = new BenefitsDbContext())
             {
                 // Membership 1 with Adam
-                var m1 = new Membership()
+                var m1 = new BMembership()
                     .WithInceptionDate(yy: 2019, mm: 1)
                     .WithPrincipal(p1Adam49);
                 db.Memberships.Add(m1);
 
                 // Membership 2 with Adam
-                var m2 = new Membership()
+                var m2 = new BMembership()
                     .WithInceptionDate(yy: 2019, mm: 1)
                     .WithPrincipal(p1Adam49);
                 db.Memberships.Add(m2);

@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Benefits.Entities
 {
-    public class Membership : Contract
+    public class BMembership : BContract
     {
-        public virtual ICollection<Person> People { get; } = new HashSet<Person>();
+        public virtual ICollection<BPerson> People { get; } = new HashSet<BPerson>();
 
         #region BeforeSave
 
@@ -28,7 +28,7 @@ namespace Benefits.Entities
         {
             get
             {
-                var principalValid = People.Count(p => p.MembershipType == MembershipType.Principal) == 1;
+                var principalValid = People.Count(p => p.MembershipType == BMembershipType.Principal) == 1;
                 if (!principalValid) return "There must be one principal.";
 
                 if (InceptionDate != null)
@@ -49,7 +49,7 @@ namespace Benefits.Entities
                 var spouse = PeopleSpouse;
                 if (spouse == null) return null;
 
-                var spouseValid = People.Count(p => p.MembershipType == MembershipType.Spouse) == 1;
+                var spouseValid = People.Count(p => p.MembershipType == BMembershipType.Spouse) == 1;
                 if (!spouseValid) return "There may not be more than one spouse.";
 
                 if (InceptionDate != null)
@@ -68,69 +68,69 @@ namespace Benefits.Entities
         #region Helper Properties
 
         [NotMapped]
-        public Person PeoplePrincipal => People.FirstOrDefault(p => p.MembershipType == MembershipType.Principal);
+        public BPerson PeoplePrincipal => People.FirstOrDefault(p => p.MembershipType == BMembershipType.Principal);
 
         [NotMapped]
-        public Person PeopleSpouse => People.FirstOrDefault(p => p.MembershipType == MembershipType.Spouse);
+        public BPerson PeopleSpouse => People.FirstOrDefault(p => p.MembershipType == BMembershipType.Spouse);
 
         [NotMapped]
-        public IList<Person> PeopleChildren => People.Where(p => p.MembershipType == MembershipType.Child).ToList();
+        public IList<BPerson> PeopleChildren => People.Where(p => p.MembershipType == BMembershipType.Child).ToList();
 
         [NotMapped]
-        public IList<Person> PeopleExtended => People.Where(p => p.MembershipType == MembershipType.Family).ToList();
+        public IList<BPerson> PeopleExtended => People.Where(p => p.MembershipType == BMembershipType.Family).ToList();
 
         #endregion Helper Properties
 
         #region Helper Methods
 
-        public Membership WithPrincipal(Person principal)
+        public BMembership WithPrincipal(BPerson principal)
         {
             // can't add person twice during testing
-            if (principal.MembershipType != MembershipType.Person)
+            if (principal.MembershipType != BMembershipType.Person)
                 throw new BenefitsException(principal.Name);
 
-            principal.MembershipType = MembershipType.Principal;
+            principal.MembershipType = BMembershipType.Principal;
             principal.Membership = this;
             People.Add(principal);
             return this;
         }
 
-        public Membership WithSpouse(Person spouse)
+        public BMembership WithSpouse(BPerson spouse)
         {
             // can't add person twice during testing
-            if (spouse.MembershipType != MembershipType.Person)
+            if (spouse.MembershipType != BMembershipType.Person)
                 throw new BenefitsException(spouse.Name);
 
-            spouse.MembershipType = MembershipType.Spouse;
+            spouse.MembershipType = BMembershipType.Spouse;
             spouse.Membership = this;
             People.Add(spouse);
             return this;
         }
 
-        public Membership WithChildren(params Person[] children)
+        public BMembership WithChildren(params BPerson[] children)
         {
             foreach (var child in children)
             {
                 // can't add person twice during testing
-                if (child.MembershipType != MembershipType.Person)
+                if (child.MembershipType != BMembershipType.Person)
                     throw new BenefitsException(child.Name);
 
-                child.MembershipType = MembershipType.Child;
+                child.MembershipType = BMembershipType.Child;
                 child.Membership = this;
                 People.Add(child);
             }
             return this;
         }
 
-        public Membership WithFamily(params Person[] family)
+        public BMembership WithFamily(params BPerson[] family)
         {
             foreach (var person in family)
             {
                 // can't add person twice during testing
-                if (person.MembershipType != MembershipType.Person)
+                if (person.MembershipType != BMembershipType.Person)
                     throw new BenefitsException(person.Name);
 
-                person.MembershipType = MembershipType.Family;
+                person.MembershipType = BMembershipType.Family;
                 person.Membership = this;
                 People.Add(person);
             }

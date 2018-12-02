@@ -1,6 +1,6 @@
 ﻿namespace Benefits.Entities
 {
-    public enum PersonGenders
+    public enum BPersonGenders
     {
         Male,
         Female

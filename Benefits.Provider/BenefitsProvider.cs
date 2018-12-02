@@ -20,7 +20,7 @@ namespace Benefits.Provider
                 var options = db.Options.FirstOrDefault();
                 if (options == null)
                 {
-                    options = new DbOptions { Id = Guid.Empty, LastContractNumber = 1000, };
+                    options = new BOptions { Id = Guid.Empty, LastContractNumber = 1000, };
                     db.Options.Add(options);
                     db.SaveChanges();
                 }
@@ -29,7 +29,7 @@ namespace Benefits.Provider
 
         public Guid UserId { get; }
 
-        public void CreateMembership(Membership membership)
+        public void CreateMembership(BMembership membership)
         {
             // Create a single transaction to ensure everything saves, or nothing changes.
             using (var db = new BenefitsDbContext())
@@ -45,7 +45,7 @@ namespace Benefits.Provider
 
                 DateTime createOn = Clock.Now;
 
-                var m = new Membership
+                var m = new BMembership
                 {
                     Id = membership.Id,
                     AgentId = membership.AgentId,
@@ -61,7 +61,7 @@ namespace Benefits.Provider
 
                 foreach (var person in membership.People)
                 {
-                    var p = new Person
+                    var p = new BPerson
                     {
                         Id = person.Id,
                         CreatedById = UserId,
@@ -92,7 +92,7 @@ namespace Benefits.Provider
             }
         }
 
-        public void CreatePerson(Person person)
+        public void CreatePerson(BPerson person)
         {
             using (var db = new BenefitsDbContext())
             {
@@ -128,7 +128,7 @@ namespace Benefits.Provider
             }
         }
 
-        private void ChangeStatus(Membership membership, WorkflowStatuses currentStatus, WorkflowStatuses newStatus)
+        private void ChangeStatus(BMembership membership, WorkflowStatuses currentStatus, WorkflowStatuses newStatus)
         {
             if (membership.Errors.Count != 0)
                 throw new BenefitsException($"Membership {membership.Number} has errors.");
@@ -141,7 +141,7 @@ namespace Benefits.Provider
             membership.WorkflowOn = Clock.Now;
         }
 
-        public IList<Membership> ListMembershipsWithErrors()
+        public IList<BMembership> ListMembershipsWithErrors()
         {
             using (var db = new BenefitsDbContext())
             {

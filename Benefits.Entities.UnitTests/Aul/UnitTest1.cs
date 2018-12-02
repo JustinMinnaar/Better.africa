@@ -11,7 +11,7 @@ namespace Benefits.Entities.UnitTests.Aul
         [TestMethod]
         public void Policy_CalculatePriceForPlan()
         {
-            var p1 = new Person().WithDateOfBirth(1969, 7, 31);
+            var p1 = new BPerson().WithDateOfBirth(1969, 7, 31);
 
             var plan = new AulPolicyPlan
             {
@@ -23,34 +23,34 @@ namespace Benefits.Entities.UnitTests.Aul
                 MonthlyCostFamily = 9.5m,
             };
 
-            var policy = new AulPolicy { Plan = plan }
-            .WithDependency(p1, MembershipType.Principal)
+            var policy = new BAulPolicy { Plan = plan }
+            .WithDependency(p1, BMembershipType.Principal)
             .WithSignDate(2019, 1, 1)
             .WithInceptionDate(2019, 1);
 
             var c1 = policy.CalculatedMonthlyCost().Sum(a => a.Cost);
             Assert.AreEqual(10, c1);
 
-            var p2 = new Person().WithDateOfBirth(1971, 5, 4);
-            policy.WithDependency(p2, MembershipType.Spouse);
+            var p2 = new BPerson().WithDateOfBirth(1971, 5, 4);
+            policy.WithDependency(p2, BMembershipType.Spouse);
 
             var c2 = policy.CalculatedMonthlyCost().Sum(a => a.Cost);
             Assert.AreEqual(19, c2);
 
-            var p3 = new Person().WithDateOfBirth(2010, 1, 1);
-            policy.WithDependency(p3, MembershipType.Child);
+            var p3 = new BPerson().WithDateOfBirth(2010, 1, 1);
+            policy.WithDependency(p3, BMembershipType.Child);
 
-            var p4 = new Person().WithDateOfBirth(2011, 1, 1);
-            policy.WithDependency(p4, MembershipType.Child);
+            var p4 = new BPerson().WithDateOfBirth(2011, 1, 1);
+            policy.WithDependency(p4, BMembershipType.Child);
 
-            var p5 = new Person().WithDateOfBirth(2012, 1, 1);
-            policy.WithDependency(p5, MembershipType.Child);
+            var p5 = new BPerson().WithDateOfBirth(2012, 1, 1);
+            policy.WithDependency(p5, BMembershipType.Child);
 
             var c3 = policy.CalculatedMonthlyCost().Sum(a => a.Cost);
             Assert.AreEqual(36, c3);
 
-            var p6 = new Person().WithDateOfBirth(2000, 1, 1);
-            policy.WithDependency(p6, MembershipType.Family);
+            var p6 = new BPerson().WithDateOfBirth(2000, 1, 1);
+            policy.WithDependency(p6, BMembershipType.Family);
 
             var c4 = policy.CalculatedMonthlyCost().Sum(a => a.Cost);
             Assert.AreEqual(45.5m, c4);

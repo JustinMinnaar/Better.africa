@@ -51,14 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbOptions.cs" />
-    <Compile Include="Membership\Contract.cs" />
+    <Compile Include="BOptions.cs" />
+    <Compile Include="Membership\BContract.cs" />
     <Compile Include="BenefitsDbContext.cs" />
-    <Compile Include="Membership\Membership.cs" />
-    <Compile Include="Membership\MembershipType.cs" />
-    <Compile Include="Membership\Person.cs" />
-    <Compile Include="Aul\AulPolicy.cs" />
-    <Compile Include="Membership\PersonGenders.cs" />
+    <Compile Include="Membership\BMembership.cs" />
+    <Compile Include="Membership\BMembershipType.cs" />
+    <Compile Include="Membership\BPerson.cs" />
+    <Compile Include="Aul\BAulPolicy.cs" />
+    <Compile Include="Membership\BPersonGenders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BUser.cs" />
   </ItemGroup>

@@ -8,7 +8,7 @@ namespace Benefits.Entities.UnitTests
         [TestMethod]
         public void Person_PrincipalRequiresName()
         {
-            var p1 = new Person();
+            var p1 = new BPerson();
             Assert.IsNotNull(p1.NameError);
 
             Assert.IsNull(p1Adam49.NameError);
@@ -18,7 +18,7 @@ namespace Benefits.Entities.UnitTests
         public void Person_RequiresIdentity()
         {
             // no identity fails
-            var p1 = new Person();
+            var p1 = new BPerson();
             Assert.IsNotNull(p1.IdentityError);
 
             // a valid identity passes

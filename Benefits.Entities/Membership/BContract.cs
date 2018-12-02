@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Benefits.Entities
 {
-    public class Contract : BaseEntity
+    public class BContract : BaseEntity
     {
         public int Number { get; set; }
 
         public Guid? AgentId { get; set; }
 
-        public virtual Person Agent { get; set; }
+        public virtual BPerson Agent { get; set; }
 
         public string AgentError
         {
@@ -102,8 +102,8 @@ namespace Benefits.Entities
 
     public static class ContractHelpers
     {
-        public static T WithAgent<T>(this T contract, Person agent)
-            where T : Contract
+        public static T WithAgent<T>(this T contract, BPerson agent)
+            where T : BContract
         {
             contract.AgentId = agent.Id;
             contract.Agent = agent;
@@ -111,14 +111,14 @@ namespace Benefits.Entities
         }
 
         public static T WithSignDate<T>(this T contract, int yy, int mm, int dd)
-            where T : Contract
+            where T : BContract
         {
             contract.SignDate = new DateTime(yy, mm, dd);
             return (T)contract;
         }
 
         public static T WithInceptionDate<T>(this T contract, int yy, int mm)
-            where T : Contract
+            where T : BContract
         {
             contract.InceptionDate = new DateTime(yy, mm, 1);
             return (T)contract;

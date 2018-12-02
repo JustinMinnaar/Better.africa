@@ -15,7 +15,7 @@ namespace Benefits.Entities.UnitTests
         [TestMethod]
         public void OnlyOnePrincipalIsPermittedAndPrincipalIsRequired()
         {
-            var m1 = new Membership().WithInceptionDate(yy: 2019, mm: 1);
+            var m1 = new BMembership().WithInceptionDate(yy: 2019, mm: 1);
             Assert.IsNotNull(m1.PrincipalError);
 
             // one principal
@@ -32,7 +32,7 @@ namespace Benefits.Entities.UnitTests
         {
             Clock.FreezeAt(new System.DateTime(2019, 1, 1));
 
-            var m1 = new Membership()
+            var m1 = new BMembership()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p3Charles11);
             Assert.IsNotNull(m1.PrincipalError);
@@ -44,8 +44,8 @@ namespace Benefits.Entities.UnitTests
         [TestMethod]
         public void OnlyOneSpouseIsPermitted()
         {
-            var a1 = new AulPolicy();
-            var m1 = new Membership()
+            var a1 = new BAulPolicy();
+            var m1 = new BMembership()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithSpouse(p2Bertha47)
                 .WithSpouse(p3Charles11);
@@ -56,7 +56,7 @@ namespace Benefits.Entities.UnitTests
         [TestMethod]
         public void SpouseAge18OrAbove()
         {
-            var m1 = new Membership()
+            var m1 = new BMembership()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p1Adam49)
                 .WithSpouse(p3Charles11);
@@ -67,7 +67,7 @@ namespace Benefits.Entities.UnitTests
         [TestMethod]
         public void ChildrenWithinAge()
         {
-            var m1 = new Membership()
+            var m1 = new BMembership()
                 .WithSignDate(yy: 2019, mm: 1, dd: 7)
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p1Adam49)
@@ -82,7 +82,7 @@ namespace Benefits.Entities.UnitTests
         [TestMethod]
         public void Policy_CantAddSameMemberTwiceToPolicy()
         {
-            var m1 = new Membership()
+            var m1 = new BMembership()
                 .WithInceptionDate(yy: 2019, mm: 1)
                .WithPrincipal(p1Adam49)
                .WithSpouse(p1Adam49);
