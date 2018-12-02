@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Benefits.Entities
+namespace Benefits.Provider
 {
-    internal class MembershipModel
+    public class MembershipModel
     {
         public Guid? CreatedById { get; internal set; }
         public DateTime CreatedOn { get; internal set; }

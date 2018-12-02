@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Benefits.Entities;
+using System;
 
-namespace Benefits.Entities
+namespace Benefits.Provider
 {
     public class PersonModel
     {

@@ -1,4 +1,5 @@
-﻿using Benefits.Shared;
+﻿using Benefits.Entities;
+using Benefits.Shared;
 using Knights.Core.Common;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Benefits.Entities
+namespace Benefits.Provider
 {
     public class BenefitsProvider
     {
@@ -17,7 +18,7 @@ namespace Benefits.Entities
 
         public Guid UserId { get; }
 
-        public string CreateMembership(MembershipModel model)
+        public void CreateMembership(MembershipModel model)
         {
             // Create a single transaction to ensure everything saves, or nothing changes.
             using (var db = new BenefitsDbContext())
@@ -25,7 +26,8 @@ namespace Benefits.Entities
                 var options = db.Options.First();
 
                 var agent = db.People.Find(model.AgentId);
-                if (agent == null) return "An agent is required.";
+                if (agent == null)
+                    throw new BenefitsException("Membership requires an agent be assigned!");
 
                 // We increment the contract number in Options, and assign it to this contract
                 // If this transaction fails, the LastContractNumber will not be changed and our
@@ -68,7 +70,7 @@ namespace Benefits.Entities
                     m.People.Add(p);
                 }
 
-                var a = new UserAction();
+                //var a = new UserAction();
 
                 db.SaveChanges();
 
