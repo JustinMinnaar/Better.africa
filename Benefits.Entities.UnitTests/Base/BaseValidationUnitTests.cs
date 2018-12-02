@@ -10,17 +10,23 @@ namespace Benefits.Entities.UnitTests
 
         protected BPerson p1Adam49 => new BPerson
         {
-            NameFirst = "Adam",
-            NameLast = "Adams",
+            FirstName = "Adam",
+            LastName = "Adams",
             DateOfBirth = new DateTime(1969, 07, 31),
+            IdentityNumber = SouthAfricanIdentityNumber.Random(1960, 1980, true).Number,
             Gender = BPersonGenders.Male,
-            IdentityNumber = SouthAfricanIdentityNumber.Random(1960, 1980, true).Number
+            CellPhone = "0813702097",
+            HomePhone = "",
+            WorkPhone = "",
+            EmailAddress = "",
+            EmployedAt = "",
+            EmployedAtPhone = "",
         };
 
         protected BPerson p2Bertha47 => new BPerson
         {
-            NameFirst = "Bertha",
-            NameLast = "Adams",
+            FirstName = "Bertha",
+            LastName = "Adams",
             DateOfBirth = new DateTime(1971, 11, 12),
             Gender = BPersonGenders.Female,
             IdentityNumber = SouthAfricanIdentityNumber.Random(1960, 1980, true).Number
@@ -28,8 +34,8 @@ namespace Benefits.Entities.UnitTests
 
         protected BPerson p3Charles11 => new BPerson
         {
-            NameFirst = "Charles",
-            NameLast = "Adams",
+            FirstName = "Charles",
+            LastName = "Adams",
             DateOfBirth = new DateTime(2007, 3, 7),
             Gender = BPersonGenders.Male,
             IdentityNumber = SouthAfricanIdentityNumber.Random(2007, 2009, true).Number
@@ -37,8 +43,8 @@ namespace Benefits.Entities.UnitTests
 
         protected BPerson p4Debbie1 => new BPerson
         {
-            NameFirst = "Debbie",
-            NameLast = "Adams",
+            FirstName = "Debbie",
+            LastName = "Adams",
             DateOfBirth = new DateTime(2017, 11, 17),
             Gender = BPersonGenders.Female,
             IdentityNumber = SouthAfricanIdentityNumber.Random(2017, 2018, true).Number
@@ -46,8 +52,8 @@ namespace Benefits.Entities.UnitTests
 
         protected BPerson p5Eddie27 = new BPerson
         {
-            NameFirst = "Eddie",
-            NameLast = "Adams",
+            FirstName = "Eddie",
+            LastName = "Adams",
             DateOfBirth = new DateTime(1991, 3, 4),
             Gender = BPersonGenders.Male,
             IdentityNumber = SouthAfricanIdentityNumber.Random(1940, 1960, true).Number

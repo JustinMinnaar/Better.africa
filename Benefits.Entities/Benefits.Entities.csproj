@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Aul\AulPolicyDependency.cs" />
     <Compile Include="Aul\AulPolicyPlan.cs" />
+    <Compile Include="Membership\BAddress.cs" />
     <Compile Include="Shared\CostItem.cs" />
     <Compile Include="Shared\BAudit.cs" />
     <Compile Include="Shared\BOptions.cs" />
