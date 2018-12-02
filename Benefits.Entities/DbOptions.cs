@@ -2,7 +2,7 @@
 
 namespace Benefits.Entities
 {
-    public class DbOptions : BaseEntity
+    public class DbOptions : BaseRow
     {
         public int LastContractNumber { get; set; }
     }

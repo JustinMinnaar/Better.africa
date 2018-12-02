@@ -12,10 +12,10 @@ namespace Benefits.Entities
     {
         public string Err => $"{MembershipType} '{Name}'";
 
-        public Guid MembershipId { get; set; }
+        public Guid? MembershipId { get; set; }
 
         /// <summary></summary>
-        public Membership Membership { get; set; }
+        public virtual Membership Membership { get; set; }
 
         public string MembershipError
         {
@@ -72,10 +72,10 @@ namespace Benefits.Entities
             get
             {
                 if (string.IsNullOrWhiteSpace(Identity))
-                    return "Identity is required";
+                    return $"{Err} requires Identity.";
 
-                if (Identity.Length > 13)
-                    return "Identity must be 13 characters for South African Identity.";
+                if (Identity.Length != 6 && Identity.Length != 13)
+                    return "{Err} requires Identity to be 6 characters (birth date only) or 13 characters for South Africa.";
 
                 return null;
             }

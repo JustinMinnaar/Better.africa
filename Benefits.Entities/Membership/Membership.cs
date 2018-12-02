@@ -8,7 +8,7 @@ namespace Benefits.Entities
 {
     public class Membership : Contract
     {
-        public ICollection<Person> People { get; } = new HashSet<Person>();
+        public virtual ICollection<Person> People { get; } = new HashSet<Person>();
 
         #region BeforeSave
 
@@ -46,9 +46,11 @@ namespace Benefits.Entities
         {
             get
             {
-                var spouseValid = People.Count(p => p.MembershipType == MembershipType.Spouse) <= 1;
-                if (!spouseValid)
-                    return "There may not be more than one spouse.";
+                var spouse = PeopleSpouse;
+                if (spouse == null) return null;
+
+                var spouseValid = People.Count(p => p.MembershipType == MembershipType.Spouse) == 1;
+                if (!spouseValid) return "There may not be more than one spouse.";
 
                 if (InceptionDate != null)
                 {

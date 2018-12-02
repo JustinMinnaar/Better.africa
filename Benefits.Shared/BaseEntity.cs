@@ -6,10 +6,13 @@ namespace Benefits.Shared
 {
     public enum WorkflowStatuses : byte { New = 0, Pending, Approved, Rejected, Deleted }
 
-    public abstract class BaseEntity
+    public abstract class BaseRow
     {
         public Guid Id { get; set; } = Guid.NewGuid();
+    }
 
+    public abstract class BaseEntity : BaseRow
+    {
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
         public Guid? CreatedById { get; set; }
@@ -22,7 +25,11 @@ namespace Benefits.Shared
 
         public DateTime? WorkflowOn { get; set; }
 
-        public bool IsValid => Errors.Count == 0;
+        public bool IsValid
+        {
+            get { return Errors.Count == 0; }
+            private set { }
+        }
 
         [NotMapped]
         public EntityErrors Errors

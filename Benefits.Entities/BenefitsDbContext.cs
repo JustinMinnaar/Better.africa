@@ -7,6 +7,8 @@ namespace Benefits.Entities
 {
     public class BenefitsDbContext : DbContext
     {
+        public DbSet<BUser> Users { get; set; }
+
         public DbSet<Membership> Memberships { get; set; }
 
         public DbSet<Person> People { get; set; }
@@ -17,7 +19,7 @@ namespace Benefits.Entities
 
         public DbSet<AulPolicyDependency> PolicyDependencies { get; set; }
 
-        public DbSet<DbOptions> Options { get; internal set; }
+        public DbSet<DbOptions> Options { get; set; }
 
         public BenefitsDbContext() : base("name=Benefits")
         {
@@ -30,6 +32,7 @@ namespace Benefits.Entities
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            MapUsers(modelBuilder);
             MapOptions(modelBuilder);
             MapPerson(modelBuilder);
             MapMembership(modelBuilder); // depends on person
@@ -37,10 +40,19 @@ namespace Benefits.Entities
             MapPolicyPlan(modelBuilder);
         }
 
+        private void MapUsers(DbModelBuilder modelBuilder)
+        {
+            var user = modelBuilder.Entity<BUser>();
+            user.HasKey(s => s.Id);
+            user.ToTable("User");
+            user.Property(p => p.Name).IsRequired();
+        }
+
         private void MapOptions(DbModelBuilder modelBuilder)
         {
-            var options = MapBase<DbOptions>(modelBuilder, "Options");
-
+            var options = modelBuilder.Entity<DbOptions>();
+            options.HasKey(s => s.Id);
+            options.ToTable("Options");
             options.Property(p => p.LastContractNumber).IsRequired();
         }
 
@@ -48,11 +60,13 @@ namespace Benefits.Entities
             (DbModelBuilder modelBuilder, string tableName) where T : BaseEntity
         {
             var e = modelBuilder.Entity<T>();
+
             e.HasKey(s => s.Id);
+            e.Map(m => m.MapInheritedProperties());
+
             e.ToTable(tableName);
             e.Property(p => p.RowVersion).IsRequired().IsConcurrencyToken();
             e.Property(p => p.WorkflowStatus).IsRequired();
-            e.Map(m => m.MapInheritedProperties());
 
             return e;
         }
@@ -61,6 +75,7 @@ namespace Benefits.Entities
         {
             var person = MapBase<Person>(modelBuilder, "Person");
 
+            person.Property(p => p.MembershipId).IsOptional();
             person.Property(p => p.DateOfBirth).IsOptional().HasColumnType("date");
             person.Property(p => p.DateOfDeath).IsOptional().HasColumnType("date");
             person.Property(p => p.NameFirst).IsOptional().HasMaxLength(40);
@@ -77,7 +92,6 @@ namespace Benefits.Entities
             membership.Property(p => p.CreatedById).IsRequired();
             membership.Property(p => p.CreatedOn).IsRequired();
             membership.Property(p => p.InceptionDate).IsOptional();
-            membership.Property(p => p.IsValid).IsRequired(); // ?? can we write a read-only property to the database?
             membership.Property(p => p.Number).IsRequired();
             membership.Property(p => p.SignDate).IsOptional();
         }
@@ -118,7 +132,7 @@ namespace Benefits.Entities
         }
     }
 
-    //public class BenefitsDbContextInitializer : dropCreateDatabase<BenefitsDbContext>
+    //public class BenefitsDbContextInitializer : DropCreateDatabaseAlways<BenefitsDbContext>
     //{
     //    protected override void Seed(BenefitsDbContext context)
     //    {

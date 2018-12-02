@@ -60,6 +60,7 @@
     <Compile Include="Aul\AulPolicy.cs" />
     <Compile Include="Membership\PersonGenders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

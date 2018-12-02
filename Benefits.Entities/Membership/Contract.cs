@@ -11,7 +11,7 @@ namespace Benefits.Entities
 
         public Guid? AgentId { get; set; }
 
-        public Person Agent { get; set; }
+        public virtual Person Agent { get; set; }
 
         public string AgentError
         {
@@ -102,6 +102,14 @@ namespace Benefits.Entities
 
     public static class ContractHelpers
     {
+        public static T WithAgent<T>(this T contract, Person agent)
+            where T : Contract
+        {
+            contract.AgentId = agent.Id;
+            contract.Agent = agent;
+            return (T)contract;
+        }
+
         public static T WithSignDate<T>(this T contract, int yy, int mm, int dd)
             where T : Contract
         {

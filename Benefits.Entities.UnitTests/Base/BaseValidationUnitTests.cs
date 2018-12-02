@@ -40,6 +40,7 @@ namespace Benefits.Entities.UnitTests
             NameLast = "Adams",
             DateOfBirth = new DateTime(2017, 11, 17),
             Gender = PersonGenders.Female,
+            Identity = "171117",
         };
 
         protected Person p5Eddie27 = new Person
@@ -48,6 +49,7 @@ namespace Benefits.Entities.UnitTests
             NameLast = "Adams",
             DateOfBirth = new DateTime(1991, 3, 4),
             Gender = PersonGenders.Male,
+            Identity = "910304",
         };
     }
 }
