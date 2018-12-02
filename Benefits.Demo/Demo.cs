@@ -107,10 +107,10 @@ namespace Benefits.Demo
 
         private void Output(BMembership m)
         {
-            Console.WriteLine("Membership " + m.Number + " status=" + m.WorkflowStatus + " valid=" + m.IsValid);
+            Console.WriteLine("  Membership " + m.Number + " status=" + m.WorkflowStatus + " valid=" + m.IsValid);
             foreach (var dependency in m.Dependencies)
             {
-                Console.WriteLine($"{dependency.Type} {dependency.Person.NameFirst} {dependency.Person.NameLast}");
+                Console.WriteLine($"  - {dependency.Type} {dependency.Person.NameFirst} {dependency.Person.NameLast}");
             }
         }
 

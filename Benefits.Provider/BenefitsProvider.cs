@@ -62,6 +62,12 @@ namespace Benefits.Provider
 
                 foreach (var dependency in membership.Dependencies)
                 {
+                    //if (dependency.Person == null) throw new BenefitsException();
+                    //if (dependency.Membership == null) throw new BenefitsException();
+
+                    //if (dependency.PersonId == null) dependency.PersonId = dependency.Person.Id;
+                    //if (dependency.MembershipId == null) dependency.MembershipId = dependency.Membership.Id;
+
                     var person = dependency.Person;
                     var p = new BPerson
                     {
@@ -77,12 +83,12 @@ namespace Benefits.Provider
                         RowVersion = 1,
                         WorkflowStatus = WorkflowStatuses.New,
                     };
-                    // db.People.Add(person);
 
                     var d = new BMembershipDependency
                     {
                         Membership = m,
-                        Person = p
+                        Person = p,
+                        Type = dependency.Type,
                     };
                     m.Dependencies.Add(d);
                 }
@@ -95,6 +101,11 @@ namespace Benefits.Provider
                 membership.CreatedById = m.CreatedById;
                 membership.CreatedOn = m.CreatedOn;
                 membership.Number = m.Number;
+                foreach (var dependency in membership.Dependencies)
+                {
+                    dependency.MembershipId = dependency.Membership.Id;
+                    dependency.PersonId = dependency.Person.Id;
+                }
             }
         }
 
