@@ -32,24 +32,24 @@ namespace Benefits.Entities
             }
         }
 
-        public IEnumerable<CostItem> CalculatedMonthlyCost()
+        public IEnumerable<TransactionItem> CalculatedMonthlyCost()
         {
             if (Plan != null)
             {
                 if (Principal != null)
-                    yield return new CostItem(name: "Principal", cost: Plan.MonthlyCostPrincipal);
+                    yield return new TransactionItem(name: "Principal", cost: Plan.MonthlyCostPrincipal);
 
                 if (Spouse != null)
-                    yield return new CostItem(name: "Spouse", cost: Plan.MonthlyCostSpouse);
+                    yield return new TransactionItem(name: "Spouse", cost: Plan.MonthlyCostSpouse);
 
                 var childrenCount = Children.Count();
                 if (childrenCount > 0)
-                    yield return new CostItem(name: "Children",
+                    yield return new TransactionItem(name: "Children",
                         cost: Plan.MonthlyCostChildren + childrenCount * Plan.MonthlyCostChild);
 
                 var personCount = Family.Count();
                 if (personCount > 0)
-                    yield return new CostItem(name: "Family",
+                    yield return new TransactionItem(name: "Family",
                         cost: personCount * Plan.MonthlyCostFamily);
             }
         }

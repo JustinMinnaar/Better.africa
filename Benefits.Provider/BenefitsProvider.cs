@@ -90,7 +90,7 @@ namespace Benefits.Provider
                         Person = p,
                         Type = dependency.Type,
                     };
-                    m.Dependencies.Add(d);
+                    m.Dependencies.Add(d); // also adds the person record
                 }
 
                 //var a = new UserAction();
@@ -132,23 +132,26 @@ namespace Benefits.Provider
             var msg = "";
 
             if (p.CellPhone != person.CellPhone)
-            { msg += $"CellPhone='{person.CellPhone}' "; p.CellPhone = person.CellPhone; }
+            { msg += $"CellPhone='{p.CellPhone}' "; p.CellPhone = person.CellPhone; }
 
             if (p.DateOfBirth != person.DateOfBirth)
-            { msg += $"DateOfBirth='{person.DateOfBirth:yyyy-mm-dd}'"; p.DateOfBirth = person.DateOfBirth; }
+            { msg += $"DateOfBirth='{p.DateOfBirth:yyyy-mm-dd}'"; p.DateOfBirth = person.DateOfBirth; }
 
             if (p.DateOfDeath != person.DateOfDeath)
-            { msg += $"DateOfDeath='{person.DateOfDeath:yyyy-mm-dd}'"; p.DateOfDeath = person.DateOfDeath; }
+            { msg += $"DateOfDeath='{p.DateOfDeath:yyyy-mm-dd}'"; p.DateOfDeath = person.DateOfDeath; }
+
+            if (p.EmailAddress != person.EmailAddress)
+            {
+                msg += "EmailAddress=" + p.EmailAddress; p.EmailAddress = person.EmailAddress;
+            }
 
             // TODO: audit
-            if (p.EmailAddress != person.EmailAddress) { p.EmailAddress = person.EmailAddress; }
-
-            if (p.EmployedAt != person.EmployedAt) { p.EmployedAt = person.EmployedAt; }
-            if (p.EmployedAtPhone != person.EmployedAtPhone) { p.EmployedAtPhone = person.EmployedAtPhone; }
-            if (p.FirstName != person.FirstName) { p.FirstName = person.FirstName; }
-            if (p.HomePhone != person.HomePhone) { p.HomePhone = person.HomePhone; }
-            if (p.LastName != person.LastName) { p.LastName = person.LastName; }
-            if (p.WorkPhone != person.WorkPhone) { p.WorkPhone = person.WorkPhone; }
+            if (p.EmployedAt != person.EmployedAt) { if (p.EmployedAt != null) msg += $"EmployedAt={p.EmployedAt}"; p.EmployedAt = person.EmployedAt; }
+            if (p.EmployedAtPhone != person.EmployedAtPhone) { msg += $"{p.EmployedAtPhone}"; p.EmployedAtPhone = person.EmployedAtPhone; }
+            if (p.FirstName != person.FirstName) { if (p.FirstName != null) msg += $"{p.FirstName}"; p.FirstName = person.FirstName; }
+            if (p.HomePhone != person.HomePhone) { if (p.HomePhone != null) msg += $"{p.FirstName}"; msg += $"{p.HomePhone}"; p.HomePhone = person.HomePhone; }
+            if (p.LastName != person.LastName) { if (p.LastName != null) msg += $"{p.LastName}"; p.LastName = person.LastName; }
+            if (p.WorkPhone != person.WorkPhone) { if (p.WorkPhone != null) msg += $"{p.WorkPhone}"; p.WorkPhone = person.WorkPhone; }
 
             var audit = new BAudit
             {

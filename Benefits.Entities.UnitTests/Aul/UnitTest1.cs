@@ -28,13 +28,13 @@ namespace Benefits.Entities.UnitTests.Aul
             .WithSignDate(2019, 1, 1)
             .WithInceptionDate(2019, 1);
 
-            var c1 = policy.CalculatedMonthlyCost().Sum(a => a.Cost);
+            var c1 = policy.CalculatedMonthlyCost().Sum(a => a.Amount);
             Assert.AreEqual(10, c1);
 
             var p2 = new BPerson().WithDateOfBirth(1971, 5, 4);
             policy.WithDependency(p2, BDependencyType.Spouse);
 
-            var c2 = policy.CalculatedMonthlyCost().Sum(a => a.Cost);
+            var c2 = policy.CalculatedMonthlyCost().Sum(a => a.Amount);
             Assert.AreEqual(19, c2);
 
             var p3 = new BPerson().WithDateOfBirth(2010, 1, 1);
@@ -46,18 +46,18 @@ namespace Benefits.Entities.UnitTests.Aul
             var p5 = new BPerson().WithDateOfBirth(2012, 1, 1);
             policy.WithDependency(p5, BDependencyType.Child);
 
-            var c3 = policy.CalculatedMonthlyCost().Sum(a => a.Cost);
+            var c3 = policy.CalculatedMonthlyCost().Sum(a => a.Amount);
             Assert.AreEqual(36, c3);
 
             var p6 = new BPerson().WithDateOfBirth(2000, 1, 1);
             policy.WithDependency(p6, BDependencyType.Person);
 
-            var c4 = policy.CalculatedMonthlyCost().Sum(a => a.Cost);
+            var c4 = policy.CalculatedMonthlyCost().Sum(a => a.Amount);
             Assert.AreEqual(45.5m, c4);
 
             foreach (var li in policy.CalculatedMonthlyCost())
             {
-                Trace.WriteLine(li.Name + " : " + li.Cost);
+                Trace.WriteLine(li.Name + " : " + li.Amount);
             }
         }
     }

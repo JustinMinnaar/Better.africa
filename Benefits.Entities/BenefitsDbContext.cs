@@ -73,7 +73,8 @@ namespace Benefits.Entities
         private void MapUsers(DbModelBuilder modelBuilder)
         {
             var user = modelBuilder.Entity<BUser>();
-            user.HasKey(s => s.Id);
+            //user.HasKey(s => s.Id);
+            user.HasIndex(s => s.Id).IsUnique();
             user.ToTable("User");
             user.Property(p => p.Name).IsRequired();
         }
@@ -81,7 +82,8 @@ namespace Benefits.Entities
         private void MapOptions(DbModelBuilder modelBuilder)
         {
             var options = modelBuilder.Entity<BOptions>();
-            options.HasKey(s => s.Id);
+            options.HasKey(s => s.Pk);
+            options.HasIndex(s => s.Id).IsUnique();
             options.ToTable("Options");
             options.Property(p => p.LastContractNumber).IsRequired();
         }
@@ -91,12 +93,15 @@ namespace Benefits.Entities
         {
             var e = modelBuilder.Entity<T>();
 
-            e.HasKey(s => s.Id);
+            e.HasKey(s => s.Pk);
+            e.HasIndex(s => s.Id).IsUnique();
             e.Map(m => m.MapInheritedProperties());
 
             e.ToTable(tableName);
             e.Property(p => p.RowVersion).IsRequired().IsConcurrencyToken();
             e.Property(p => p.WorkflowStatus).IsRequired();
+
+            e.Property(p => p.WorkflowByUserId).IsOptional();
 
             return e;
         }

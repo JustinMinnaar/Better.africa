@@ -1,14 +1,18 @@
-﻿using System;
+﻿using Benefits.Shared;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Benefits.Entities
 {
-    public class BAudit
+    public class BAudit : BaseRow
     {
-        public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+
         public Guid UserId { get; set; }
         public BEntityType EntityType { get; set; }
         public Guid EntityId { get; set; }

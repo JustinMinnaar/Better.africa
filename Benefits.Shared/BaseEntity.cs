@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Benefits.Shared
@@ -11,16 +12,20 @@ namespace Benefits.Shared
 
     public abstract class BaseRow
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Pk { get; set; }
+
+        public Guid Id { get; set; }
     }
 
     public abstract class BaseEntity : BaseRow
     {
+        public int RowVersion { get; set; } = 1;
+
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
         public Guid? CreatedById { get; set; }
-
-        public int RowVersion { get; set; } = 1;
 
         public WorkflowStatuses WorkflowStatus { get; set; }
 
