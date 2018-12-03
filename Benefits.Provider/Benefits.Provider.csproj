@@ -52,6 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BenefitsProvider.cs" />
+    <Compile Include="Forms\DetailArea.cs" />
+    <Compile Include="Forms\DetailCommunication.cs" />
+    <Compile Include="Forms\DetailPerson.cs" />
+    <Compile Include="Forms\EReceivePaper.cs" />
+    <Compile Include="Forms\EFormType.cs" />
+    <Compile Include="Forms\Form.cs" />
+    <Compile Include="Forms\FormMembership.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

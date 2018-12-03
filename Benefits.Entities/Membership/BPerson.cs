@@ -102,9 +102,10 @@ namespace Benefits.Entities
             return ageInYears;
         }
 
-        public DateTime? DateOfDeath { get; set; }
+        public string Code { get; set; }
         public string CellPhone { get; set; }
         public string CellPhoneDial { get; set; }
+        public DateTime? DateOfDeath { get; set; }
         public string HomePhone { get; set; }
         public string HomePhoneDial { get; set; }
         public string WorkPhone { get; set; }

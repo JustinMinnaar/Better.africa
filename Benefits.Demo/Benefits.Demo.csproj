@@ -60,12 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppArea.cs" />
-    <Compile Include="AppCommunication.cs" />
-    <Compile Include="AppPerson.cs" />
-    <Compile Include="BReceiveNewsLetters.cs" />
     <Compile Include="Demo.cs" />
-    <Compile Include="NewMembershipForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

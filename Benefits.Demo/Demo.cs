@@ -1,6 +1,7 @@
 ﻿using Benefits.Entities;
 using Benefits.Entities.UnitTests;
 using Benefits.Provider;
+using Benefits.Provider.Forms;
 using Benefits.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -16,10 +17,19 @@ namespace Benefits.Demo
     {
         public Demo()
         {
+            var bp = new BenefitsProvider(Guid.NewGuid());
+
             // We capture forms using a Model as below
-            var applicationForMembership = new AppMembershipForm
+            var appJustin = new FormMembership
             {
-                Principal = new AppPerson
+                Form = new Form
+                {
+                    AgentCode = "1",
+                    FormSignDate = new DateTime(2019, 1, 1),
+                    FormInceptionDate = new DateTime(2019, 1, 1),
+                    FormType = EFormType.New,
+                },
+                Principal = new DetailPerson
                 {
                     FirstName = "Justin",
                     LastName = "Minnaar",
@@ -31,7 +41,7 @@ namespace Benefits.Demo
                     EmployedAt = "",
                     EmployedAtPhone = "",
                 },
-                Area = new AppArea
+                PrincipalArea = new DetailArea
                 {
                     PostalAddress = "",
                     City = "Benoni",
@@ -39,34 +49,38 @@ namespace Benefits.Demo
                     Country = "South Africa",
                     Code = "1501",
                 },
-                Communication = new AppCommunication
+                PrincipalCommunication = new DetailCommunication
                 {
-                    ReceiveNewsLetters = BReceiveNewsLetters.Agent,
+                    ReceiveNewsLetters = EReceivePaper.Agent,
                     ReceiveSms = true,
                     HomeLanguage = "English",
                 },
-                Spouse = new AppPerson
+                Children = new[]
                 {
-                    FirstName = "Justin",
-                    LastName = "Minnaar",
-                    IdentityNumber = "6907315115089",
-                    CellPhone = "0813702097",
-                    HomePhone = "",
-                    WorkPhone = "",
-                },
-                Child01 = new AppPerson
-                {
+                    new DetailPerson
+                    {
                     FirstName = "Faybienne",
                     LastName = "Minnaar",
                     IdentityNumber = "020228",
+                    },
+                    new DetailPerson
+                    {
+                    FirstName = "Nicola",
+                    LastName = "Minnaar",
+                    IdentityNumber = "130607",
+                    },
                 },
+                Family = null,
+                Beneficiaries = null,
+                Spouse = null,
             };
+
+            // We create a new membership, people and policies from the model.
+            var result = bp.ProcessForm(appJustin);
 
             // We can create memberships even if there are errors in the data
             // We can save these to the database, even though they contain errors.
             // This allows editing the data until correct, then submitting it
-
-            var bp = new BenefitsProvider(Guid.NewGuid());
 
             var agent = new BPerson
             {

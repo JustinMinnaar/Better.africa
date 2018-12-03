@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Benefits.Provider.Forms;
 
 namespace Benefits.Provider
 {
@@ -107,6 +108,138 @@ namespace Benefits.Provider
                     dependency.PersonId = dependency.Person.Id;
                 }
             }
+        }
+
+        public string ProcessForm(FormMembership app)
+        {
+            // Create a single transaction to ensure everything saves, or nothing changes.
+            using (var db = new BenefitsDbContext())
+            {
+                // We increment the contract number in Options, and assign it to this contract
+                // If this transaction fails, the LastContractNumber will not be changed and our
+                // in memory instance of Options will be dropped.
+                var options = db.Options.First();
+                var number = ++(options.LastContractNumber);
+
+                DateTime createOn = Clock.Now;
+
+                var membership = FormToMembership(db, app, app.Form.FormType);
+            }
+        }
+
+        private BMembership FormToMembership(BenefitsDbContext db, FormMembership app, EFormType formType)
+        {
+            var agentCode = app.Form.AgentCode;
+            var agent = db.People.FirstOrDefault(p => p.Code == agentCode);
+            if (agent == null) throw new BenefitsException($"Cannot find agent '{app.Form.AgentCode}'!");
+
+            var principal = FormToPerson(db, app.Principal, app.Form.FormType);
+
+            var memberships = FindMembership(identityNumber: app.Principal.IdentityNumber);
+            var membershipsCount = memberships.Count();
+            if (formType != EFormType.New)
+            {
+                if (membershipsCount != 1)
+                    throw new BenefitsException($"Membership not found for principal with identity number {app.Principal.IdentityNumber}!");
+            }
+            else
+            {
+                if (membershipsCount > 1)
+                    throw new BenefitsException($"{membershipsCount} memberships found for principal with identity number {app.Principal.IdentityNumber}!");
+            }
+
+            DateTime createOn = Clock.Now;
+
+            var m = new BMembership
+            {
+                Id = membership.Id,
+                AgentId = membership.AgentId,
+                CreatedById = UserId,
+                CreatedOn = createOn,
+                InceptionDate = membership.InceptionDate,
+                SignDate = membership.SignDate,
+                Number = number,
+                RowVersion = 1,
+                WorkflowStatus = WorkflowStatuses.New,
+            };
+            db.Memberships.Add(m);
+        }
+
+        public IEnumerable<BMembership> FindMembership(string name = null, string identityNumber = null)
+        {
+            using (var db = new BenefitsDbContext())
+            {
+                var q = db.Memberships.AsQueryable();
+                if (name != null) q = q.Where(p => p.PeoplePrincipal.Name.Contains(name));
+                if (identityNumber != null) q = q.Where(p => p.PeoplePrincipal.IdentityNumber.Contains(identityNumber));
+                q = q.OrderBy(p => p.CreatedOn);
+                return q;
+            }
+        }
+
+        private BPerson FormToPerson(BenefitsDbContext db, DetailPerson form, EFormType type)
+        {
+            var people = FindPeople(identityNumber: form.IdentityNumber);
+
+            var p = new BPerson();
+            switch (type)
+            {
+                case EFormType.New:
+                    if (people.Count() > 0)
+                        throw new BenefitsException($"Person '{form.FirstName}{form.LastName}' already exists with {form.IdentityNumber}!");
+                    break;
+
+                case EFormType.Update:
+                case EFormType.Cancel:
+                    if (people.Count() != 1)
+                        throw new BenefitsException($"Person '{form.FirstName}{form.LastName}' matched {people.Count()} people with identity number {form.IdentityNumber}!");
+                    break;
+
+                default:
+                    throw new BenefitsException($"Unknown form type {type}!");
+            }
+
+            var msg = "<person ";
+            p = people.FirstOrDefault();
+            if (p.CellPhone != form.CellPhone) { msg += $"CellPhone=[{p.CellPhone}] "; p.CellPhone = form.CellPhone; p.CellPhoneDial = form.CellPhone.ToDigitsOnly(); }
+            if (p.CreatedById == null) { p.CreatedById = UserId; msg += $"CreatedById=[{p.CreatedById}] "; }
+            if (p.CreatedOn == null) { p.CreatedOn = DateTime.Now; msg += $"CreatedOn=[{p.CreatedOn}] "; }
+            if (p.DateOfBirth != form.DateOfBirth) { p.DateOfBirth = form.DateOfBirth; msg += $"DateOfBirth=[{p.DateOfBirth:yyyy-mm-dd}] "; }
+            if (p.DateOfDeath != form.DateOfDeath) { p.DateOfDeath = form.DateOfDeath; msg += $"DateOfDeath=[{p.DateOfDeath:yyyy-mm-dd}] "; }
+            if (p.EmailAddress != form.EmailAddress) { msg += "EmailAddress=" + p.EmailAddress; p.EmailAddress = form.EmailAddress; }
+            if (p.EmployedAt != form.EmployedAt) { p.EmployedAt = form.EmployedAt; msg += $"EmployedAt=[{p.EmployedAt}]"; }
+            if (p.EmployedAtPhone != form.EmployedAtPhone) { p.EmployedAtPhone = form.EmployedAtPhone; msg += $"EmployedAtPhone=[{p.EmployedAtPhone}] "; }
+            if (p.FirstName != form.FirstName) { p.FirstName = form.FirstName; msg += $"FirstName=[{p.FirstName}] "; }
+            if (p.Gender != form.Gender) { p.Gender = form.Gender; msg += $"Gender=[{p.Gender}] "; }
+            if (p.HomePhone != form.HomePhone) { p.HomePhone = form.HomePhone; p.HomePhoneDial = form.HomePhone.ToDigitsOnly(); msg += $"HomePhone=[{p.HomePhone}] "; }
+            if (p.IdentityNumber != form.IdentityNumber) { p.IdentityNumber = form.IdentityNumber; msg += $"IdentityNumber=[{p.IdentityNumber}] "; }
+            if (p.LastName != form.LastName) { p.LastName = form.LastName; msg += $"LastName=[{p.LastName}]"; }
+            if (p.WorkPhone != form.WorkPhone) { p.WorkPhone = form.WorkPhone; p.WorkPhoneDial = form.WorkPhone; msg += $"WorkPhone=[{p.WorkPhone}]"; }
+            msg += " />";
+
+            // convert to xml format for debug
+            msg = msg.Replace("'", "&quot;").Replace("[", "'").Replace("]", "'");
+
+            p.RowVersion++;
+
+            return p;
+        }
+
+        public IEnumerable<BPerson> FindPeople(string name = null, string identityNumber = null)
+        {
+            using (var db = new BenefitsDbContext())
+            {
+                return FindPeople(db, name, identityNumber);
+            }
+        }
+
+        private static IEnumerable<BPerson> FindPeople(BenefitsDbContext db, string name = null, string identityNumber = null)
+        {
+            var q = db.People.AsQueryable();
+            if (name != null) q = q.Where(p => p.Name.Contains(name));
+            if (identityNumber != null) q = q.Where(p => p.IdentityNumber.Contains(identityNumber));
+            q = q.OrderBy(p => p.IdentityNumber);
+            return q;
         }
 
         public void UpdatePerson(BPerson person)
