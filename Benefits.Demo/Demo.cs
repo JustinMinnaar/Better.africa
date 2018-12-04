@@ -19,64 +19,17 @@ namespace Benefits.Demo
         {
             var bp = new BenefitsProvider(Guid.NewGuid());
 
-            // We capture forms using a Model as below
-            var appJustin = new FormMembership
+            var forms = BenefitsXmlReader.ReadForms(xmlPath: "Memberships.xml").ToList();
+            foreach (var form in forms)
             {
-                Form = new Form
-                {
-                    AgentCode = "1",
-                    FormSignDate = new DateTime(2019, 1, 1),
-                    FormInceptionDate = new DateTime(2019, 1, 1),
-                    FormType = EFormType.New,
-                },
-                Principal = new DetailPerson
-                {
-                    FirstName = "Justin",
-                    LastName = "Minnaar",
-                    IdentityNumber = "6907315115089",
-                    CellPhone = "0813702097",
-                    HomePhone = "",
-                    WorkPhone = "",
-                    EmailAddress = "",
-                    EmployedAt = "",
-                    EmployedAtPhone = "",
-                },
-                PrincipalArea = new DetailArea
-                {
-                    PostalAddress = "",
-                    City = "Benoni",
-                    State = "Gauteng",
-                    Country = "South Africa",
-                    Code = "1501",
-                },
-                PrincipalCommunication = new DetailCommunication
-                {
-                    ReceiveNewsLetters = EReceivePaper.Agent,
-                    ReceiveSms = true,
-                    HomeLanguage = "English",
-                },
-                Children = new[]
-                {
-                    new DetailPerson
-                    {
-                    FirstName = "Faybienne",
-                    LastName = "Minnaar",
-                    IdentityNumber = "020228",
-                    },
-                    new DetailPerson
-                    {
-                    FirstName = "Nicola",
-                    LastName = "Minnaar",
-                    IdentityNumber = "130607",
-                    },
-                },
-                Family = null,
-                Beneficiaries = null,
-                Spouse = null,
-            };
+                Output(form.Err);
 
-            // We create a new membership, people and policies from the model.
-            var result = bp.ProcessForm(appJustin);
+                // First validate the proposed changes, then create or update
+                // membership, people, policies, etc. otherwise output errors
+                var result = bp.ProcessForm(form);
+
+                Output(result.Message);
+            }
 
             // We can create memberships even if there are errors in the data
             // We can save these to the database, even though they contain errors.
@@ -89,53 +42,62 @@ namespace Benefits.Demo
                 IdentityNumber = "9503145173088",
                 Gender = BPersonGenders.Male
             };
+
             bp.CreatePerson(agent);
 
             agent.CellPhone = "x";
             bp.UpdatePerson(agent);
 
             var m1 = new BMembership()
-                .WithAgent(agent)
-                .WithSignDate(2018, 12, 01)
-                .WithInceptionDate(2019, 02)
-                .WithPrincipal(p1Adam49)
-                .WithSpouse(p2Bertha47)
-                .WithChildren(p3Charles11)
-                .WithPerson(p5Eddie27);
+               .WithAgent(agent)
+               .WithSignDate(2018, 12, 01)
+               .WithInceptionDate(2019, 02)
+               .WithPrincipal(p1Adam49)
+               .WithSpouse(p2Bertha47)
+               .WithChildren(p3Charles11)
+               .WithPerson(p5Eddie27);
 
             if (!m1.IsValid) throw new BenefitsException();
+
             bp.CreateMembership(m1);
 
             var m2 = new BMembership()
-                .WithSignDate(2018, 12, 2)
-                .WithInceptionDate(2020, 1)
-                .WithSpouse(p2Bertha47);
+               .WithSignDate(2018, 12, 2)
+               .WithInceptionDate(2020, 1)
+               .WithSpouse(p2Bertha47);
+
             bp.CreateMembership(m2);
 
             var m3 = new BMembership()
-                .WithPrincipal(p2Bertha47)
-                .WithSpouse(p1Adam49);
+               .WithPrincipal(p2Bertha47)
+               .WithSpouse(p1Adam49);
+
             bp.CreateMembership(m3);
 
             var allMemberships = bp.ListMemberships();
+
             Output("allMemberships", allMemberships);
 
             // We can list all memberships with errors
             var membershipsWithErrors = bp.ListMemberships(isValid: true);
+
             Output("membershipsWithErrors", membershipsWithErrors);
 
             // We can't approve a membership or member until all errors have been corrected
             bp.SubmitMembership(m1.Id);
 
             var newMemberships = bp.ListMemberships(Shared.WorkflowStatuses.New);
+
             Output("newMemberships", newMemberships);
 
             var pendingMemberships = bp.ListMemberships(Shared.WorkflowStatuses.Pending);
+
             Output("pendingMemberships", pendingMemberships);
 
             bp.ApproveMembership(m1.Id);
 
             var approvedMemberships = bp.ListMemberships(Shared.WorkflowStatuses.Approved);
+
             Output("approvedMemberships", approvedMemberships);
 
             // Output("MemberCannotBelongToMultipleMemberships");
@@ -161,6 +123,11 @@ namespace Benefits.Demo
             //    }
 
             Console.ReadLine();
+        }
+
+        private void Output(object message)
+        {
+            throw new NotImplementedException();
         }
 
         private void Output(string message)

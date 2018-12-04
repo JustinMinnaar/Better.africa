@@ -40,6 +40,9 @@
     <Reference Include="Knights.Core.Common">
       <HintPath>..\DLLs\Knights.Core.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Knights.Core.Nodes">
+      <HintPath>..\DLLs\Knights.Core.Nodes.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -52,13 +55,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BenefitsProvider.cs" />
-    <Compile Include="Forms\DetailArea.cs" />
-    <Compile Include="Forms\DetailCommunication.cs" />
-    <Compile Include="Forms\DetailPerson.cs" />
-    <Compile Include="Forms\EReceivePaper.cs" />
-    <Compile Include="Forms\EFormType.cs" />
-    <Compile Include="Forms\Form.cs" />
+    <Compile Include="BenefitsXmlReader.cs" />
+    <Compile Include="DetailProductEducation.cs" />
+    <Compile Include="DetailProductFuneral.cs" />
+    <Compile Include="DetailProductHamper.cs" />
+    <Compile Include="DetailProductLoyalty.cs" />
+    <Compile Include="DetailProductMedical.cs" />
+    <Compile Include="FormResult.cs" />
+    <Compile Include="Forms\DetailBeneficiary.cs" />
+    <Compile Include="Forms\FormMembershipArea.cs" />
+    <Compile Include="Forms\FormMembershipCommunication.cs" />
+    <Compile Include="Forms\FormMembershipDetail.cs" />
+    <Compile Include="Forms\FormMembershipPackage.cs" />
+    <Compile Include="Forms\FormMembershipPerson.cs" />
+    <Compile Include="Forms\enums.cs" />
     <Compile Include="Forms\FormMembership.cs" />
+    <Compile Include="Forms\IDetailProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

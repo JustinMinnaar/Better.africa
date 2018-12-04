@@ -110,7 +110,7 @@ namespace Benefits.Provider
             }
         }
 
-        public string ProcessForm(FormMembership app)
+        public FormResult ProcessForm(FormMembership app)
         {
             // Create a single transaction to ensure everything saves, or nothing changes.
             using (var db = new BenefitsDbContext())
@@ -123,29 +123,27 @@ namespace Benefits.Provider
 
                 DateTime createOn = Clock.Now;
 
-                var membership = FormToMembership(db, app, app.Form.FormType);
+                var membership = ProcessForm(db, app);
             }
         }
 
-        private BMembership FormToMembership(BenefitsDbContext db, FormMembership app, EFormType formType)
+        private FormResult ProcessForm(BenefitsDbContext db, FormMembership form)
         {
-            var agentCode = app.Form.AgentCode;
-            var agent = db.People.FirstOrDefault(p => p.Code == agentCode);
-            if (agent == null) throw new BenefitsException($"Cannot find agent '{app.Form.AgentCode}'!");
+            var agent = LocateAgent(db: db, agentCode: form.Detail.AgentCode);
 
-            var principal = FormToPerson(db, app.Principal, app.Form.FormType);
+            var principal = FormToPerson(db, form.Principal, form.Detail.Action);
 
-            var memberships = FindMembership(identityNumber: app.Principal.IdentityNumber);
+            var memberships = FindMembership(identityNumber: form.Principal.IdentityNumber);
             var membershipsCount = memberships.Count();
-            if (formType != EFormType.New)
+            if (formType != EFormAction.New)
             {
                 if (membershipsCount != 1)
-                    throw new BenefitsException($"Membership not found for principal with identity number {app.Principal.IdentityNumber}!");
+                    throw new BenefitsException($"Membership not found for principal with identity number {form.Principal.IdentityNumber}!");
             }
             else
             {
                 if (membershipsCount > 1)
-                    throw new BenefitsException($"{membershipsCount} memberships found for principal with identity number {app.Principal.IdentityNumber}!");
+                    throw new BenefitsException($"{membershipsCount} memberships found for principal with identity number {form.Principal.IdentityNumber}!");
             }
 
             DateTime createOn = Clock.Now;
@@ -163,6 +161,15 @@ namespace Benefits.Provider
                 WorkflowStatus = WorkflowStatuses.New,
             };
             db.Memberships.Add(m);
+
+            return new FormResult { Message = "" };
+        }
+
+        private BPerson LocateAgent(BenefitsDbContext db, string agentCode)
+        {
+            var agent = db.People.FirstOrDefault(p => p.Code == agentCode);
+            if (agent == null) throw new BenefitsException($"Cannot find agent '{agentCode}'!");
+            return agent;
         }
 
         public IEnumerable<BMembership> FindMembership(string name = null, string identityNumber = null)
@@ -177,20 +184,20 @@ namespace Benefits.Provider
             }
         }
 
-        private BPerson FormToPerson(BenefitsDbContext db, DetailPerson form, EFormType type)
+        private BPerson FormToPerson(BenefitsDbContext db, FormMembershipPerson form, EFormAction type)
         {
             var people = FindPeople(identityNumber: form.IdentityNumber);
 
             var p = new BPerson();
             switch (type)
             {
-                case EFormType.New:
+                case EFormAction.New:
                     if (people.Count() > 0)
                         throw new BenefitsException($"Person '{form.FirstName}{form.LastName}' already exists with {form.IdentityNumber}!");
                     break;
 
-                case EFormType.Update:
-                case EFormType.Cancel:
+                case EFormAction.Update:
+                case EFormAction.Cancel:
                     if (people.Count() != 1)
                         throw new BenefitsException($"Person '{form.FirstName}{form.LastName}' matched {people.Count()} people with identity number {form.IdentityNumber}!");
                     break;

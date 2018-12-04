@@ -1,8 +1,8 @@
 ﻿namespace Benefits.Provider.Forms
 {
-    public class DetailCommunication
+    public class FormMembershipCommunication
     {
-        public EReceivePaper ReceiveNewsLetters { get; set; }
+        public EReceivePaper ReceiveLetters { get; set; }
         public bool ReceiveSms { get; set; }
         public string HomeLanguage { get; set; }
     }

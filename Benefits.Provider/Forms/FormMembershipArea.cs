@@ -1,6 +1,6 @@
 ﻿namespace Benefits.Provider.Forms
 {
-    public class DetailArea
+    public class FormMembershipArea
     {
         public string PostalAddress { get; set; }
         public string City { get; set; }
