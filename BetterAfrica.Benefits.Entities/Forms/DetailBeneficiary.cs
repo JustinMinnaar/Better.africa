@@ -5,7 +5,7 @@ namespace BetterAfrica.Benefits.Entities.Forms
 {
     public static class NodeExtensions
     {
-        public static CNode ToNode(this object obj)
+        public static CNode Export(this object obj)
         {
             if (obj == null) return null;
 
@@ -23,9 +23,15 @@ namespace BetterAfrica.Benefits.Entities.Forms
         public string Phone { get; set; }
         public string Ratio { get; set; }
 
-        public CNode ToNode()
+        public CNode Export()
         {
             var node = new CNode(this.ToNickname());
+            node.SetString("name", Name);
+            node.SetString("ratio", Ratio);
+            node.SetString("phone", Phone);
+            node.SetString("email", Email);
+            node.SetString("identity", Identity);
+            return node;
         }
 
         public static DetailBeneficiary FromNode(CNode child)

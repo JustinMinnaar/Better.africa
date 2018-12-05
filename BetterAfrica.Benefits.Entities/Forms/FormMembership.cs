@@ -1,10 +1,12 @@
 ﻿using Benefits.Shared;
+using Knights.Core.Common;
 using Knights.Core.Nodes;
 using System.Collections.Generic;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public class FormMembership
+    [Nickname("membership")]
+    public class FormMembership : Form
     {
         public string Err => Detail.Err + " " + Principal.Err;
 
@@ -18,53 +20,44 @@ namespace BetterAfrica.Benefits.Entities.Forms
         public List<DetailBeneficiary> Beneficiaries { get; } = new List<DetailBeneficiary>();
         public List<FormMembershipPackage> Packages { get; } = new List<FormMembershipPackage>();
 
-        public static IEnumerable<FormMembership> ReadMemberships(string xmlPath)
+        public CNode ToNode()
         {
-            var node = CNode.FromXmlFile(xmlPath);
-            return ReadMemberships(node);
+            var node = new CNode(this.ToNickname());
+            Export(node);
+            return node;
         }
 
-        public static IEnumerable<FormMembership> ReadMemberships(CNode node)
+        public static FormMembership FromNode(CNode node)
         {
-            if (node.Type != "memberships")
-                throw new BenefitsException("Unknown node " + node.Err);
-
-            foreach (var child in node.Children)
-            {
-                if (node.Type == "membership")
-                {
-                    var m = ReadMembership(node);
-                    node.ThrowUnknownAttributes();
-                    yield return m;
-                }
-                else throw new BenefitsException("Unknown node " + node.Err);
-            }
+            var m = new FormMembership();
+            m.Import(node);
+            return m;
         }
 
-        public static FormMembership ReadMembership(CNode node)
+        public override void Export(CNode node)
         {
-            var m = new FormMembership
-            {
-                Detail = FormMembershipDetail.ReadDetail(node)
-            };
+            node.AddChild(Principal.tonode())
+        }
+
+        public override void Import(CNode node)
+        {
+            Detail.Import(node);
 
             foreach (var child in node.Children)
             {
                 switch (child.Type.ToLower())
                 {
-                    case "principal": m.Principal = FormMembershipPerson.ReadDetail(child); break;
-                    case "spouse": m.Spouse = FormMembershipPerson.ReadDetail(child); break;
-                    case "child": m.Children.Add(FormMembershipPerson.ReadDetail(child)); break;
-                    case "family": m.Family.Add(FormMembershipPerson.ReadDetail(child)); break;
-                    case "beneficiary": m.Beneficiaries.Add(DetailBeneficiary.FromNode(child)); break;
-                    case "package": m.Packages.Add(FormMembershipPackage.ReadDetail(child)); break;
+                    case "principal": Principal = FormMembershipPerson.ReadDetail(child); break;
+                    case "spouse": Spouse = FormMembershipPerson.ReadDetail(child); break;
+                    case "child": Children.Add(FormMembershipPerson.ReadDetail(child)); break;
+                    case "family": Family.Add(FormMembershipPerson.ReadDetail(child)); break;
+                    case "beneficiary": Beneficiaries.Add(DetailBeneficiary.FromNode(child)); break;
+                    case "package": Packages.Add(FormMembershipPackage.ReadDetail(child)); break;
                     default:
                         throw new BenefitsException("Unknown node " + child.Err);
                 }
                 child.ThrowUnknownAttributes();
             }
-
-            return m;
         }
     }
 }

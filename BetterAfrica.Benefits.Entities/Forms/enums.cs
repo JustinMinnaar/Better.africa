@@ -19,4 +19,8 @@
         Update,
         Cancel,
     }
+
+    public enum EHomeLanguage
+    {
+    }
 }

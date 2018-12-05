@@ -63,13 +63,16 @@
     <Compile Include="Forms\DetailProductLoyalty.cs" />
     <Compile Include="Forms\DetailProductMedical.cs" />
     <Compile Include="Forms\enums.cs" />
+    <Compile Include="Forms\Form.cs" />
     <Compile Include="Forms\FormMembership.cs" />
     <Compile Include="Forms\FormMembershipArea.cs" />
     <Compile Include="Forms\FormMembershipCommunication.cs" />
     <Compile Include="Forms\FormMembershipDetail.cs" />
     <Compile Include="Forms\FormMembershipPackage.cs" />
     <Compile Include="Forms\FormMembershipPerson.cs" />
+    <Compile Include="Forms\FormMemberships.cs" />
     <Compile Include="Forms\IDetailProduct.cs" />
+    <Compile Include="Forms\IImport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

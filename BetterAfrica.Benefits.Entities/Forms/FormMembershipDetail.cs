@@ -3,7 +3,7 @@ using System;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public class FormMembershipDetail
+    public class FormMembershipDetail : IImportExport
     {
         public string Err => $"number={Number} action={Action}";
 
@@ -14,19 +14,24 @@ namespace BetterAfrica.Benefits.Entities.Forms
         public EBeneficiaryType? BeneficiaryType { get; set; }
         public string Number { get; set; }
 
-        public static FormMembershipDetail ReadDetail(CNode node)
+        public void Import(CNode node)
         {
-            var d = new FormMembershipDetail
-            {
-                Action = node.TryGetEnum<EFormAction>("action"),
-                AgentCode = node.GetString("agent"),
-                InceptionDate = node.TryGetDateTime("inceptionDate"),
-                SignDate = node.TryGetDateTime("signDate"),
-                BeneficiaryType = node.TryGetEnum<EBeneficiaryType>("beneficiaryType"),
-                Number = node.GetString("number"),
-            };
+            Action = node.TryGetEnum<EFormAction>("action");
+            AgentCode = node.TryGetString("agent");
+            InceptionDate = node.TryGetDateTime("inceptionDate");
+            SignDate = node.TryGetDateTime("signDate");
+            BeneficiaryType = node.TryGetEnum<EBeneficiaryType>("beneficiaryType");
+            Number = node.TryGetString("number");
+        }
 
-            return d;
+        public void Export(CNode node)
+        {
+            if (Action != null) node.SetEnum<EFormAction>("action", Action.Value);
+            node.SetString("agent", AgentCode);
+            node.SetDateTime("inceptionDate", InceptionDate);
+            node.SetDateTime("signDate", SignDate);
+            if (BeneficiaryType != null) node.SetEnum<EBeneficiaryType>("beneficiaryType", BeneficiaryType.Value);
+            node.SetString("number", Number);
         }
     }
 }

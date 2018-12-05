@@ -1,17 +1,26 @@
 ﻿using BetterAfrica.Benefits.Entities.Forms;
+using Knights.Core.Common;
 using Knights.Core.Nodes;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
+    [Nickname("loyalty")]
     public class DetailProductLoyalty : IDetailProduct
     {
-        public bool? Savings { get; set; }
+        public decimal? Savings { get; set; }
+
+        public CNode Export()
+        {
+            var node = new CNode(this.ToNickname());
+            node.SetDecimal("savings", Savings);
+            return node;
+        }
 
         public static IDetailProduct ReadDetail(CNode child)
         {
-            return new DetailProductLoyalty
+            return new DetailProductHamper
             {
-                Savings = child.TryGetBoolean("savings"),
+                Savings = child.TryGetDecimal("savings"),
             };
         }
     }

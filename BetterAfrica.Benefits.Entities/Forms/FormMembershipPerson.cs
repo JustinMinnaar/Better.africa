@@ -5,7 +5,7 @@ using Knights.Core.Nodes;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public class FormMembershipPerson
+    public class FormMembershipPerson : Form<FormMembershipPerson>
     {
         public string Err => $"name={Name}";
 
@@ -26,26 +26,23 @@ namespace BetterAfrica.Benefits.Entities.Forms
         public string SchoolName { get; set; }
         public string Email { get; set; }
 
-        public static FormMembershipPerson ReadDetail(CNode node)
+        public override void Import(CNode node)
         {
-            var p = new FormMembershipPerson
-            {
-                FirstName = node.TryGetString("firstName"),
-                LastName = node.TryGetString("lastName"),
-                IdentityNumber = node.TryGetString("identity"),
-                Gender = node.TryGetEnum<BPersonGenders>("gender"),
-                DateOfBirth = node.TryGetDateTime("birthDate"),
-                DateOfDeath = node.TryGetDateTime("deathDate"),
-                CellPhone = node.GetString("cellPhone"),
-                HomePhone = node.GetString("homePhone"),
-                WorkPhone = node.GetString("workPhone"),
-                WorkName = node.GetString("workName"),
-                Email = node.GetString("email"),
-                Scholar = node.TryGetBoolean("scholar"),
-                SchoolName = node.TryGetString("school")
-            };
+            base.Import(node);
 
-            return p;
+            FirstName = node.TryGetString("firstName");
+            LastName = node.TryGetString("lastName");
+            IdentityNumber = node.TryGetString("identity");
+            Gender = node.TryGetEnum<BPersonGenders>("gender");
+            DateOfBirth = node.TryGetDateTime("birthDate");
+            DateOfDeath = node.TryGetDateTime("deathDate");
+            CellPhone = node.GetString("cellPhone");
+            HomePhone = node.GetString("homePhone");
+            WorkPhone = node.GetString("workPhone");
+            WorkName = node.GetString("workName");
+            Email = node.GetString("email");
+            Scholar = node.TryGetBoolean("scholar");
+            SchoolName = node.TryGetString("school");
         }
     }
 }
