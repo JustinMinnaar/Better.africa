@@ -1,4 +1,4 @@
-﻿namespace Benefits.Entities
+﻿namespace BetterAfrica.Benefits.Entities.Forms
 {
     public enum BPersonGenders
     {

@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benefits.Shared", "Benefits
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benefits.Provider", "Benefits.Provider\Benefits.Provider.csproj", "{081C0EFA-5397-434C-93D2-CA327D0E5115}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterAfrica.Benefits.Entities", "BetterAfrica.Benefits.Entities\BetterAfrica.Benefits.Entities.csproj", "{8139FAB6-70EA-45A9-8CE4-B901DF660EAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterAfrica.Benefits.Entities.UnitTests", "BetterAfrica.Benefits.Entities.UnitTests\BetterAfrica.Benefits.Entities.UnitTests.csproj", "{ED2DFEF1-8B4B-4B5F-8343-E9150797E235}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{081C0EFA-5397-434C-93D2-CA327D0E5115}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{081C0EFA-5397-434C-93D2-CA327D0E5115}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{081C0EFA-5397-434C-93D2-CA327D0E5115}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8139FAB6-70EA-45A9-8CE4-B901DF660EAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8139FAB6-70EA-45A9-8CE4-B901DF660EAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8139FAB6-70EA-45A9-8CE4-B901DF660EAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8139FAB6-70EA-45A9-8CE4-B901DF660EAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED2DFEF1-8B4B-4B5F-8343-E9150797E235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED2DFEF1-8B4B-4B5F-8343-E9150797E235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED2DFEF1-8B4B-4B5F-8343-E9150797E235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED2DFEF1-8B4B-4B5F-8343-E9150797E235}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

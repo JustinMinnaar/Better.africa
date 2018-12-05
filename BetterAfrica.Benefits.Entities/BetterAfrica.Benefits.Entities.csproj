@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{081C0EFA-5397-434C-93D2-CA327D0E5115}</ProjectGuid>
+    <ProjectGuid>{8139FAB6-70EA-45A9-8CE4-B901DF660EAA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Benefits.Provider</RootNamespace>
-    <AssemblyName>Benefits.Provider</AssemblyName>
+    <RootNamespace>BetterAfrica.Benefits.Entities</RootNamespace>
+    <AssemblyName>BetterAfrica.Benefits.Entities</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -54,23 +54,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BenefitsProvider.cs" />
-    <Compile Include="FormResult.cs" />
+    <Compile Include="BenefitsDbContext.cs" />
+    <Compile Include="Forms\BPersonGenders.cs" />
+    <Compile Include="Forms\DetailBeneficiary.cs" />
+    <Compile Include="Forms\DetailProductEducation.cs" />
+    <Compile Include="Forms\DetailProductFuneral.cs" />
+    <Compile Include="Forms\DetailProductHamper.cs" />
+    <Compile Include="Forms\DetailProductLoyalty.cs" />
+    <Compile Include="Forms\DetailProductMedical.cs" />
+    <Compile Include="Forms\enums.cs" />
+    <Compile Include="Forms\FormMembership.cs" />
+    <Compile Include="Forms\FormMembershipArea.cs" />
+    <Compile Include="Forms\FormMembershipCommunication.cs" />
+    <Compile Include="Forms\FormMembershipDetail.cs" />
+    <Compile Include="Forms\FormMembershipPackage.cs" />
+    <Compile Include="Forms\FormMembershipPerson.cs" />
+    <Compile Include="Forms\IDetailProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Benefits.Entities\Benefits.Entities.csproj">
-      <Project>{D82D7EE2-236B-4A91-ADB0-CF79E00D3323}</Project>
-      <Name>Benefits.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Benefits.Shared\Benefits.Shared.csproj">
-      <Project>{F621104F-F9A1-49AD-8C3E-ED699A9391E0}</Project>
-      <Name>Benefits.Shared</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Benefits.Shared\Benefits.Shared.csproj">
+      <Project>{F621104F-F9A1-49AD-8C3E-ED699A9391E0}</Project>
+      <Name>Benefits.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

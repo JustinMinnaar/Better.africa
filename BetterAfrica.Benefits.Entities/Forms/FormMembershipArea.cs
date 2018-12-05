@@ -1,4 +1,4 @@
-﻿namespace Benefits.Provider.Forms
+﻿namespace BetterAfrica.Benefits.Entities.Forms
 {
     public class FormMembershipArea
     {
