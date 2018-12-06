@@ -19,7 +19,7 @@ namespace Benefits.Provider
 
             using (var db = new BenefitsDbContext())
             {
-                var options = db.Options.FirstOrDefault();
+                var options = db.Options.AsNoTracking().FirstOrDefault();
                 if (options == null)
                 {
                     options = new BOptions { Id = Guid.Empty, LastContractNumber = 1000, };

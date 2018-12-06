@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benefits.Shared", "Benefits
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benefits.Provider", "Benefits.Provider\Benefits.Provider.csproj", "{081C0EFA-5397-434C-93D2-CA327D0E5115}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterAfrica.Benefits.Providers", "BetterAfrica.Benefits.Providers\BetterAfrica.Benefits.Providers.csproj", "{28D8322A-0ADB-45C1-982E-403392CF0A01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterAfrica.Benefits.Providers.UnitTests", "BetterAfrica.Benefits.Providers.UnitTests\BetterAfrica.Benefits.Providers.UnitTests.csproj", "{071282DA-3FFF-4836-8AF5-FA49AC3192C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{081C0EFA-5397-434C-93D2-CA327D0E5115}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{081C0EFA-5397-434C-93D2-CA327D0E5115}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{081C0EFA-5397-434C-93D2-CA327D0E5115}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28D8322A-0ADB-45C1-982E-403392CF0A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28D8322A-0ADB-45C1-982E-403392CF0A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28D8322A-0ADB-45C1-982E-403392CF0A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28D8322A-0ADB-45C1-982E-403392CF0A01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{071282DA-3FFF-4836-8AF5-FA49AC3192C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{071282DA-3FFF-4836-8AF5-FA49AC3192C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{071282DA-3FFF-4836-8AF5-FA49AC3192C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{071282DA-3FFF-4836-8AF5-FA49AC3192C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
