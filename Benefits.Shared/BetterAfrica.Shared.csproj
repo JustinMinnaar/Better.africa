@@ -7,8 +7,8 @@
     <ProjectGuid>{F621104F-F9A1-49AD-8C3E-ED699A9391E0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Benefits.Shared</RootNamespace>
-    <AssemblyName>Benefits.Shared</AssemblyName>
+    <RootNamespace>BetterAfrica.Shared</RootNamespace>
+    <AssemblyName>BetterAfrica.Shared</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -34,6 +34,9 @@
     <Reference Include="Knights.Core.Common">
       <HintPath>..\DLLs\Knights.Core.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Knights.Core.Nodes">
+      <HintPath>..\DLLs\Knights.Core.Nodes.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -48,9 +51,7 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="BenefitsException.cs" />
     <Compile Include="Clock.cs" />
-    <Compile Include="DateExtensions.cs" />
     <Compile Include="EntityErrors.cs" />
-    <Compile Include="SouthAfricanIdentityNumber.cs" />
     <Compile Include="MathExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

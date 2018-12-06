@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BenefitsDbContext.cs" />
-    <Compile Include="Forms\BPersonGenders.cs" />
+    <Compile Include="Base\BaseForm.cs" />
     <Compile Include="Forms\DetailBeneficiary.cs" />
     <Compile Include="Forms\DetailProductEducation.cs" />
     <Compile Include="Forms\DetailProductFuneral.cs" />
@@ -63,7 +63,6 @@
     <Compile Include="Forms\DetailProductLoyalty.cs" />
     <Compile Include="Forms\DetailProductMedical.cs" />
     <Compile Include="Forms\enums.cs" />
-    <Compile Include="Forms\Form.cs" />
     <Compile Include="Forms\FormMembership.cs" />
     <Compile Include="Forms\FormMembershipArea.cs" />
     <Compile Include="Forms\FormMembershipCommunication.cs" />
@@ -80,9 +79,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Benefits.Shared\Benefits.Shared.csproj">
+    <ProjectReference Include="..\Benefits.Shared\BetterAfrica.Shared.csproj">
       <Project>{F621104F-F9A1-49AD-8C3E-ED699A9391E0}</Project>
-      <Name>Benefits.Shared</Name>
+      <Name>BetterAfrica.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

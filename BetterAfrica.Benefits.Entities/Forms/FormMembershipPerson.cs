@@ -5,7 +5,7 @@ using Knights.Core.Nodes;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public class FormMembershipPerson : Form<FormMembershipPerson>
+    public class FormMembershipPerson : BaseForm<FormMembershipPerson>
     {
         public string Err => $"name={Name}";
 
@@ -16,7 +16,7 @@ namespace BetterAfrica.Benefits.Entities.Forms
         public string IdentityNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public DateTime? DateOfDeath { get; set; }
-        public BPersonGenders? Gender { get; set; }
+        public EPersonGenders? Gender { get; set; }
         public string CellPhone { get; set; }
         public string HomePhone { get; set; }
         public string WorkPhone { get; set; }
@@ -33,7 +33,7 @@ namespace BetterAfrica.Benefits.Entities.Forms
             FirstName = node.TryGetString("firstName");
             LastName = node.TryGetString("lastName");
             IdentityNumber = node.TryGetString("identity");
-            Gender = node.TryGetEnum<BPersonGenders>("gender");
+            Gender = node.TryGetEnum<EPersonGenders>("gender");
             DateOfBirth = node.TryGetDateTime("birthDate");
             DateOfDeath = node.TryGetDateTime("deathDate");
             CellPhone = node.GetString("cellPhone");

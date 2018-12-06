@@ -1,4 +1,4 @@
-﻿using Benefits.Shared;
+﻿using BetterAfrica.Shared;
 using Knights.Core.Common;
 using Knights.Core.Nodes;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace BetterAfrica.Benefits.Entities.Forms
 {
     [Nickname("membership")]
-    public class FormMembership : Form
+    public class FormMembership : BaseForm<FormMembership>
     {
         public string Err => Detail.Err + " " + Principal.Err;
 
@@ -15,10 +15,10 @@ namespace BetterAfrica.Benefits.Entities.Forms
         public FormMembershipCommunication Communication { get; set; }
         public FormMembershipPerson Principal { get; set; }
         public FormMembershipPerson Spouse { get; set; }
-        public List<FormMembershipPerson> Children { get; } = new List<FormMembershipPerson>();
-        public List<FormMembershipPerson> Family { get; } = new List<FormMembershipPerson>();
-        public List<DetailBeneficiary> Beneficiaries { get; } = new List<DetailBeneficiary>();
-        public List<FormMembershipPackage> Packages { get; } = new List<FormMembershipPackage>();
+        public virtual ICollection<FormMembershipPerson> Children { get; } = new HashSet<FormMembershipPerson>();
+        public virtual ICollection<FormMembershipPerson> Family { get; } = new HashSet<FormMembershipPerson>();
+        public virtual ICollection<FormMembershipBeneficiary> Beneficiaries { get; } = new HashSet<FormMembershipBeneficiary>();
+        public virtual ICollection<FormMembershipPackage> Packages { get; } = new HashSet<FormMembershipPackage>();
 
         public CNode ToNode()
         {
@@ -51,7 +51,7 @@ namespace BetterAfrica.Benefits.Entities.Forms
                     case "spouse": Spouse = FormMembershipPerson.ReadDetail(child); break;
                     case "child": Children.Add(FormMembershipPerson.ReadDetail(child)); break;
                     case "family": Family.Add(FormMembershipPerson.ReadDetail(child)); break;
-                    case "beneficiary": Beneficiaries.Add(DetailBeneficiary.FromNode(child)); break;
+                    case "beneficiary": Beneficiaries.Add(FormMembershipBeneficiary.FromNode(child)); break;
                     case "package": Packages.Add(FormMembershipPackage.ReadDetail(child)); break;
                     default:
                         throw new BenefitsException("Unknown node " + child.Err);

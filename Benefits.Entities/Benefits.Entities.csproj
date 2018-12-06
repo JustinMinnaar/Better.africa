@@ -73,9 +73,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Benefits.Shared\Benefits.Shared.csproj">
+    <ProjectReference Include="..\Benefits.Shared\BetterAfrica.Shared.csproj">
       <Project>{F621104F-F9A1-49AD-8C3E-ED699A9391E0}</Project>
-      <Name>Benefits.Shared</Name>
+      <Name>BetterAfrica.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

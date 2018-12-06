@@ -1,4 +1,4 @@
-﻿using Benefits.Shared;
+﻿using BetterAfrica.Shared;
 using Knights.Core.Nodes;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace BetterAfrica.Benefits.Entities.Forms
         public string AgentCode { get; set; }
         public DateTime? InceptionDate { get; set; }
         public DateTime? SignDate { get; set; }
-        public List<IDetailProduct> Products { get; } = new List<IDetailProduct>();
+        public virtual ICollection<IDetailProduct> Products { get; } = new HashSet<IDetailProduct>();
 
         public static FormMembershipPackage ReadDetail(CNode node)
         {

@@ -1,5 +1,11 @@
 ﻿namespace BetterAfrica.Benefits.Entities.Forms
 {
+    public enum EPersonGenders
+    {
+        Male,
+        Female
+    }
+
     public enum EReceivePaper
     {
         Agent,

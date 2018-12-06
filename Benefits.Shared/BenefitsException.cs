@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Benefits.Shared
+namespace BetterAfrica.Shared
 {
     [Serializable]
     public class BenefitsException : Exception

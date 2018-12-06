@@ -10,7 +10,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
         [TestMethod]
         public void XmlReader_DetailBeneficiary()
         {
-            var d = new DetailBeneficiary
+            var d = new FormMembershipBeneficiary
             {
                 Email = "Email",
                 Identity = "Identity",
@@ -18,7 +18,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
                 Phone = "Phone",
                 Ratio = "Ratio",
             };
-            DetailBeneficiary.FromNode(node)
+            FormMembershipBeneficiary.FromNode(node)
 
             BenefitsXmlReader.ReadForms()
         }

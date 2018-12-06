@@ -3,7 +3,7 @@ using Knights.Core.Nodes;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public class Form<T> : IImportExport where T : class, IImportExport, new()
+    public abstract class BaseForm<T> : IImportExport where T : class, IImportExport, new()
     {
         public CNode ToNode()
         {

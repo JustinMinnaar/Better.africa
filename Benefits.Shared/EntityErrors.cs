@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Benefits.Shared
+namespace BetterAfrica.Shared
 {
     public class EntityError
     {

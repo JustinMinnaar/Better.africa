@@ -1,5 +1,5 @@
 ﻿using Benefits.Entities;
-using Benefits.Shared;
+using BetterAfrica.Shared;
 using System;
 
 namespace Benefits.Entities.UnitTests
@@ -14,7 +14,7 @@ namespace Benefits.Entities.UnitTests
             LastName = "Adams",
             DateOfBirth = new DateTime(1969, 07, 31),
             IdentityNumber = SouthAfricanIdentityNumber.Random(1960, 1980, true).Number,
-            Gender = BPersonGenders.Male,
+            Gender = EPersonGenders.Male,
             CellPhone = "0813702097",
             HomePhone = "",
             WorkPhone = "",
@@ -28,7 +28,7 @@ namespace Benefits.Entities.UnitTests
             FirstName = "Bertha",
             LastName = "Adams",
             DateOfBirth = new DateTime(1971, 11, 12),
-            Gender = BPersonGenders.Female,
+            Gender = EPersonGenders.Female,
             IdentityNumber = SouthAfricanIdentityNumber.Random(1960, 1980, true).Number
         };
 
@@ -37,7 +37,7 @@ namespace Benefits.Entities.UnitTests
             FirstName = "Charles",
             LastName = "Adams",
             DateOfBirth = new DateTime(2007, 3, 7),
-            Gender = BPersonGenders.Male,
+            Gender = EPersonGenders.Male,
             IdentityNumber = SouthAfricanIdentityNumber.Random(2007, 2009, true).Number
         };
 
@@ -46,7 +46,7 @@ namespace Benefits.Entities.UnitTests
             FirstName = "Debbie",
             LastName = "Adams",
             DateOfBirth = new DateTime(2017, 11, 17),
-            Gender = BPersonGenders.Female,
+            Gender = EPersonGenders.Female,
             IdentityNumber = SouthAfricanIdentityNumber.Random(2017, 2018, true).Number
         };
 
@@ -55,7 +55,7 @@ namespace Benefits.Entities.UnitTests
             FirstName = "Eddie",
             LastName = "Adams",
             DateOfBirth = new DateTime(1991, 3, 4),
-            Gender = BPersonGenders.Male,
+            Gender = EPersonGenders.Male,
             IdentityNumber = SouthAfricanIdentityNumber.Random(1940, 1960, true).Number
         };
     }

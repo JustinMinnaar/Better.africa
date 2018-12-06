@@ -1,21 +1,14 @@
-﻿using Knights.Core.Common;
+﻿using BetterAfrica.Shared;
+using Knights.Core.Common;
 using Knights.Core.Nodes;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public static class NodeExtensions
-    {
-        public static CNode Export(this object obj)
-        {
-            if (obj == null) return null;
-
-            var t = obj.GetType();
-            var p = t.GetProperties();
-        }
-    }
-
     [Nickname("beneficiary")]
-    public class DetailBeneficiary
+    public class FormMembershipBeneficiary
     {
         public string Email { get; set; }
         public string Identity { get; set; }
@@ -34,9 +27,9 @@ namespace BetterAfrica.Benefits.Entities.Forms
             return node;
         }
 
-        public static DetailBeneficiary FromNode(CNode child)
+        public static FormMembershipBeneficiary FromNode(CNode child)
         {
-            var b = new DetailBeneficiary
+            var b = new FormMembershipBeneficiary
             {
                 Ratio = child.TryGetString("ratio"),
                 Name = child.TryGetString("name"),

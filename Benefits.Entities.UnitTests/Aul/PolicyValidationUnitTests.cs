@@ -1,5 +1,5 @@
 ﻿using Benefits.Entities;
-using Benefits.Shared;
+using BetterAfrica.Shared;
 using Knights.Core.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
