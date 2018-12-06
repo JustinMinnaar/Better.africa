@@ -14,7 +14,7 @@ namespace BetterAfrica.PayAt
             var accounts = new List<Account>();
             accounts.Add(new Account
             {
-                Amount = 5.67m,
+                Amount = 30.01m,
                 ContactNumber = "0813702097",
                 ExtraNumbers = new[] { "0813702097", "0613909635" },
                 IdentityNumber = "6907315115089",
@@ -26,7 +26,7 @@ namespace BetterAfrica.PayAt
             });
             accounts.Add(new Account
             {
-                Amount = 6.78m,
+                Amount = 30.02m,
                 ContactNumber = "0871950828",
                 ExtraNumbers = new[] { "0827207858", "0635485614" },
                 IdentityNumber = "9503145173088",
@@ -38,7 +38,7 @@ namespace BetterAfrica.PayAt
             });
             accounts.Add(new Account
             {
-                Amount = 7.89m,
+                Amount = 30.03m,
                 ContactNumber = "0728698549",
                 ExtraNumbers = null,
                 IdentityNumber = "7111120007081",
@@ -50,8 +50,9 @@ namespace BetterAfrica.PayAt
             });
 
             var worker = new PayAtWorker();
-            var lines = worker.CreateLines(new DateTime(2018, 12, 1), accounts);
-            File.WriteAllLines("accounts.txt", lines);
+            var fileId = 1;
+            var upload = false;
+            worker.CreateLines(fileId, new DateTime(2018, 12, 6), accounts, upload);
         }
     }
 }

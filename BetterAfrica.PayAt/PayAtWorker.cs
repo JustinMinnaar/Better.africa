@@ -3,19 +3,48 @@ using Knights.Fluid.Datums;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 
 namespace BetterAfrica.PayAt
 {
     public class PayAtWorker
     {
-        public string[] CreateLines(DateTime dataDateTime, IEnumerable<Account> accounts)
+        public static void Upload(string ftpPath, string localPath)
+        {
+            // with support for SSL
+            var request = (FtpWebRequest)WebRequest.Create("ftp://196.34.95.218/" + ftpPath);
+            request.Credentials = new NetworkCredential("betterAfrica", "r4_g28#hDQ");
+            request.Method = WebRequestMethods.Ftp.UploadFile;
+
+            using (Stream fileStream = File.OpenRead(localPath))
+            using (Stream ftpStream = request.GetRequestStream())
+            {
+                fileStream.CopyTo(ftpStream);
+            }
+        }
+
+        public static void Download(string ftpPath, string localPath)
+        {
+            // with support for SSL
+            var request = (FtpWebRequest)WebRequest.Create("ftp://196.34.95.218/" + ftpPath);
+            request.Credentials = new NetworkCredential("betterAfrica", "r4_g28#hDQ");
+            request.Method = WebRequestMethods.Ftp.DownloadFile;
+
+            using (Stream ftpStream = request.GetResponse().GetResponseStream())
+            using (Stream fileStream = File.Create(localPath))
+            {
+                ftpStream.CopyTo(fileStream);
+            }
+        }
+
+        public string[] CreateLines(int fileId, DateTime dataDateTime, IEnumerable<Account> accounts, bool upload)
         {
             // should be fetched from the database
-            var seqNo = "000001";
+            var seqNo = fileId.ToString("000000");
             var date = dataDateTime.ToString("yyyy_MM_dd_HH_mm_ss");
 
             // generate file
-            var fileType = "A"; // ACCOUNT
+            var fileType = "ACCOUNT";
             var prefix = "11690";
             var fileName = $"{fileType}_{prefix}_{seqNo}_{date}.csv";
 
@@ -67,6 +96,13 @@ namespace BetterAfrica.PayAt
             }
 
             lines.Add($"T,{count}");
+
+            File.WriteAllLines(fileName, lines);
+
+            if (upload)
+            {
+                PayAtWorker.Upload(fileName, fileName);
+            }
 
             return lines.ToArray();
         }
