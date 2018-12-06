@@ -1,4 +1,4 @@
-﻿using Benefits.Shared;
+﻿using BetterAfrica.Shared;
 using Knights.Core.Common;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -58,8 +58,8 @@ namespace Benefits.Entities
                     if (saId.IsValid)
                     {
                         DateOfBirth = saId.Birthdate;
-                        if (saId.IsMale) Gender = BPersonGenders.Male;
-                        if (saId.IsFemale) Gender = BPersonGenders.Female;
+                        if (saId.IsMale) Gender = EPersonGenders.Male;
+                        if (saId.IsFemale) Gender = EPersonGenders.Female;
                     }
                     else
                     {
@@ -73,7 +73,7 @@ namespace Benefits.Entities
 
         #endregion Identity
 
-        public BPersonGenders? Gender { get; set; }
+        public EPersonGenders? Gender { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
 

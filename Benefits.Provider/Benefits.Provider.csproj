@@ -55,32 +55,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BenefitsProvider.cs" />
-    <Compile Include="BenefitsXmlReader.cs" />
-    <Compile Include="DetailProductEducation.cs" />
-    <Compile Include="DetailProductFuneral.cs" />
-    <Compile Include="DetailProductHamper.cs" />
-    <Compile Include="DetailProductLoyalty.cs" />
-    <Compile Include="DetailProductMedical.cs" />
     <Compile Include="FormResult.cs" />
-    <Compile Include="Forms\DetailBeneficiary.cs" />
-    <Compile Include="Forms\FormMembershipArea.cs" />
-    <Compile Include="Forms\FormMembershipCommunication.cs" />
-    <Compile Include="Forms\FormMembershipDetail.cs" />
-    <Compile Include="Forms\FormMembershipPackage.cs" />
-    <Compile Include="Forms\FormMembershipPerson.cs" />
-    <Compile Include="Forms\enums.cs" />
-    <Compile Include="Forms\FormMembership.cs" />
-    <Compile Include="Forms\IDetailProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Benefits.Entities\Benefits.Entities.csproj">
-      <Project>{D82D7EE2-236B-4A91-ADB0-CF79E00D3323}</Project>
-      <Name>Benefits.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Benefits.Shared\Benefits.Shared.csproj">
+    <ProjectReference Include="..\Benefits.Shared\BetterAfrica.Shared.csproj">
       <Project>{F621104F-F9A1-49AD-8C3E-ED699A9391E0}</Project>
-      <Name>Benefits.Shared</Name>
+      <Name>BetterAfrica.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,8 @@
     <family     code="F1" firstName="Angelique" lastName="Minnaar"  identity="700731"         gender="F" birthDate="1970-07-31" related="sister" />
   </membership>
   <membership action="Add"  agent="" beneficiary="Children" signDate="2019-01-01" inceptionDate="2019-01-01" number="2">
-    <principal  code="P" firstName="Karen"     lastName="Campbell" identity="7111120007081"  gender="F" birthDate="1971-01-12" />
+    <principal  code="P" firstName="Karen"     lastName="Campbell" identity="7111120007081"  gender="F" birthDate="1971-01-12"
+                cellPhone="0728698549" />
     <child      code="C1" firstName="Dean"      lastName="Campbell" identity=""               gender="F" birthDate="" />
     <communication letters="Agent" sms="false" language="Afrikaans" />
     <area postal="" city="Benoni" state="Gauteng" country="South Africa" code="1501" />

@@ -4,7 +4,7 @@
 //using System.Text;
 //using System.Threading.Tasks;
 
-//namespace Benefits.Shared
+//namespace BetterAfrica.Shared
 //{
 //    public static class Clock
 //    {

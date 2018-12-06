@@ -2,7 +2,7 @@
 using Benefits.Entities.UnitTests;
 using Benefits.Provider;
 using Benefits.Provider.Forms;
-using Benefits.Shared;
+using BetterAfrica.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -40,7 +40,7 @@ namespace Benefits.Demo
                 FirstName = "Luke",
                 LastName = "Griqua",
                 IdentityNumber = "9503145173088",
-                Gender = BPersonGenders.Male
+                Gender = EPersonGenders.Male
             };
 
             bp.CreatePerson(agent);

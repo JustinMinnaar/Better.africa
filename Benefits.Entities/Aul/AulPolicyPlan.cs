@@ -1,4 +1,4 @@
-﻿using Benefits.Shared;
+﻿using BetterAfrica.Shared;
 
 namespace Benefits.Entities
 {
