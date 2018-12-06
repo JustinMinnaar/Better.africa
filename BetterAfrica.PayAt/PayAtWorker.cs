@@ -15,6 +15,7 @@ namespace BetterAfrica.PayAt
             var request = (FtpWebRequest)WebRequest.Create("ftp://196.34.95.218/" + ftpPath);
             request.Credentials = new NetworkCredential("betterAfrica", "r4_g28#hDQ");
             request.Method = WebRequestMethods.Ftp.UploadFile;
+            // request.UseBinary = true; when uploading binary files
 
             using (Stream fileStream = File.OpenRead(localPath))
             using (Stream ftpStream = request.GetRequestStream())
@@ -29,6 +30,7 @@ namespace BetterAfrica.PayAt
             var request = (FtpWebRequest)WebRequest.Create("ftp://196.34.95.218/" + ftpPath);
             request.Credentials = new NetworkCredential("betterAfrica", "r4_g28#hDQ");
             request.Method = WebRequestMethods.Ftp.DownloadFile;
+            // request.UseBinary = true; when downloading binary files
 
             using (Stream ftpStream = request.GetResponse().GetResponseStream())
             using (Stream fileStream = File.Create(localPath))

@@ -73,7 +73,7 @@
       <Project>{081c0efa-5397-434c-93d2-ca327d0e5115}</Project>
       <Name>Benefits.Provider</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Benefits.Shared\Benefits.Shared.csproj">
+    <ProjectReference Include="..\Benefits.Shared\BetterAfrica.Shared.csproj">
       <Project>{f621104f-f9a1-49ad-8c3e-ed699a9391e0}</Project>
       <Name>Benefits.Shared</Name>
     </ProjectReference>
