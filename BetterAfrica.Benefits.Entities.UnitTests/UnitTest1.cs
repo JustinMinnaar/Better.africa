@@ -11,7 +11,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
     public class UnitTest1
     {
         [TestMethod]
-        public void Xml_CanImportMemberships()
+        public void Xml_CanImportExportMemberships()
         {
             var xmlExpected = File.ReadAllText("..\\..\\Memberships1.xml");
             var memberships = FormMemberships.FromXml(xmlExpected);
@@ -20,16 +20,6 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
             var xmlActual = node.ToXml();
             File.WriteAllText("..\\..\\Memberships2.xml", xmlActual);
             Assert.AreEqual(xmlExpected, xmlActual);
-        }
-
-        [TestMethod]
-        public void Xml_FormMembershipBeneficiary()
-        {
-            var xml = "<beneficiary name='Name' ratio='Ratio' phone='Phone' email='Email' identity='Identity' />";
-            var beneficiary = FormMembershipBeneficiary.FromNode(CNode.FromXml(xml));
-
-            var xmlActual = beneficiary.ToNode().ToXml(flatten: true);
-            Assert.AreEqual(xml, xmlActual);
         }
     }
 }
