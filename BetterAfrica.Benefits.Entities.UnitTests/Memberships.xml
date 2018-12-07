@@ -1,35 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <memberships>
   <membership action="Add"  agent="" beneficiary="Children" signDate="2018-12-01" inceptionDate="2019-01-01" number="1">
-    <principal  code="P"  firstName="Justin"    lastName="Minnaar"  identity="6907315115089"  gender="M" birthDate="1969-07-31" />
-    <child      code="C1" firstName="Faybienne" lastName="Minnaar"  identity="020228"         gender="F" birthDate="2002-02-28" scholar="true" />
-    <child      code="C2" firstName="Nicola"    lastName="Minnaar"  identity="130607"         gender="F" birthDate="2013-06-07" />
+    <principal  code="P"  firstName="Justin"    lastName="Minnaar"  identityNumber="6907315115089"  gender="Male" dateOfBirth="1969-07-31" />
+    <child      code="C1" firstName="Faybienne" lastName="Minnaar"  identityNumber="020228"         gender="Female" dateOfBirth="2002-02-28" scholar="true" />
+    <child      code="C2" firstName="Nicola"    lastName="Minnaar"  identityNumber="130607"         gender="Female" dateOfBirth="2013-06-07" />
     <communication letters="Email" sms="true" language="English" />
     <area postal="" city="Benoni" state="Gauteng" country="South Africa" code="1501" />
-    <product name="custom" covers="PC1C2" signDate="2019-01-01" inceptionDate="2019-02-01">
+    <package name="custom" covers="PC1C2" signDate="2019-01-01" inceptionDate="2019-02-01">
       <funeral cover="30000" />
       <medical hasTransport="false" hasEmergency="true" dailyCover="500" />
       <hamper     savings="100" />
       <education  savings="100" />
       <loyalty    savings="100" />
-    </product>
-    <product name="silver" covers="F1" />
+    </package>
+    <package name="silver" covers="F1" />
   </membership>
   <membership action="Update" signDate="2018-12-02" inceptionDate="2019-01-01" number="1">
-    <family     code="F1" firstName="Angelique" lastName="Minnaar"  identity="700731"         gender="F" birthDate="1970-07-31" related="sister" />
+    <family     code="F1" firstName="Angelique" lastName="Minnaar"  identityNumber="700731"         gender="Female" dateOfBirth="1970-07-31" related="sister" />
   </membership>
   <membership action="Add"  agent="" beneficiary="Children" signDate="2019-01-01" inceptionDate="2019-01-01" number="2">
-    <principal  code="P" firstName="Karen"     lastName="Campbell" identity="7111120007081"  gender="F" birthDate="1971-01-12" />
-    <child      code="C1" firstName="Dean"      lastName="Campbell" identity=""               gender="F" birthDate="" />
+    <principal  code="P" firstName="Karen"      lastName="Campbell" identityNumber="7111120007081"  gender="Female" dateOfBirth="1971-01-12" />
+    <child      code="C1" firstName="Dean"      lastName="Campbell" identityNumber=""               gender="Male" dateOfBirth="" />
     <communication letters="Agent" sms="false" language="Afrikaans" />
     <area postal="" city="Benoni" state="Gauteng" country="South Africa" code="1501" />
-    <product name="silver" covers="PC1" />
+    <package name="silver" covers="PC1" />
   </membership>
   <membership action="Add"  agent="" signDate="2019-01-01" inceptionDate="2019-01-01" number="3">
-    <principal  code="P" firstName="Luke"      lastName="Griqua"   identity="9503145173088"  gender="M" birthDate="1969-03-14" />
+    <principal  code="P" firstName="Luke"      lastName="Griqua"   identityNumber="9503145173088"  gender="Male" dateOfBirth="1969-03-14" />
     <communication sms="true" language="Afrikaans" />
     <area postal="" city="Benoni" state="Gauteng" country="South Africa" code="1501" />
-    <beneficiary code="B1" ratio="100%" name="Luke Trust" identity="abc" phone="123" email="xyz" />
-    <product name="gold" covers="P" />
+    <beneficiary code="B1" ratio="100%" name="Luke Trust" identityNumber="abc" phone="123" email="xyz" />
+    <package name="gold" covers="P" />
   </membership>
 </memberships>

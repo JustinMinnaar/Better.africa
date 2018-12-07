@@ -57,5 +57,15 @@
     <Compile Include="MembershipProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Benefits.Shared\BetterAfrica.Shared.csproj">
+      <Project>{f621104f-f9a1-49ad-8c3e-ed699a9391e0}</Project>
+      <Name>BetterAfrica.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BetterAfrica.Benefits.Entities\BetterAfrica.Benefits.Entities.csproj">
+      <Project>{8139fab6-70ea-45a9-8ce4-b901df660eaa}</Project>
+      <Name>BetterAfrica.Benefits.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

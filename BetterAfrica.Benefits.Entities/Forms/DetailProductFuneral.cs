@@ -5,7 +5,7 @@ using Knights.Core.Nodes;
 namespace BetterAfrica.Benefits.Entities.Forms
 {
     [Nickname("funeral")]
-    public class DetailProductFuneral : IDetailProduct
+    public class DetailProductFuneral : BaseForm<DetailProductFuneral>, IToNode
     {
         public decimal? Cover { get; set; }
 
@@ -16,12 +16,11 @@ namespace BetterAfrica.Benefits.Entities.Forms
             return node;
         }
 
-        public static DetailProductFuneral FromNode(CNode child)
+        public override void Import(CNode node)
         {
-            return new DetailProductFuneral
-            {
-                Cover = child.TryGetDecimal("cover"),
-            };
+            base.Import(node);
+
+            Cover = node.TryGetDecimal("cover");
         }
     }
 }

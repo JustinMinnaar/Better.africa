@@ -1,6 +1,8 @@
-﻿namespace BetterAfrica.Benefits.Entities.Forms
+﻿using Knights.Core.Nodes;
+
+namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public interface IDetailProduct
+    public class CDetailProduct<T> : BaseForm<T> where T : class, IImportExport, IToNode, new()
     {
     }
 }

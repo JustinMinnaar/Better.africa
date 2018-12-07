@@ -2,24 +2,24 @@
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public class FormMembershipCommunication : IImportExport
+    public class FormMembershipCommunication : BaseForm<FormMembershipCommunication>, IToNode
     {
         public EReceivePaper? ReceiveLetters { get; set; }
         public bool? ReceiveSms { get; set; }
         public EHomeLanguage? HomeLanguage { get; set; }
 
-        public void Import(CNode node)
+        public override void Import(CNode node)
         {
-            ReceiveLetters = node.TryGetEnum<EReceivePaper>("ReceiveLetters");
-            ReceiveSms = node.TryGetBoolean("ReceiveSms");
-            HomeLanguage = node.TryGetEnum<EHomeLanguage>("HomeLanguage");
+            ReceiveLetters = node.TryGetEnum<EReceivePaper>("letters");
+            ReceiveSms = node.TryGetBoolean("sms");
+            HomeLanguage = node.TryGetEnum<EHomeLanguage>("language");
         }
 
-        public void Export(CNode node)
+        public override void Export(CNode node)
         {
-            if (ReceiveLetters != null) node.SetEnum<EReceivePaper>("ReceiveLetters", ReceiveLetters.Value);
-            node.SetString("ReceiveSms", ReceiveSms);
-            if (HomeLanguage != null) node.SetEnum<EHomeLanguage>("HomeLanguage", HomeLanguage.Value);
+            if (ReceiveLetters != null) node.SetEnum<EReceivePaper>("letters", ReceiveLetters.Value);
+            node.SetBoolean("sms", ReceiveSms);
+            if (HomeLanguage != null) node.SetEnum<EHomeLanguage>("language", HomeLanguage.Value);
         }
     }
 }

@@ -3,11 +3,16 @@ using Knights.Core.Nodes;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public abstract class BaseForm<T> : IImportExport where T : class, IImportExport, new()
+    public interface IToNode
     {
-        public CNode ToNode()
+        CNode ToNode(string nickname = null);
+    }
+
+    public abstract class BaseForm<T> : IImportExport where T : class, IImportExport, IToNode, new()
+    {
+        public CNode ToNode(string nickname = null)
         {
-            var node = new CNode(this.ToNickname());
+            var node = new CNode(nickname ?? this.ToNickname());
             Export(node);
             return node;
         }
@@ -20,9 +25,13 @@ namespace BetterAfrica.Benefits.Entities.Forms
         }
 
         public virtual void Export(CNode node)
-        { }
+        {
+            this.ExportProperties(node);
+        }
 
         public virtual void Import(CNode node)
-        { }
+        {
+            this.ImportProperties(node);
+        }
     }
 }

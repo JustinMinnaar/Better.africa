@@ -37,12 +37,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Knights.Core.Common">
-      <HintPath>..\DLLs\Knights.Core.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Knights.Core.Nodes">
-      <HintPath>..\DLLs\Knights.Core.Nodes.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -56,7 +50,7 @@
   <ItemGroup>
     <Compile Include="BenefitsDbContext.cs" />
     <Compile Include="Base\BaseForm.cs" />
-    <Compile Include="Forms\DetailBeneficiary.cs" />
+    <Compile Include="Forms\DetailProduct.cs" />
     <Compile Include="Forms\DetailProductEducation.cs" />
     <Compile Include="Forms\DetailProductFuneral.cs" />
     <Compile Include="Forms\DetailProductHamper.cs" />
@@ -65,6 +59,7 @@
     <Compile Include="Forms\enums.cs" />
     <Compile Include="Forms\FormMembership.cs" />
     <Compile Include="Forms\FormMembershipArea.cs" />
+    <Compile Include="Forms\FormMembershipBeneficiary.cs" />
     <Compile Include="Forms\FormMembershipCommunication.cs" />
     <Compile Include="Forms\FormMembershipDetail.cs" />
     <Compile Include="Forms\FormMembershipPackage.cs" />
@@ -79,6 +74,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Knights IT\Knights.Solution6\Source\Core\Knights.Core.Common\Knights.Core.Common.csproj">
+      <Project>{0F968F43-4884-4F40-A3F7-49DBA54005BE}</Project>
+      <Name>Knights.Core.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Knights IT\Knights.Solution6\Source\Core\Knights.Core.Nodes\Knights.Core.Nodes.csproj">
+      <Project>{19F8FF9A-060E-47DB-B3A8-7E3A87499BDB}</Project>
+      <Name>Knights.Core.Nodes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Benefits.Shared\BetterAfrica.Shared.csproj">
       <Project>{F621104F-F9A1-49AD-8C3E-ED699A9391E0}</Project>
       <Name>BetterAfrica.Shared</Name>

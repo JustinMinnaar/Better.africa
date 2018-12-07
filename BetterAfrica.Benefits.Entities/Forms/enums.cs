@@ -1,5 +1,20 @@
 ﻿namespace BetterAfrica.Benefits.Entities.Forms
 {
+    public enum EPersonRelated
+    {
+        Father,
+        Mother,
+        Brother,
+        Sister,
+        Uncle,
+        Aunt,
+        Grandfather,
+        Grandmother,
+        Greatgrandfather,
+        Greatgrandmother,
+        Cousin,
+    }
+
     public enum EPersonGenders
     {
         Male,
@@ -21,12 +36,14 @@
 
     public enum EFormAction
     {
-        New,
+        Add,
         Update,
-        Cancel,
+        Delete,
     }
 
     public enum EHomeLanguage
     {
+        English,
+        Afrikaans,
     }
 }

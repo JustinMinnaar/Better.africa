@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterAfrica.Benefits.Provi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterAfrica.Benefits.Providers.UnitTests", "BetterAfrica.Benefits.Providers.UnitTests\BetterAfrica.Benefits.Providers.UnitTests.csproj", "{071282DA-3FFF-4836-8AF5-FA49AC3192C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Knights.Core.Nodes", "..\..\Knights IT\Knights.Solution6\Source\Core\Knights.Core.Nodes\Knights.Core.Nodes.csproj", "{19F8FF9A-060E-47DB-B3A8-7E3A87499BDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Knights.Core.Common", "..\..\Knights IT\Knights.Solution6\Source\Core\Knights.Core.Common\Knights.Core.Common.csproj", "{0F968F43-4884-4F40-A3F7-49DBA54005BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,14 @@ Global
 		{071282DA-3FFF-4836-8AF5-FA49AC3192C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{071282DA-3FFF-4836-8AF5-FA49AC3192C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{071282DA-3FFF-4836-8AF5-FA49AC3192C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19F8FF9A-060E-47DB-B3A8-7E3A87499BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F8FF9A-060E-47DB-B3A8-7E3A87499BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F8FF9A-060E-47DB-B3A8-7E3A87499BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F8FF9A-060E-47DB-B3A8-7E3A87499BDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F968F43-4884-4F40-A3F7-49DBA54005BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F968F43-4884-4F40-A3F7-49DBA54005BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F968F43-4884-4F40-A3F7-49DBA54005BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F968F43-4884-4F40-A3F7-49DBA54005BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

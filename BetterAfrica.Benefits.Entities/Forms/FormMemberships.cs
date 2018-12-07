@@ -6,9 +6,25 @@ namespace BetterAfrica.Benefits.Entities.Forms
 {
     public static class FormMemberships
     {
-        public static IEnumerable<FormMembership> ReadMemberships(string xmlPath)
+        public static CNode ToNode(IEnumerable<FormMembership> memberships)
+        {
+            var node = new CNode("memberships");
+            foreach (var mem in memberships)
+            {
+                node.AddChild(mem.ToNode());
+            }
+            return node;
+        }
+
+        public static IEnumerable<FormMembership> FromXmlFile(string xmlPath)
         {
             var node = CNode.FromXmlFile(xmlPath);
+            return ReadMemberships(node);
+        }
+
+        public static IEnumerable<FormMembership> FromXml(string xml)
+        {
+            var node = CNode.FromXml(xml);
             return ReadMemberships(node);
         }
 
@@ -19,13 +35,13 @@ namespace BetterAfrica.Benefits.Entities.Forms
 
             foreach (var child in node.Children)
             {
-                if (node.Type == "membership")
+                if (child.Type == "membership")
                 {
                     var m = FormMembership.FromNode(child);
-                    node.ThrowUnknownAttributes();
+                    child.ThrowUnknownAttributes();
                     yield return m;
                 }
-                else throw new BenefitsException("Unknown node " + node.Err);
+                else throw new BenefitsException("Unknown node " + child.Err);
             }
         }
     }

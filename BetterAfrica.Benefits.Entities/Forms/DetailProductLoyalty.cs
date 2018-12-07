@@ -5,23 +5,7 @@ using Knights.Core.Nodes;
 namespace BetterAfrica.Benefits.Entities.Forms
 {
     [Nickname("loyalty")]
-    public class DetailProductLoyalty : IDetailProduct
+    public class DetailProductLoyalty : DetailProduct<DetailProductLoyalty>
     {
-        public decimal? Savings { get; set; }
-
-        public CNode Export()
-        {
-            var node = new CNode(this.ToNickname());
-            node.SetDecimal("savings", Savings);
-            return node;
-        }
-
-        public static IDetailProduct ReadDetail(CNode child)
-        {
-            return new DetailProductHamper
-            {
-                Savings = child.TryGetDecimal("savings"),
-            };
-        }
     }
 }

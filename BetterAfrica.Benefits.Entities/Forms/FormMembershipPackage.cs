@@ -1,46 +1,48 @@
 ﻿using BetterAfrica.Shared;
+using Knights.Core.Common;
 using Knights.Core.Nodes;
 using System;
 using System.Collections.Generic;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public class FormMembershipPackage
+    [Nickname("package")]
+    public class FormMembershipPackage : BaseForm<FormMembershipPackage>, IToNode
     {
         public string Name { get; set; }
         public string Covers { get; set; }
         public string AgentCode { get; set; }
         public DateTime? InceptionDate { get; set; }
         public DateTime? SignDate { get; set; }
-        public virtual ICollection<IDetailProduct> Products { get; } = new HashSet<IDetailProduct>();
+        public virtual ICollection<IToNode> Products { get; } = new HashSet<IToNode>();
 
-        public static FormMembershipPackage ReadDetail(CNode node)
+        public override void Import(CNode node)
         {
-            var p = new FormMembershipPackage
-            {
-                Name = node.TryGetString("name"),
-                Covers = node.TryGetString("covers"),
-                AgentCode = node.GetString("agent"),
-                InceptionDate = node.TryGetDateTime("inceptionDate"),
-                SignDate = node.TryGetDateTime("signDate"),
-            };
+            base.Import(node);
 
             foreach (var child in node.Children)
             {
                 switch (child.Type.ToLower())
                 {
-                    case "funeral": p.Products.Add(DetailProductFuneral.FromNode(child)); break;
-                    case "medical": p.Products.Add(DetailProductMedical.ReadDetail(child)); break;
-                    case "hamper": p.Products.Add(DetailProductHamper.ReadDetail(child)); break;
-                    case "education": p.Products.Add(DetailProductEducation.FromNode(child)); break;
-                    case "loyalty": p.Products.Add(DetailProductLoyalty.FromNode(child)); break;
+                    case "funeral": Products.Add(DetailProductFuneral.FromNode(child)); break;
+                    case "medical": Products.Add(DetailProductMedical.FromNode(child)); break;
+                    case "hamper": Products.Add(DetailProductHamper.FromNode(child)); break;
+                    case "education": Products.Add(DetailProductEducation.FromNode(child)); break;
+                    case "loyalty": Products.Add(DetailProductLoyalty.FromNode(child)); break;
                     default:
                         throw new BenefitsException("Unknown node " + child.Err);
                 }
                 child.ThrowUnknownAttributes();
             }
+        }
 
-            return p;
+        public override void Export(CNode node)
+        {
+            base.Export(node);
+            foreach (var product in Products)
+            {
+                node.AddChild(product.ToNode());
+            }
         }
     }
 }

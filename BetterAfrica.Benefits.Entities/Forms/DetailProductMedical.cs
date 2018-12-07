@@ -5,7 +5,7 @@ using Knights.Core.Nodes;
 namespace BetterAfrica.Benefits.Entities.Forms
 {
     [Nickname("medical")]
-    public class DetailProductMedical : IDetailProduct
+    public class DetailProductMedical : BaseForm<DetailProductMedical>, IToNode
     {
         public bool? HasTransport { get; set; }
         public bool? HasEmergency { get; set; }
@@ -20,14 +20,13 @@ namespace BetterAfrica.Benefits.Entities.Forms
             return node;
         }
 
-        public static DetailProductMedical ReadDetail(CNode child)
+        public override void Import(CNode node)
         {
-            return new DetailProductMedical
-            {
-                HasTransport = child.TryGetBoolean("hasTransport"),
-                HasEmergency = child.TryGetBoolean("hasEmergency"),
-                DailyCover = child.TryGetDecimal("dailyCover"),
-            };
+            base.Import(node);
+
+            HasTransport = node.TryGetBoolean("hasTransport");
+            HasEmergency = node.TryGetBoolean("hasEmergency");
+            DailyCover = node.TryGetDecimal("dailyCover");
         }
     }
 }

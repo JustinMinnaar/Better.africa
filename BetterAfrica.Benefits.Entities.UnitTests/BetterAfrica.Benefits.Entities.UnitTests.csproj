@@ -56,7 +56,24 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Memberships.xml" />
+    <Content Include="Memberships.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Memberships1.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Knights IT\Knights.Solution6\Source\Core\Knights.Core.Common\Knights.Core.Common.csproj">
+      <Project>{0F968F43-4884-4F40-A3F7-49DBA54005BE}</Project>
+      <Name>Knights.Core.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Knights IT\Knights.Solution6\Source\Core\Knights.Core.Nodes\Knights.Core.Nodes.csproj">
+      <Project>{19F8FF9A-060E-47DB-B3A8-7E3A87499BDB}</Project>
+      <Name>Knights.Core.Nodes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BetterAfrica.Benefits.Entities\BetterAfrica.Benefits.Entities.csproj">
+      <Project>{8139FAB6-70EA-45A9-8CE4-B901DF660EAA}</Project>
+      <Name>BetterAfrica.Benefits.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

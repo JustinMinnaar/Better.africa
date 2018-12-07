@@ -2,7 +2,7 @@
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public class FormMembershipArea : BaseForm<FormMembershipArea>
+    public class FormMembershipArea : BaseForm<FormMembershipArea>, IToNode
     {
         public string Postal { get; set; }
         public string City { get; set; }
@@ -12,7 +12,8 @@ namespace BetterAfrica.Benefits.Entities.Forms
 
         public override void Import(CNode node)
         {
-            base.Import();
+            base.Import(node);
+
             Postal = node.TryGetString("postal");
             City = node.TryGetString("city");
             State = node.TryGetString("state");
@@ -20,8 +21,10 @@ namespace BetterAfrica.Benefits.Entities.Forms
             Code = node.TryGetString("code");
         }
 
-        public void Export(CNode node)
+        public override void Export(CNode node)
         {
+            base.Export(node);
+
             node.SetString("postal", Postal);
             node.SetString("city", City);
             node.SetString("state", State);
