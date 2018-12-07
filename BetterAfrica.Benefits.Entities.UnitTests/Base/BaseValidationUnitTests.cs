@@ -1,8 +1,10 @@
-﻿using Benefits.Entities;
+﻿using BetterAfrica.Benefits.Entities;
+using BetterAfrica.Benefits.Entities.Forms;
 using BetterAfrica.Shared;
+using Knights.Fluid.Datums;
 using System;
 
-namespace Benefits.Entities.UnitTests
+namespace BetterAfrica.Benefits.Entities.UnitTests
 {
     public abstract class BaseValidationUnitTests
     {
@@ -16,11 +18,13 @@ namespace Benefits.Entities.UnitTests
             IdentityNumber = SouthAfricanIdentityNumber.Random(1960, 1980, true).Number,
             Gender = EPersonGenders.Male,
             CellPhone = "0813702097",
+            CellPhoneDial = "0813702097",
             HomePhone = "",
+            HomePhoneDial = "",
             WorkPhone = "",
+            WorkPhoneDial = "",
             EmailAddress = "",
-            EmployedAt = "",
-            EmployedAtPhone = "",
+            Work = "",
         };
 
         protected BPerson p2Bertha47 => new BPerson

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Benefits.Entities
+namespace BetterAfrica.Benefits.Entities
 {
     public abstract class BDependency
     {

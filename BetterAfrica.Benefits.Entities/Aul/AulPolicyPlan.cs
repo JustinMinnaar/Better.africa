@@ -1,6 +1,7 @@
 ﻿using BetterAfrica.Shared;
+using Knights.Core.Common;
 
-namespace Benefits.Entities
+namespace BetterAfrica.Benefits.Entities
 {
     public class AulPolicyPlan : BaseEntity
     {

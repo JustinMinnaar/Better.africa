@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Benefits.Entities.UnitTests
+namespace BetterAfrica.Benefits.Entities.UnitTests
 {
     [TestClass]
     public class PersonValidationUnitTests : BaseValidationUnitTests

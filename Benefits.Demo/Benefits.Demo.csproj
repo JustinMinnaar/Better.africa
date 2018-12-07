@@ -85,6 +85,14 @@
       <Project>{F621104F-F9A1-49AD-8C3E-ED699A9391E0}</Project>
       <Name>BetterAfrica.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BetterAfrica.Benefits.Entities.UnitTests\BetterAfrica.Benefits.Entities.UnitTests.csproj">
+      <Project>{ED2DFEF1-8B4B-4B5F-8343-E9150797E235}</Project>
+      <Name>BetterAfrica.Benefits.Entities.UnitTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BetterAfrica.Benefits.Entities\BetterAfrica.Benefits.Entities.csproj">
+      <Project>{8139FAB6-70EA-45A9-8CE4-B901DF660EAA}</Project>
+      <Name>BetterAfrica.Benefits.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Memberships.xml" />

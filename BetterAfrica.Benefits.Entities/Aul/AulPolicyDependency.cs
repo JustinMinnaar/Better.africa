@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Benefits.Entities
+namespace BetterAfrica.Benefits.Entities
 {
     /// <summary>
     ///     A person of a particular type to be covered by the policy.

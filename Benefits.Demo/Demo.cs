@@ -1,15 +1,11 @@
-﻿using Benefits.Entities;
-using Benefits.Entities.UnitTests;
-using Benefits.Provider;
-using Benefits.Provider.Forms;
+﻿using Benefits.Provider;
+using BetterAfrica.Benefits.Entities;
+using BetterAfrica.Benefits.Entities.Forms;
+using BetterAfrica.Benefits.Entities.UnitTests;
 using BetterAfrica.Shared;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Benefits.Demo
 {
@@ -19,7 +15,7 @@ namespace Benefits.Demo
         {
             var bp = new BenefitsProvider(Guid.NewGuid());
 
-            var forms = BenefitsXmlReader.ReadForms(xmlPath: "Memberships.xml").ToList();
+            var forms = FormMemberships.FromXmlFile(xmlPath: "Memberships.xml").ToList();
             foreach (var form in forms)
             {
                 Output(form.Err);
@@ -86,17 +82,17 @@ namespace Benefits.Demo
             // We can't approve a membership or member until all errors have been corrected
             bp.SubmitMembership(m1.Id);
 
-            var newMemberships = bp.ListMemberships(Shared.WorkflowStatuses.New);
+            var newMemberships = bp.ListMemberships(WorkflowStatuses.New);
 
             Output("newMemberships", newMemberships);
 
-            var pendingMemberships = bp.ListMemberships(Shared.WorkflowStatuses.Pending);
+            var pendingMemberships = bp.ListMemberships(WorkflowStatuses.Pending);
 
             Output("pendingMemberships", pendingMemberships);
 
             bp.ApproveMembership(m1.Id);
 
-            var approvedMemberships = bp.ListMemberships(Shared.WorkflowStatuses.Approved);
+            var approvedMemberships = bp.ListMemberships(WorkflowStatuses.Approved);
 
             Output("approvedMemberships", approvedMemberships);
 

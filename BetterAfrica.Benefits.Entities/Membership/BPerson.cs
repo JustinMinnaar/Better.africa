@@ -1,9 +1,11 @@
-﻿using BetterAfrica.Shared;
+﻿using BetterAfrica.Benefits.Entities.Forms;
+using BetterAfrica.Shared;
 using Knights.Core.Common;
+using Knights.Fluid.Datums;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Benefits.Entities
+namespace BetterAfrica.Benefits.Entities
 {
     /// <summary>
     ///     A person that may be a member of a membership.
@@ -111,8 +113,7 @@ namespace Benefits.Entities
         public string WorkPhone { get; set; }
         public string WorkPhoneDial { get; set; }
         public string EmailAddress { get; set; }
-        public string EmployedAt { get; set; }
-        public string EmployedAtPhone { get; set; }
+        public string Work { get; set; }
 
         protected override void BeforeSaveOverride(EntityErrors errors)
         {

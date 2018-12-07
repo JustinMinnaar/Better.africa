@@ -16,7 +16,7 @@ namespace BetterAfrica.Shared
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Pk { get; set; }
 
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
     }
 
     public abstract class BaseEntity : BaseRow

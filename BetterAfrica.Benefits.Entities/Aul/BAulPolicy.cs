@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Benefits.Entities
+namespace BetterAfrica.Benefits.Entities
 {
     public class BAulPolicy : BContract
     {

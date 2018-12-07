@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Benefits.Entities.UnitTests.Aul
+namespace BetterAfrica.Benefits.Entities.UnitTests.Aul
 {
     [TestClass]
     public class UnitTest1

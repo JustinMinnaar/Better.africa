@@ -1,9 +1,10 @@
 ﻿using BetterAfrica.Shared;
+using Knights.Core.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Benefits.Entities
+namespace BetterAfrica.Benefits.Entities
 {
     public class BContract : BaseEntity
     {

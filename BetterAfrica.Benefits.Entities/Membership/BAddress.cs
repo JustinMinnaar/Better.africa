@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Benefits.Entities.Membership
+namespace BetterAfrica.Benefits.Entities.Membership
 {
     public class BAddress
     {

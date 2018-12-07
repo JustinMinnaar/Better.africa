@@ -59,19 +59,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aul\UnitTest1.cs" />
-    <Compile Include="Base\BaseValidationUnitTests.cs" />
-    <Compile Include="Base\ContractUnitTests.cs" />
-    <Compile Include="Membership\MembershipValidationUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Membership\PersonValidationUnitTests.cs" />
-    <Compile Include="Aul\PolicyValidationUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Knights IT\Knights.Solution6\Source\Core\Knights.Core.Nodes\Knights.Core.Nodes.csproj">
+      <Project>{19f8ff9a-060e-47db-b3a8-7e3a87499bdb}</Project>
+      <Name>Knights.Core.Nodes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Benefits.Shared\BetterAfrica.Shared.csproj">
       <Project>{f621104f-f9a1-49ad-8c3e-ed699a9391e0}</Project>
       <Name>BetterAfrica.Shared</Name>

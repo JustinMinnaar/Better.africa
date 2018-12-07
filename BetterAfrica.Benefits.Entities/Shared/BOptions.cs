@@ -1,6 +1,6 @@
 ﻿using BetterAfrica.Shared;
 
-namespace Benefits.Entities
+namespace BetterAfrica.Benefits.Entities
 {
     public class BOptions : BaseRow
     {

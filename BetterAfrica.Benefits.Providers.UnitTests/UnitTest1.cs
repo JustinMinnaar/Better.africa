@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Benefits.Provider;
-using Benefits.Provider.Forms;
+using BetterAfrica.Benefits.Entities.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BetterAfrica.Benefits.Providers.UnitTests
@@ -14,11 +14,11 @@ namespace BetterAfrica.Benefits.Providers.UnitTests
         {
             var provider = new MembershipProvider(Guid.NewGuid());
 
-            var forms = BenefitsXmlReader.ReadForms("Memberships.xml");
+            var forms = FormMemberships.FromXmlFile("Memberships.xml");
             //var forms = FormMembership.ManyFromXmlFile("Memberships.xml");
 
             var newMemberForm = forms.FirstOrDefault(p => p.Detail.Number == "1");
-            var membership = provider.CreateMembership(newMemberForm);
+            var membership = provider.ApplyMembershipForm(newMemberForm);
             Assert.IsNotNull(membership);
         }
     }

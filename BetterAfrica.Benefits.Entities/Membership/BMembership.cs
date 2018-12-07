@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace Benefits.Entities
+namespace BetterAfrica.Benefits.Entities
 {
     public class BMembership : BContract
     {

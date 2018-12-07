@@ -1,13 +1,11 @@
-﻿using Benefits.Entities;
-using BetterAfrica.Shared;
+﻿using BetterAfrica.Shared;
 using Knights.Core.Common;
 using System;
 using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Benefits.Provider.Forms;
+using BetterAfrica.Benefits.Entities;
+using BetterAfrica.Benefits.Entities.Forms;
 
 namespace Benefits.Provider
 {
@@ -123,7 +121,8 @@ namespace Benefits.Provider
 
                 DateTime createOn = Clock.Now;
 
-                var membership = ProcessForm(db, app);
+                var result = ProcessForm(db, app);
+                return result.Membership;
             }
         }
 
@@ -131,11 +130,12 @@ namespace Benefits.Provider
         {
             var agent = LocateAgent(db: db, agentCode: form.Detail.AgentCode);
 
-            var principal = FormToPerson(db, form.Principal, form.Detail.Action);
+            var formType = form.Detail.Action.Value;
+            var principal = FormToPerson(db, form.Principal, formType);
 
-            var memberships = FindMembership(identityNumber: form.Principal.IdentityNumber);
+            var memberships = FindMemberships(identityNumber: form.Principal.IdentityNumber);
             var membershipsCount = memberships.Count();
-            if (formType != EFormAction.New)
+            if (formType != EFormAction.Add)
             {
                 if (membershipsCount != 1)
                     throw new BenefitsException($"Membership not found for principal with identity number {form.Principal.IdentityNumber}!");
@@ -148,6 +148,7 @@ namespace Benefits.Provider
 
             DateTime createOn = Clock.Now;
 
+            var membership = memberships.First();
             var m = new BMembership
             {
                 Id = membership.Id,
@@ -156,7 +157,7 @@ namespace Benefits.Provider
                 CreatedOn = createOn,
                 InceptionDate = membership.InceptionDate,
                 SignDate = membership.SignDate,
-                Number = number,
+                Number = membership.Number,
                 RowVersion = 1,
                 WorkflowStatus = WorkflowStatuses.New,
             };
@@ -172,7 +173,7 @@ namespace Benefits.Provider
             return agent;
         }
 
-        public IEnumerable<BMembership> FindMembership(string name = null, string identityNumber = null)
+        public IEnumerable<BMembership> FindMemberships(string name = null, string identityNumber = null)
         {
             using (var db = new BenefitsDbContext())
             {
@@ -191,13 +192,13 @@ namespace Benefits.Provider
             var p = new BPerson();
             switch (type)
             {
-                case EFormAction.New:
+                case EFormAction.Add:
                     if (people.Count() > 0)
                         throw new BenefitsException($"Person '{form.FirstName}{form.LastName}' already exists with {form.IdentityNumber}!");
                     break;
 
                 case EFormAction.Update:
-                case EFormAction.Cancel:
+                case EFormAction.Delete:
                     if (people.Count() != 1)
                         throw new BenefitsException($"Person '{form.FirstName}{form.LastName}' matched {people.Count()} people with identity number {form.IdentityNumber}!");
                     break;
@@ -214,8 +215,8 @@ namespace Benefits.Provider
             if (p.DateOfBirth != form.DateOfBirth) { p.DateOfBirth = form.DateOfBirth; msg += $"DateOfBirth=[{p.DateOfBirth:yyyy-mm-dd}] "; }
             if (p.DateOfDeath != form.DateOfDeath) { p.DateOfDeath = form.DateOfDeath; msg += $"DateOfDeath=[{p.DateOfDeath:yyyy-mm-dd}] "; }
             if (p.EmailAddress != form.EmailAddress) { msg += "EmailAddress=" + p.EmailAddress; p.EmailAddress = form.EmailAddress; }
-            if (p.EmployedAt != form.EmployedAt) { p.EmployedAt = form.EmployedAt; msg += $"EmployedAt=[{p.EmployedAt}]"; }
-            if (p.EmployedAtPhone != form.EmployedAtPhone) { p.EmployedAtPhone = form.EmployedAtPhone; msg += $"EmployedAtPhone=[{p.EmployedAtPhone}] "; }
+            if (p.Work != form.WorkName) { p.Work = form.WorkName; msg += $"Work=[{p.Work}]"; }
+            if (p.WorkPhone != form.WorkPhone) { p.WorkPhone = form.WorkPhone; msg += $"WorkPhone=[{p.WorkPhone}] "; }
             if (p.FirstName != form.FirstName) { p.FirstName = form.FirstName; msg += $"FirstName=[{p.FirstName}] "; }
             if (p.Gender != form.Gender) { p.Gender = form.Gender; msg += $"Gender=[{p.Gender}] "; }
             if (p.HomePhone != form.HomePhone) { p.HomePhone = form.HomePhone; p.HomePhoneDial = form.HomePhone.ToDigitsOnly(); msg += $"HomePhone=[{p.HomePhone}] "; }
@@ -286,8 +287,8 @@ namespace Benefits.Provider
             }
 
             // TODO: audit
-            if (p.EmployedAt != person.EmployedAt) { if (p.EmployedAt != null) msg += $"EmployedAt={p.EmployedAt}"; p.EmployedAt = person.EmployedAt; }
-            if (p.EmployedAtPhone != person.EmployedAtPhone) { msg += $"{p.EmployedAtPhone}"; p.EmployedAtPhone = person.EmployedAtPhone; }
+            if (p.Work != person.Work) { if (p.Work != null) msg += $"Work={p.Work}"; p.Work = person.Work; }
+            if (p.WorkPhone != person.WorkPhone) { msg += $"{p.WorkPhone}"; p.WorkPhone = person.WorkPhone; }
             if (p.FirstName != person.FirstName) { if (p.FirstName != null) msg += $"{p.FirstName}"; p.FirstName = person.FirstName; }
             if (p.HomePhone != person.HomePhone) { if (p.HomePhone != null) msg += $"{p.FirstName}"; msg += $"{p.HomePhone}"; p.HomePhone = person.HomePhone; }
             if (p.LastName != person.LastName) { if (p.LastName != null) msg += $"{p.LastName}"; p.LastName = person.LastName; }

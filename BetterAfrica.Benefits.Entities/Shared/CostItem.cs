@@ -1,7 +1,7 @@
 ﻿using BetterAfrica.Shared;
 using System;
 
-namespace Benefits.Entities
+namespace BetterAfrica.Benefits.Entities
 {
     public class TransactionItem : BaseRow
     {

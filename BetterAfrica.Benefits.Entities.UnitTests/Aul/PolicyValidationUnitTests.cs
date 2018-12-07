@@ -1,9 +1,7 @@
-﻿using Benefits.Entities;
-using BetterAfrica.Shared;
-using Knights.Core.Common;
+﻿using Knights.Core.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Benefits.Entities.UnitTests
+namespace BetterAfrica.Benefits.Entities.UnitTests
 {
     public class FuneralPolicy_UnitTests : BaseValidationUnitTests
     {

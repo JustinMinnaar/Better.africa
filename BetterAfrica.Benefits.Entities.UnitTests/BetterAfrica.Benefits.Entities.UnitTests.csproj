@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Knights.Fluid.Datums">
+      <HintPath>..\DLLs\Knights.Fluid.Datums.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
@@ -49,10 +52,17 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aul\PolicyValidationUnitTests.cs" />
+    <Compile Include="Aul\UnitTest1.cs" />
+    <Compile Include="Base\BaseValidationUnitTests.cs" />
+    <Compile Include="Base\ContractUnitTests.cs" />
+    <Compile Include="Membership\MembershipValidationUnitTests.cs" />
+    <Compile Include="Membership\PersonValidationUnitTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +79,10 @@
     <ProjectReference Include="..\..\..\Knights IT\Knights.Solution6\Source\Core\Knights.Core.Nodes\Knights.Core.Nodes.csproj">
       <Project>{19F8FF9A-060E-47DB-B3A8-7E3A87499BDB}</Project>
       <Name>Knights.Core.Nodes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Benefits.Shared\BetterAfrica.Shared.csproj">
+      <Project>{F621104F-F9A1-49AD-8C3E-ED699A9391E0}</Project>
+      <Name>BetterAfrica.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\BetterAfrica.Benefits.Entities\BetterAfrica.Benefits.Entities.csproj">
       <Project>{8139FAB6-70EA-45A9-8CE4-B901DF660EAA}</Project>
