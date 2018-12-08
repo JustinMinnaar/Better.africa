@@ -145,7 +145,7 @@ namespace BetterAfrica.Benefits.Entities
                 {
                     var type = dependancy.Type;
                     var minAgeInYears = Plan.MinAgeInYears(type);
-                    var maxAgeInYears = Plan.MaxAgeInYears(type, dependancy.IsTertiaryStudent);
+                    var maxAgeInYears = Plan.MaxAgeInYears(type, dependancy.Person.Scholar ?? false);
 
                     var personYears = person.AgeInYearsAsAt(InceptionDate.Value);
                     if (personYears < minAgeInYears || personYears > maxAgeInYears)

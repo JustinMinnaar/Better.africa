@@ -1,9 +1,7 @@
-﻿using BetterAfrica.Benefits.Entities.Forms;
-using BetterAfrica.Shared;
+﻿using BetterAfrica.Shared;
 using Knights.Core.Common;
-using Knights.Core.Nodes;
 
-namespace BetterAfrica.Benefits.Entities.Forms
+namespace BetterAfrica.Benefits.Entities
 {
     [Nickname("medical")]
     public class BPlanPolicyMedical : BaseEntity
@@ -11,23 +9,5 @@ namespace BetterAfrica.Benefits.Entities.Forms
         public bool? HasTransport { get; set; }
         public bool? HasEmergency { get; set; }
         public decimal? DailyCover { get; set; }
-
-        public CNode Export()
-        {
-            var node = new CNode(this.ToNickname());
-            node.SetBoolean("hasTransport", HasTransport);
-            node.SetBoolean("hasEmergency", HasEmergency);
-            node.SetDecimal("dailyCover", DailyCover);
-            return node;
-        }
-
-        public override void Import(CNode node)
-        {
-            base.Import(node);
-
-            HasTransport = node.TryGetBoolean("hasTransport");
-            HasEmergency = node.TryGetBoolean("hasEmergency");
-            DailyCover = node.TryGetDecimal("dailyCover");
-        }
     }
 }

@@ -64,7 +64,7 @@
       <Name>BetterAfrica.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\BetterAfrica.Benefits.Entities\BetterAfrica.Benefits.Entities.csproj">
-      <Project>{8139fab6-70ea-45a9-8ce4-b901df660eaa}</Project>
+      <Project>{8139FAB6-70EA-45A9-8CE4-B901DF660EAA}</Project>
       <Name>BetterAfrica.Benefits.Entities</Name>
     </ProjectReference>
   </ItemGroup>

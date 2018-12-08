@@ -1,5 +1,4 @@
 ﻿using BetterAfrica.Benefits.Entities;
-using BetterAfrica.Benefits.Entities.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +9,30 @@ namespace BetterAfrica.Benefits.Providers
 {
     public class MembershipProvider
     {
-        private Guid userId;
+        private long userId;
 
-        public MembershipProvider(Guid userId)
+        public MembershipProvider(long userId)
         {
             this.userId = userId;
         }
 
-        public BMembership ApplyMembershipForm(FormMembership membership)
+        public void CreateMember(BMember member)
         {
-            // Create a single transaction to ensure everything saves, or nothing changes.
-            using (var db = new BenefitsDbContext())
-            {
-                return null;
-            }
+            throw new NotImplementedException();
         }
+
+        public BMember TryGetMember(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        //public BMembership ApplyMembershipForm(FormMembership membership)
+        //{
+        //    // Create a single transaction to ensure everything saves, or nothing changes.
+        //    using (var db = new BenefitsDbContext())
+        //    {
+        //        return null;
+        //    }
+        //}
     }
 }

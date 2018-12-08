@@ -1,6 +1,4 @@
-﻿using BetterAfrica.Benefits.Entities.Forms;
-using BetterAfrica.Benefits.Entities.Member;
-using BetterAfrica.Shared;
+﻿using BetterAfrica.Shared;
 using Knights.Core.Common;
 using Knights.Core.Nodes;
 using System;
@@ -20,7 +18,7 @@ namespace BetterAfrica.Benefits.Entities
         public string AddressCountry { get; set; } = "South Africa";
         public string AddressCode { get; set; }
         public ECommunicateVia? CommunicateVia { get; set; }
-        public bool? CommunicateSms { get; set; }
+        public ECommunicateSms? CommunicateSms { get; set; }
         public ELanguage? CommunicateLanguage { get; set; }
         public EBeneficiariesType? BeneficiariesType { get; set; }
 

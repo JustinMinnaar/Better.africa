@@ -1,10 +1,7 @@
-﻿using BetterAfrica.Benefits.Entities.Forms;
-using BetterAfrica.Shared;
+﻿using BetterAfrica.Shared;
 using Knights.Core.Common;
 using Knights.Fluid.Datums;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BetterAfrica.Benefits.Entities
 {

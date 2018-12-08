@@ -2,7 +2,7 @@
 using Knights.Core.Nodes;
 using System.Collections.Generic;
 
-namespace BetterAfrica.Benefits.Entities.Forms
+namespace BetterAfrica.Benefits.Entities
 {
     public static class BMembers
     {

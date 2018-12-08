@@ -26,7 +26,7 @@ namespace BetterAfrica.Benefits.Entities
                 .Include(m => m.Dependencies.Select(d => d.Person))
                 .Include(nameof(BMember.Agent))
                 .AsQueryable()
-                .FirstOrDefault(m => m.EntityId == id);
+                .FirstOrDefault(m => m.Id == id);
             return membership;
         }
 
@@ -77,7 +77,7 @@ namespace BetterAfrica.Benefits.Entities
         {
             var user = modelBuilder.Entity<BUser>();
             //user.HasKey(s => s.Id);
-            user.HasIndex(s => s.EntityId).IsUnique();
+            user.HasIndex(s => s.Id).IsUnique();
             user.ToTable("User");
             user.Property(p => p.Name).IsRequired();
         }
@@ -86,7 +86,7 @@ namespace BetterAfrica.Benefits.Entities
         {
             var options = modelBuilder.Entity<BOptions>();
             options.HasKey(s => s.Id);
-            options.HasIndex(s => s.EntityId).IsUnique();
+            options.HasIndex(s => s.Id).IsUnique();
             options.ToTable("Options");
             options.Property(p => p.LastContractNumber).IsRequired();
         }
@@ -97,7 +97,7 @@ namespace BetterAfrica.Benefits.Entities
             var e = modelBuilder.Entity<T>();
 
             e.HasKey(s => s.Id);
-            e.HasIndex(s => s.EntityId).IsUnique();
+            e.HasIndex(s => s.Id).IsUnique();
             e.Map(m => m.MapInheritedProperties());
 
             e.ToTable(tableName);
@@ -132,7 +132,6 @@ namespace BetterAfrica.Benefits.Entities
             membership.Property(p => p.Number).IsOptional();
             membership.Property(p => p.AgentId).IsOptional();
             membership.Property(p => p.EntityUserId).IsRequired();
-            membership.Property(p => p.EntityCreatedOn).IsRequired();
             membership.Property(p => p.InceptionDate).IsOptional();
             membership.Property(p => p.Number).IsRequired();
             membership.Property(p => p.SignDate).IsOptional();

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using BetterAfrica.Benefits.Entities.Forms;
+using BetterAfrica.Benefits.Entities;
 using Knights.Core.Common;
 using Knights.Core.Nodes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

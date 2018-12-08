@@ -21,6 +21,11 @@
         Female
     }
 
+    public enum ECommunicateSms
+    {
+        Yes
+    }
+
     public enum ECommunicateVia
     {
         Agent,

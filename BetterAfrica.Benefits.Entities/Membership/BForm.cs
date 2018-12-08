@@ -2,7 +2,7 @@
 using Knights.Core.Nodes;
 using System;
 
-namespace BetterAfrica.Benefits.Entities.Forms
+namespace BetterAfrica.Benefits.Entities
 {
     public class BForm : BaseRow
     {
