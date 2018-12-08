@@ -88,7 +88,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests.Aul
                 Assert.AreEqual(36, c3);
 
                 var p6 = new BPerson().WithDateOfBirth(2000, 1, 1);
-                policy.WithDependency(p6, BDependencyType.Person);
+                policy.WithDependency(p6, BDependencyType.Family);
 
                 var c4 = policy.CalculatedMonthlyCost().Sum(a => a.Amount);
                 Assert.AreEqual(45.5m, c4);

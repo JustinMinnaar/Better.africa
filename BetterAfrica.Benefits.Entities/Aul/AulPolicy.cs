@@ -14,7 +14,7 @@ namespace BetterAfrica.Benefits.Entities
         public string Err => $"Policy '{Number}'";
 
         [ForeignKey(nameof(Plan))]
-        public Guid? PlanId { get; set; }
+        public int? PlanId { get; set; }
 
         /// <summary>The plan to be applied to this policy.</summary>
         public AulPolicyPlan Plan { get; set; }
@@ -124,7 +124,7 @@ namespace BetterAfrica.Benefits.Entities
         public IEnumerable<BPerson> Children => GetDependencies(BDependencyType.Child);
 
         /// <summary>Persons covered by the policy as family.</summary>
-        public IEnumerable<BPerson> Family => GetDependencies(BDependencyType.Person);
+        public IEnumerable<BPerson> Family => GetDependencies(BDependencyType.Family);
 
         protected override void BeforeSaveOverride(EntityErrors errors)
         {
@@ -153,7 +153,7 @@ namespace BetterAfrica.Benefits.Entities
                             $"{person.Err} must be between {minAgeInYears} and {maxAgeInYears} years old on inception date {InceptionDate} for {Plan.Err} for {Err}.");
 
                     if (person.AgeInYearsAsAt(Clock.Now) >= maxAgeInYears)
-                        Errors.Add(nameof(BMembership.Dependencies), $"{type} '{person.Name}' cannot be older than {maxAgeInYears} for policy {Number}.");
+                        Errors.Add(nameof(BMember.Dependencies), $"{type} '{person.Name}' cannot be older than {maxAgeInYears} for policy {Number}.");
                 }
             }
         }

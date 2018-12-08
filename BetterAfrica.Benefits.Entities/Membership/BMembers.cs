@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public static class FormMemberships
+    public static class BMembers
     {
-        public static CNode ToNode(IEnumerable<FormMembership> memberships)
+        public static CNode ToNode(IEnumerable<BMember> memberships)
         {
             var node = new CNode("memberships");
             foreach (var mem in memberships)
@@ -16,19 +16,19 @@ namespace BetterAfrica.Benefits.Entities.Forms
             return node;
         }
 
-        public static IEnumerable<FormMembership> FromXmlFile(string xmlPath)
+        public static IEnumerable<BMember> FromXmlFile(string xmlPath)
         {
             var node = CNode.FromXmlFile(xmlPath);
-            return ReadMemberships(node);
+            return ReadMembers(node);
         }
 
-        public static IEnumerable<FormMembership> FromXml(string xml)
+        public static IEnumerable<BMember> FromXml(string xml)
         {
             var node = CNode.FromXml(xml);
-            return ReadMemberships(node);
+            return ReadMembers(node);
         }
 
-        public static IEnumerable<FormMembership> ReadMemberships(CNode node)
+        public static IEnumerable<BMember> ReadMembers(CNode node)
         {
             if (node.Type != "memberships")
                 throw new BenefitsException("Unknown node " + node.Err);
@@ -37,7 +37,7 @@ namespace BetterAfrica.Benefits.Entities.Forms
             {
                 if (child.Type == "membership")
                 {
-                    var m = FormMembership.FromNode(child);
+                    var m = BaseExtensions<BMember>.FromNode(child);
                     child.ThrowUnknownAttributes();
                     yield return m;
                 }

@@ -1,23 +1,27 @@
-﻿using Knights.Core.Common;
+﻿using BetterAfrica.Benefits.Entities.Forms;
+using BetterAfrica.Shared;
+using Knights.Core.Common;
 using Knights.Core.Nodes;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    public class DetailProduct<T> : BaseForm<T>, IToNode where T : class, IImportExport, IToNode, new()
+    [Nickname("funeral")]
+    public class BPlanPolicyFuneral : BaseEntity
     {
-        public decimal? Savings { get; set; }
+        public decimal? Cover { get; set; }
 
         public CNode Export()
         {
             var node = new CNode(this.ToNickname());
-            node.SetDecimal("savings", Savings);
+            node.SetDecimal("cover", Cover);
             return node;
         }
 
         public override void Import(CNode node)
         {
             base.Import(node);
-            Savings = node.TryGetDecimal("savings");
+
+            Cover = node.TryGetDecimal("cover");
         }
     }
 }

@@ -13,9 +13,9 @@ namespace BetterAfrica.Benefits.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public BEntityType EntityType { get; set; }
-        public Guid EntityId { get; set; }
+        public int EntityId { get; set; }
         public DateTime When { get; set; }
         public BAuditAction Action { get; set; }
         public string Description { get; set; }

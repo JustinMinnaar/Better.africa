@@ -78,7 +78,7 @@ namespace BetterAfrica.Benefits.Entities
                 case BDependencyType.Principal: return MaxAgePrincipal;
                 case BDependencyType.Spouse: return MaxAgeSpouse;
                 case BDependencyType.Child: return isTertiaryStudent ? MaxAgeChildScholar : MaxAgeChild;
-                case BDependencyType.Person: return MaxAgeAdult;
+                case BDependencyType.Family: return MaxAgeAdult;
                 default: return 0;
             }
         }
@@ -90,7 +90,7 @@ namespace BetterAfrica.Benefits.Entities
                 case BDependencyType.Principal: return MinAgePrincipal;
                 case BDependencyType.Spouse: return MinAgeSpouse;
                 case BDependencyType.Child: return MinAgeChild;
-                case BDependencyType.Person: return MinAgeAdult;
+                case BDependencyType.Family: return MinAgeAdult;
                 default: return 0;
             }
         }

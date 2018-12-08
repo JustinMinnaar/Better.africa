@@ -10,7 +10,7 @@ namespace BetterAfrica.Benefits.Entities
     {
         public int Number { get; set; }
 
-        public Guid? AgentId { get; set; }
+        public long? AgentId { get; set; }
 
         public virtual BPerson Agent { get; set; }
 
@@ -55,7 +55,8 @@ namespace BetterAfrica.Benefits.Entities
         {
             get
             {
-                if (SignDate == null) return "Sign Date is required to calculate InceptionDate";
+                if (SignDate == null)
+                    return "Sign Date is required to calculate Inception Date";
 
                 var isNull = (InceptionDate == null);
                 var minDate = new DateTime(2018, 12, 1);
@@ -87,18 +88,31 @@ namespace BetterAfrica.Benefits.Entities
 
         #endregion InceptionDate
 
-        #region BeforeSave
+        #region TerminationDate
 
-        protected override void BeforeSaveOverride(EntityErrors errors)
+        public DateTime? TerminationDate { get; set; }
+
+        public string TerminationDateError
         {
-            base.BeforeSaveOverride(errors);
+            get
+            {
+                if (SignDate == null)
+                    return "Sign Date is required to calculate TerminationDate";
 
-            errors.Add(nameof(Agent), AgentError);
-            errors.Add(nameof(SignDate), SignDateError);
-            errors.Add(nameof(InceptionDate), InceptionDateError);
+                var isNull = (TerminationDate == null);
+                var minDate = SignDate.Value.FirstDayOfNextMonth();
+                var isOutOfRange = (TerminationDate < minDate);
+                if (isNull || isOutOfRange)
+                    return $"Termination date is required and must be on or after {minDate.ToStringYMD()}!";
+
+                if (TerminationDate < SignDate)
+                    return "Termination date cannot be before the sign date.";
+
+                return null;
+            }
         }
 
-        #endregion BeforeSave
+        #endregion TerminationDate
     }
 
     public static class ContractHelpers

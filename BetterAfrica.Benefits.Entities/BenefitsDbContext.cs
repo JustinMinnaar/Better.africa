@@ -15,18 +15,18 @@ namespace BetterAfrica.Benefits.Entities
 
         public DbSet<BAudit> Audits { get; set; }
 
-        public DbSet<BMembership> Memberships { get; set; }
+        public DbSet<BMember> Members { get; set; }
 
-        public DbSet<BMembershipDependency> MembershipDependencies { get; set; }
+        public DbSet<BMemberDependency> MemberDependencies { get; set; }
 
-        public BMembership GetMembership(Guid id)
+        public BMember GetMember(int id)
         {
-            var membership = Memberships
-                .Include(nameof(BMembership.Dependencies))
+            var membership = Members
+                .Include(nameof(BMember.Dependencies))
                 .Include(m => m.Dependencies.Select(d => d.Person))
-                .Include(nameof(BMembership.Agent))
+                .Include(nameof(BMember.Agent))
                 .AsQueryable()
-                .FirstOrDefault(m => m.Id == id);
+                .FirstOrDefault(m => m.EntityId == id);
             return membership;
         }
 
@@ -55,7 +55,7 @@ namespace BetterAfrica.Benefits.Entities
             MapAudits(modelBuilder);
             MapOptions(modelBuilder);
             MapPerson(modelBuilder);
-            MapMembership(modelBuilder); // depends on person
+            MapMember(modelBuilder); // depends on person
             MapPolicy(modelBuilder); // depends on member
             MapPolicyPlan(modelBuilder);
         }
@@ -77,7 +77,7 @@ namespace BetterAfrica.Benefits.Entities
         {
             var user = modelBuilder.Entity<BUser>();
             //user.HasKey(s => s.Id);
-            user.HasIndex(s => s.Id).IsUnique();
+            user.HasIndex(s => s.EntityId).IsUnique();
             user.ToTable("User");
             user.Property(p => p.Name).IsRequired();
         }
@@ -85,8 +85,8 @@ namespace BetterAfrica.Benefits.Entities
         private void MapOptions(DbModelBuilder modelBuilder)
         {
             var options = modelBuilder.Entity<BOptions>();
-            options.HasKey(s => s.Pk);
-            options.HasIndex(s => s.Id).IsUnique();
+            options.HasKey(s => s.Id);
+            options.HasIndex(s => s.EntityId).IsUnique();
             options.ToTable("Options");
             options.Property(p => p.LastContractNumber).IsRequired();
         }
@@ -96,15 +96,15 @@ namespace BetterAfrica.Benefits.Entities
         {
             var e = modelBuilder.Entity<T>();
 
-            e.HasKey(s => s.Pk);
-            e.HasIndex(s => s.Id).IsUnique();
+            e.HasKey(s => s.Id);
+            e.HasIndex(s => s.EntityId).IsUnique();
             e.Map(m => m.MapInheritedProperties());
 
             e.ToTable(tableName);
-            e.Property(p => p.RowVersion).IsRequired().IsConcurrencyToken();
-            e.Property(p => p.WorkflowStatus).IsRequired();
+            e.Property(p => p.EntityVersion).IsRequired().IsConcurrencyToken();
+            e.Property(p => p.EntityWorkflowStatus).IsRequired();
 
-            e.Property(p => p.WorkflowByUserId).IsOptional();
+            e.Property(p => p.EntityWorkflowByUserId).IsOptional();
 
             return e;
         }
@@ -117,23 +117,29 @@ namespace BetterAfrica.Benefits.Entities
             person.Property(p => p.DateOfDeath).IsOptional().HasColumnType("date");
             person.Property(p => p.FirstName).IsOptional().HasMaxLength(40);
             person.Property(p => p.LastName).IsOptional().HasMaxLength(40);
+            person.Property(p => p.CellPhone.Number).HasColumnName("CellPhoneNumber").IsOptional().HasMaxLength(40);
+            person.Property(p => p.CellPhone.Dial).HasColumnName("CellPhoneDial").IsOptional().HasMaxLength(40);
+            person.Property(p => p.HomePhone.Number).HasColumnName("HomePhoneNumber").IsOptional().HasMaxLength(40);
+            person.Property(p => p.HomePhone.Dial).HasColumnName("HomePhoneDial").IsOptional().HasMaxLength(40);
+            person.Property(p => p.WorkPhone.Number).HasColumnName("WorkPhoneNumber").IsOptional().HasMaxLength(40);
+            person.Property(p => p.WorkPhone.Dial).HasColumnName("WorkPhoneDial").IsOptional().HasMaxLength(40);
         }
 
-        private static void MapMembership(DbModelBuilder modelBuilder)
+        private static void MapMember(DbModelBuilder modelBuilder)
         {
-            var membership = MapBase<BMembership>(modelBuilder, "Membership");
+            var membership = MapBase<BMember>(modelBuilder, "Member");
 
             membership.Property(p => p.Number).IsOptional();
             membership.Property(p => p.AgentId).IsOptional();
-            membership.Property(p => p.CreatedById).IsRequired();
-            membership.Property(p => p.CreatedOn).IsRequired();
+            membership.Property(p => p.EntityUserId).IsRequired();
+            membership.Property(p => p.EntityCreatedOn).IsRequired();
             membership.Property(p => p.InceptionDate).IsOptional();
             membership.Property(p => p.Number).IsRequired();
             membership.Property(p => p.SignDate).IsOptional();
 
-            var e = modelBuilder.Entity<BMembershipDependency>();
-            e.ToTable("MembershipDependency");
-            e.HasKey(s => new { s.MembershipId, s.PersonId });
+            var e = modelBuilder.Entity<BMemberDependency>();
+            e.ToTable("MemberDependency");
+            e.HasKey(s => new { s.MemberId, s.PersonId });
             e.Property(p => p.Type).IsRequired();
         }
 

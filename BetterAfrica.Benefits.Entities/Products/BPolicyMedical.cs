@@ -1,11 +1,12 @@
 ﻿using BetterAfrica.Benefits.Entities.Forms;
+using BetterAfrica.Shared;
 using Knights.Core.Common;
 using Knights.Core.Nodes;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
     [Nickname("medical")]
-    public class DetailProductMedical : BaseForm<DetailProductMedical>, IToNode
+    public class BPlanPolicyMedical : BaseEntity
     {
         public bool? HasTransport { get; set; }
         public bool? HasEmergency { get; set; }

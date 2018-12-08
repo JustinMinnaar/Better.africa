@@ -1,10 +1,11 @@
 ﻿using BetterAfrica.Benefits.Entities.Forms;
 using Knights.Core.Common;
+using Knights.Core.Nodes;
 
 namespace BetterAfrica.Benefits.Entities.Forms
 {
-    [Nickname("education")]
-    public class DetailProductEducation : DetailProduct<DetailProductEducation>
+    [Nickname("loyalty")]
+    public class BPlanProductLoyalty : BProduct
     {
     }
 }

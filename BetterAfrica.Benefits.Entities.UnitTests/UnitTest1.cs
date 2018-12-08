@@ -13,20 +13,20 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
         [TestMethod]
         public void CanAccessPrincipalAndSpouse()
         {
-            var m = new FormMembership();
+            var m = new FormMember();
             var pd = m.Principal.DateOfBirth;
             var sd = m.Spouse.DateOfBirth;
         }
 
         [TestMethod]
-        public void Xml_CanImportExportMemberships()
+        public void Xml_CanImportExportMembers()
         {
-            var xmlExpected = File.ReadAllText("..\\..\\Memberships1.xml");
-            var memberships = FormMemberships.FromXml(xmlExpected);
+            var xmlExpected = File.ReadAllText("..\\..\\Members1.xml");
+            var memberships = BMembers.FromXml(xmlExpected);
 
-            var node = FormMemberships.ToNode(memberships);
+            var node = BMembers.ToNode(memberships);
             var xmlActual = node.ToXml();
-            File.WriteAllText("..\\..\\Memberships2.xml", xmlActual);
+            File.WriteAllText("..\\..\\Members2.xml", xmlActual);
             Assert.AreEqual(xmlExpected, xmlActual);
         }
     }

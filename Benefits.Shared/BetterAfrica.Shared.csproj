@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Knights.Core.Common">
-      <HintPath>..\DLLs\Knights.Core.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Knights.Core.Nodes">
-      <HintPath>..\DLLs\Knights.Core.Nodes.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -48,11 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseComplexType.cs" />
     <Compile Include="BaseEntity.cs" />
+    <Compile Include="BaseExtensions.cs" />
+    <Compile Include="BaseRow.cs" />
     <Compile Include="BenefitsException.cs" />
     <Compile Include="Clock.cs" />
     <Compile Include="EntityErrors.cs" />
+    <Compile Include="EWorkflowStatuses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Knights IT\Knights.Solution6\Source\Core\Knights.Core.Common\Knights.Core.Common.csproj">
+      <Project>{0F968F43-4884-4F40-A3F7-49DBA54005BE}</Project>
+      <Name>Knights.Core.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Knights IT\Knights.Solution6\Source\Core\Knights.Core.Nodes\Knights.Core.Nodes.csproj">
+      <Project>{19F8FF9A-060E-47DB-B3A8-7E3A87499BDB}</Project>
+      <Name>Knights.Core.Nodes</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

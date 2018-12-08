@@ -5,7 +5,7 @@ namespace BetterAfrica.Benefits.Entities
 {
     public class TransactionItem : BaseRow
     {
-        public Guid TransactionId { get; set; }
+        public int TransactionId { get; set; }
 
         public string Name { get; set; }
 

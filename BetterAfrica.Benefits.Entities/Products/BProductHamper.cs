@@ -2,10 +2,10 @@
 using Knights.Core.Common;
 using Knights.Core.Nodes;
 
-namespace BetterAfrica.Benefits.Entities.Forms
+namespace BetterAfrica.Benefits.Entities
 {
     [Nickname("hamper")]
-    public class DetailProductHamper : DetailProduct<DetailProductHamper>
+    public class BPlanProductHamper : BProduct
     {
     }
 }

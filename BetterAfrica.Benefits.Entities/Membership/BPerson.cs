@@ -3,6 +3,7 @@ using BetterAfrica.Shared;
 using Knights.Core.Common;
 using Knights.Fluid.Datums;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BetterAfrica.Benefits.Entities
@@ -12,7 +13,13 @@ namespace BetterAfrica.Benefits.Entities
     /// </summary>
     public class BPerson : BaseEntity
     {
-        public string Err => $"Person '{Name}'";
+        public string Err => Name;
+
+        #region Code
+
+        public string Code { get; set; }
+
+        #endregion Code
 
         #region Name
 
@@ -75,7 +82,13 @@ namespace BetterAfrica.Benefits.Entities
 
         #endregion Identity
 
+        #region Gender
+
         public EPersonGenders? Gender { get; set; }
+
+        #endregion Gender
+
+        #region DateOfBirth
 
         public DateTime? DateOfBirth { get; set; }
 
@@ -86,14 +99,29 @@ namespace BetterAfrica.Benefits.Entities
                 if (DateOfBirth != null)
                 {
                     var min = Clock.Now.AddYears(-100);
-                    var max = Clock.Now; // system lifespan is 10 years
-                    if (DateOfBirth < min && DateOfBirth > max)
-                        return $"must be after {min} (under 100 years old) and before {max}.";
+                    var max = Clock.Now;
+
+                    if (DateOfBirth > max)
+                        return $"can't be born in the future.";
+
+                    if (DateOfBirth < min)
+                        return $"must be after {min} (under 100 years old).";
                 }
 
                 return null;
             }
         }
+
+        #endregion DateOfBirth
+
+        #region DateOfDeath
+
+        /// <summary>If the person dies, we note the date of death.</summary>
+        public DateTime? DateOfDeath { get; set; }
+
+        #endregion DateOfDeath
+
+        #region AgeInYearsAsAt
 
         public float AgeInYearsAsAt(DateTime date)
         {
@@ -104,30 +132,49 @@ namespace BetterAfrica.Benefits.Entities
             return ageInYears;
         }
 
-        public string Code { get; set; }
-        public string CellPhone { get; set; }
-        public string CellPhoneDial { get; set; }
-        public DateTime? DateOfDeath { get; set; }
-        public string HomePhone { get; set; }
-        public string HomePhoneDial { get; set; }
-        public string WorkPhone { get; set; }
-        public string WorkPhoneDial { get; set; }
+        #endregion AgeInYearsAsAt
+
+        #region CellPhone
+
+        public Phone CellPhone { get; set; }
+
+        #endregion CellPhone
+
+        #region HomePhone
+
+        public Phone HomePhone { get; set; }
+
+        #endregion HomePhone
+
+        #region Work
+
+        public string WorkName { get; set; }
+        public Phone WorkPhone { get; set; }
+
+        #endregion Work
+
+        #region Email
+
         public string EmailAddress { get; set; }
-        public string Work { get; set; }
 
-        protected override void BeforeSaveOverride(EntityErrors errors)
-        {
-            base.BeforeSaveOverride(errors);
+        #endregion Email
 
-            errors.Add(nameof(Name), NameError);
-            errors.Add(nameof(IdentityNumber), IdentityNumberError);
-            errors.Add(nameof(DateOfBirth), DateOfBirthError);
-        }
+        #region Scholar
+
+        public bool? Scholar { get; set; }
+
+        public string SchoolName { get; set; }
+
+        #endregion Scholar
+
+        #region Helpers
 
         public BPerson WithDateOfBirth(int yy, int mm, int dd)
         {
             DateOfBirth = new DateTime(yy, mm, dd);
             return this;
         }
+
+        #endregion Helpers
     }
 }

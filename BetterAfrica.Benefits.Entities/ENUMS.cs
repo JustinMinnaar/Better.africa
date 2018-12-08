@@ -1,4 +1,4 @@
-﻿namespace BetterAfrica.Benefits.Entities.Forms
+﻿namespace BetterAfrica.Benefits.Entities
 {
     public enum EPersonRelated
     {
@@ -21,13 +21,13 @@
         Female
     }
 
-    public enum EReceivePaper
+    public enum ECommunicateVia
     {
         Agent,
         Email,
     }
 
-    public enum EBeneficiaryType
+    public enum EBeneficiariesType
     {
         Spouse,
         Children,
@@ -41,7 +41,7 @@
         Delete,
     }
 
-    public enum EHomeLanguage
+    public enum ELanguage
     {
         English,
         Afrikaans,

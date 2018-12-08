@@ -1,62 +1,24 @@
-﻿using System;
+﻿using Knights.Core.Common;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection;
 
 namespace BetterAfrica.Shared
 {
-    public enum WorkflowStatuses : byte
-    {
-        New = 0, Pending, Approved, Rejected, Deleted,
-    }
-
-    public abstract class BaseRow
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Pk { get; set; }
-
-        public Guid Id { get; set; } = Guid.NewGuid();
-    }
-
     public abstract class BaseEntity : BaseRow
     {
-        public int RowVersion { get; set; } = 1;
+        public int EntityVersion { get; set; } = 1;
 
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        /// <summary>The user that is last worked with this entity.</summary>
+        public int? EntityUserId { get; set; }
 
-        public Guid? CreatedById { get; set; }
+        public DateTime EntityModifiedOn { get; set; } = Clock.Now;
 
-        public WorkflowStatuses WorkflowStatus { get; set; }
+        public EWorkflowStatuses EntityWorkflowStatus { get; set; }
 
-        public Guid WorkflowByUserId { get; set; }
+        public Guid EntityWorkflowByUserId { get; set; }
 
-        public DateTime? WorkflowOn { get; set; }
-
-        public bool IsValid
-        {
-            get { return Errors.Count == 0; }
-            private set { }
-        }
-
-        [NotMapped]
-        public EntityErrors Errors
-        {
-            get
-            {
-                var errors = new EntityErrors();
-                BeforeSave(errors);
-                return errors;
-            }
-        }
-
-        public void BeforeSave(EntityErrors errors)
-        {
-            BeforeSaveOverride(errors);
-        }
-
-        protected virtual void BeforeSaveOverride(EntityErrors errors)
-        {
-        }
+        public DateTime? EntityWorkflowOn { get; set; }
     }
 }

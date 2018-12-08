@@ -14,6 +14,6 @@
         Child = 3,
 
         /// <summary></summary>
-        Person = 5,
+        Family = 5,
     }
 }
