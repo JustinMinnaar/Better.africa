@@ -8,6 +8,6 @@ namespace BetterAfrica.Benefits.Entities
     public class AulPolicyDependency : BDependency
     {
         public Guid PolicyId { get; set; }
-        public BAulPolicy Policy { get; set; }
+        public AulPolicy Policy { get; set; }
     }
 }

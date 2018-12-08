@@ -10,6 +10,12 @@ namespace BetterAfrica.Benefits.Providers.UnitTests
     public class UnitTest1
     {
         [TestMethod]
+        public void GivenPFuneral_CaulcationOfBilling()
+        {
+            var policy = new Policy
+        }
+
+        [TestMethod]
         public void GivenNewMembershipForm_WhenValidAndComplete_OnApproval_CreatesNewMembership()
         {
             var provider = new MembershipProvider(Guid.NewGuid());

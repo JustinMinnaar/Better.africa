@@ -86,7 +86,7 @@ namespace BetterAfrica.Benefits.Entities
                 if (DateOfBirth != null)
                 {
                     var min = Clock.Now.AddYears(-100);
-                    var max = Clock.Now.AddYears(10); // system lifespan is 10 years
+                    var max = Clock.Now; // system lifespan is 10 years
                     if (DateOfBirth < min && DateOfBirth > max)
                         return $"must be after {min} (under 100 years old) and before {max}.";
                 }

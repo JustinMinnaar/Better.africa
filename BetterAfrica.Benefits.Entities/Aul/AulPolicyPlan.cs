@@ -11,11 +11,22 @@ namespace BetterAfrica.Benefits.Entities
 
         public int LastPolicyNumberIssued { get; set; }
 
-        public decimal MonthlyCostPrincipal { get; set; }
-        public decimal MonthlyCostSpouse { get; set; }
+        public decimal MonthlyCostPrincipalUnder66 { get; set; }
+
+        public decimal MonthlyCostPrincipalUnder76 { get; set; }
+        public decimal MonthlyCostPrincipalUnder86 { get; set; }
+
+        public decimal MonthlyCostSpouse18to65 { get; set; }
+
+        public decimal MonthlyCostSpouseUnder76 { get; set; }
+        public decimal MonthlyCostSpouseUnder86 { get; set; }
+
         public decimal MonthlyCostChildren { get; set; }
         public decimal MonthlyCostChild { get; set; }
-        public decimal MonthlyCostFamily { get; set; }
+
+        public decimal MonthlyCostFamilyUnder76 { get; set; }
+        public decimal MonthlyCostFamilyUnder66 { get; set; }
+        public decimal MonthlyCostFamilyUnder86 { get; set; }
 
         public int MinAgePrincipal { get; set; } = 18;
         public int MaxAgePrincipal { get; set; } = 65;
@@ -33,17 +44,18 @@ namespace BetterAfrica.Benefits.Entities
         public int MaxAgeChildScholar { get; set; } = 25;
 
         public int MinAgeAdult { get; private set; } = 0;
+
         public int MaxAgeAdult { get; private set; } = 65;
 
         protected override void BeforeSaveOverride(EntityErrors errors)
         {
             base.BeforeSaveOverride(errors);
 
-            MonthlyCostPrincipal.Bound(0m, 9999m);
-            MonthlyCostSpouse.Bound(0m, 9999m);
+            MonthlyCostPrincipalUnder66.Bound(0m, 9999m);
+            MonthlyCostSpouse18to65.Bound(0m, 9999m);
             MonthlyCostChild.Bound(0m, 9999m);
             MonthlyCostChildren.Bound(0m, 9999m);
-            MonthlyCostFamily.Bound(0m, 9999m);
+            MonthlyCostFamilyUnder76.Bound(0m, 9999m);
 
             MinAgePrincipal.Bound(0, 99);
             MaxAgePrincipal.Bound(MinAgePrincipal, 99);

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BetterAfrica.Benefits.Entities
 {
-    public class BAulPolicy : BContract
+    public class AulPolicy : BContract
     {
         public string Err => $"Policy '{Number}'";
 
@@ -37,10 +37,10 @@ namespace BetterAfrica.Benefits.Entities
             if (Plan != null)
             {
                 if (Principal != null)
-                    yield return new TransactionItem(name: "Principal", cost: Plan.MonthlyCostPrincipal);
+                    yield return new TransactionItem(name: "Principal", cost: Plan.MonthlyCostPrincipalUnder66);
 
                 if (Spouse != null)
-                    yield return new TransactionItem(name: "Spouse", cost: Plan.MonthlyCostSpouse);
+                    yield return new TransactionItem(name: "Spouse", cost: Plan.MonthlyCostSpouse18to65);
 
                 var childrenCount = Children.Count();
                 if (childrenCount > 0)
@@ -49,8 +49,8 @@ namespace BetterAfrica.Benefits.Entities
 
                 var personCount = Family.Count();
                 if (personCount > 0)
-                    yield return new TransactionItem(name: "Family",
-                        cost: personCount * Plan.MonthlyCostFamily);
+                    yield return new TransactionItem(name: "Extended Family",
+                        cost: personCount * Plan.MonthlyCostFamilyUnder76);
             }
         }
 
@@ -159,7 +159,7 @@ namespace BetterAfrica.Benefits.Entities
         }
 
         /// <summary>Add a person of a specific type to be covered.</summary>
-        public BAulPolicy WithDependency(BPerson person, BDependencyType type)
+        public AulPolicy WithDependency(BPerson person, BDependencyType type)
         {
             Dependancies.Add(new AulPolicyDependency
             {

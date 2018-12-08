@@ -42,7 +42,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
         [TestMethod]
         public void OnlyOneSpouseIsPermitted()
         {
-            var a1 = new BAulPolicy();
+            var a1 = new AulPolicy();
             var m1 = new BMembership()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithSpouse(p2Bertha47)

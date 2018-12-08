@@ -34,7 +34,7 @@ namespace BetterAfrica.Benefits.Entities
 
         public DbSet<AulPolicyPlan> PolicyPlans { get; set; }
 
-        public DbSet<BAulPolicy> Policies { get; set; }
+        public DbSet<AulPolicy> Policies { get; set; }
 
         public DbSet<AulPolicyDependency> PolicyDependencies { get; set; }
 
@@ -139,7 +139,7 @@ namespace BetterAfrica.Benefits.Entities
 
         private static void MapPolicy(DbModelBuilder modelBuilder)
         {
-            var member = MapBase<BAulPolicy>(modelBuilder, "Policy");
+            var member = MapBase<AulPolicy>(modelBuilder, "Policy");
 
             member.Property(p => p.Number).IsRequired();
             member.Property(p => p.InceptionDate).IsOptional();
@@ -159,9 +159,9 @@ namespace BetterAfrica.Benefits.Entities
             plan.Property(p => p.LastPolicyNumberIssued).IsRequired();
             plan.Property(p => p.MonthlyCostChild).IsRequired();
             plan.Property(p => p.MonthlyCostChildren).IsRequired();
-            plan.Property(p => p.MonthlyCostFamily).IsRequired();
-            plan.Property(p => p.MonthlyCostPrincipal).IsRequired();
-            plan.Property(p => p.MonthlyCostSpouse).IsRequired();
+            plan.Property(p => p.MonthlyCostFamilyUnder76).IsRequired();
+            plan.Property(p => p.MonthlyCostPrincipalUnder66).IsRequired();
+            plan.Property(p => p.MonthlyCostSpouse18to65).IsRequired();
             plan.Property(p => p.MaxAgeAdult).IsRequired();
             plan.Property(p => p.MaxAgeChild).IsRequired();
             plan.Property(p => p.MaxAgeChildScholar).IsRequired();

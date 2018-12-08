@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="Aul\AulPolicyDependency.cs" />
     <Compile Include="Aul\AulPolicyPlan.cs" />
-    <Compile Include="Aul\BAulPolicy.cs" />
+    <Compile Include="Aul\AulPolicy.cs" />
     <Compile Include="BenefitsDbContext.cs" />
     <Compile Include="Base\BaseForm.cs" />
     <Compile Include="Forms\DetailProduct.cs" />
