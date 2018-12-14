@@ -3,17 +3,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BetterAfrica.Benefits.Entities.UnitTests
 {
-    public class FuneralPolicy_UnitTests : BaseValidationUnitTests
+    public class FuneralPolicy_UnitTests : BasePersonUnitTests
     {
     }
 
     [TestClass]
-    public class PolicyValidationUnitTests : BaseValidationUnitTests
+    public class PolicyValidationUnitTests : BasePersonUnitTests
     {
         [TestMethod]
         public void OnlyOnePrincipalIsPermittedAndPrincipalIsRequired()
         {
-            var m1 = new BMember().WithInceptionDate(yy: 2019, mm: 1);
+            var m1 = new CMember().WithInceptionDate(yy: 2019, mm: 1);
             Assert.IsNotNull(m1.PrincipalError);
 
             // one principal
@@ -30,7 +30,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
         {
             Clock.FreezeAt(new System.DateTime(2019, 1, 1));
 
-            var m1 = new BMember()
+            var m1 = new CMember()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p3Charles11);
             Assert.IsNotNull(m1.PrincipalError);
@@ -43,7 +43,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
         public void OnlyOneSpouseIsPermitted()
         {
             var a1 = new AulPolicy();
-            var m1 = new BMember()
+            var m1 = new CMember()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithSpouse(p2Bertha47)
                 .WithSpouse(p3Charles11);
@@ -54,7 +54,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
         [TestMethod]
         public void SpouseAge18OrAbove()
         {
-            var m1 = new BMember()
+            var m1 = new CMember()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p1Adam49)
                 .WithSpouse(p3Charles11);
@@ -65,7 +65,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
         [TestMethod]
         public void ChildrenWithinAge()
         {
-            var m1 = new BMember()
+            var m1 = new CMember()
                 .WithSignDate(yy: 2019, mm: 1, dd: 7)
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p1Adam49)
@@ -80,7 +80,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
         [TestMethod]
         public void Policy_CantAddSameMemberTwiceToPolicy()
         {
-            var m1 = new BMember()
+            var m1 = new CMember()
                 .WithInceptionDate(yy: 2019, mm: 1)
                .WithPrincipal(p1Adam49)
                .WithSpouse(p1Adam49);

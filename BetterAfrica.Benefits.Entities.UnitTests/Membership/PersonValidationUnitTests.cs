@@ -3,12 +3,12 @@
 namespace BetterAfrica.Benefits.Entities.UnitTests
 {
     [TestClass]
-    public class PersonValidationUnitTests : BaseValidationUnitTests
+    public class PersonValidationUnitTests : BasePersonUnitTests
     {
         [TestMethod]
         public void Person_PrincipalRequiresName()
         {
-            var p1 = new BPerson();
+            var p1 = new CPerson();
             Assert.IsNotNull(p1.NameError);
 
             Assert.IsNull(p1Adam49.NameError);
@@ -18,7 +18,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
         public void Person_RequiresIdentity()
         {
             // no identity fails
-            var p1 = new BPerson();
+            var p1 = new CPerson();
             Assert.IsNotNull(p1.IdentityNumberError);
 
             // a valid identity passes

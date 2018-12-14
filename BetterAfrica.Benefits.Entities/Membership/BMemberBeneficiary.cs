@@ -9,9 +9,9 @@ using System.Reflection;
 namespace BetterAfrica.Benefits.Entities
 {
     [Nickname("beneficiary")]
-    public class BMemberBeneficiary : BaseEntity
+    public class CMemberBeneficiary : BaseEntity
     {
-        /// <summary>The beneficiary code is B# from 1 to N for each membership.</summary>
+        /// <summary>The beneficiary code is B# from 1 to N for each member.</summary>
         public string Code { get; set; }
 
         /// <summary>The person or company name of the beneficiary.</summary>

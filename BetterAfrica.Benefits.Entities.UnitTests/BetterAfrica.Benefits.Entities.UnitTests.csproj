@@ -53,8 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aul\PolicyValidationUnitTests.cs" />
-    <Compile Include="Aul\UnitTest1.cs" />
-    <Compile Include="Base\BaseValidationUnitTests.cs" />
+    <Compile Include="Aul\PolicyPricing_UnitTests.cs" />
+    <Compile Include="Base\BasePersonUnitTests.cs" />
     <Compile Include="Base\ContractUnitTests.cs" />
     <Compile Include="Membership\MembershipValidationUnitTests.cs" />
     <Compile Include="Membership\PersonValidationUnitTests.cs" />
@@ -66,7 +66,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Memberships1.xml" />
+    <Content Include="Members1.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Knights IT\Knights.Solution6\Source\Core\Knights.Core.Common\Knights.Core.Common.csproj">

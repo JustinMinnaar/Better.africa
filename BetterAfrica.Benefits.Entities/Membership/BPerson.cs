@@ -6,9 +6,9 @@ using System;
 namespace BetterAfrica.Benefits.Entities
 {
     /// <summary>
-    ///     A person that may be a member of a membership.
+    ///     A person that may be a member of a member.
     /// </summary>
-    public class BPerson : BaseEntity
+    public class CPerson : BaseEntity
     {
         public string Err => Name;
 
@@ -166,7 +166,7 @@ namespace BetterAfrica.Benefits.Entities
 
         #region Helpers
 
-        public BPerson WithDateOfBirth(int yy, int mm, int dd)
+        public CPerson WithDateOfBirth(int yy, int mm, int dd)
         {
             DateOfBirth = new DateTime(yy, mm, dd);
             return this;

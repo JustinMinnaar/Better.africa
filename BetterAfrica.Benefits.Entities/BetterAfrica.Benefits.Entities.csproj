@@ -56,6 +56,7 @@
     <Compile Include="Aul\AulPolicy.cs" />
     <Compile Include="BenefitsDbContext.cs" />
     <Compile Include="Membership\BMemberBeneficiary.cs" />
+    <Compile Include="Membership\CPersonDependency.cs" />
     <Compile Include="Products\BPackage.cs" />
     <Compile Include="Products\BPolicyFuneral.cs" />
     <Compile Include="Products\BEducation.cs" />
@@ -73,7 +74,6 @@
     <Compile Include="Membership\BMemberAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\BAudit.cs" />
-    <Compile Include="Membership\BContractDependency.cs" />
     <Compile Include="Membership\BDependencyType.cs" />
     <Compile Include="Shared\BOptions.cs" />
     <Compile Include="Shared\BUser.cs" />

@@ -3,13 +3,13 @@
 namespace BetterAfrica.Benefits.Entities.UnitTests
 {
     [TestClass]
-    public class MemberValidationUnitTests : BaseValidationUnitTests
+    public class MemberValidationUnitTests : BasePersonUnitTests
     {
         [TestMethod]
         public void Member_PrincipalIsRequired()
         {
             var a1 = new AulPolicy();
-            var m1 = new BMember()
+            var m1 = new CMember()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithSpouse(p2Bertha47);
 
@@ -19,7 +19,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
         [TestMethod]
         public void Member_PrincipalMustBeAge18OrAbove()
         {
-            var m1 = new BMember()
+            var m1 = new CMember()
                 .WithInceptionDate(yy: 2019, mm: 1)
                 .WithPrincipal(p3Charles11);
 

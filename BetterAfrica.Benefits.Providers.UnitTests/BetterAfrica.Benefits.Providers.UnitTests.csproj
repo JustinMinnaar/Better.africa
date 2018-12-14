@@ -66,14 +66,6 @@
     <Content Include="Memberships.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Benefits.Entities\Benefits.Entities.csproj">
-      <Project>{d82d7ee2-236b-4a91-adb0-cf79e00d3323}</Project>
-      <Name>Benefits.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Benefits.Provider\Benefits.Provider.csproj">
-      <Project>{081c0efa-5397-434c-93d2-ca327d0e5115}</Project>
-      <Name>Benefits.Provider</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Benefits.Shared\BetterAfrica.Shared.csproj">
       <Project>{f621104f-f9a1-49ad-8c3e-ed699a9391e0}</Project>
       <Name>Benefits.Shared</Name>

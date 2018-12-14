@@ -15,22 +15,22 @@ namespace BetterAfrica.Benefits.Entities
 
         public DbSet<BAudit> Audits { get; set; }
 
-        public DbSet<BMember> Members { get; set; }
+        public DbSet<CMember> Members { get; set; }
 
-        public DbSet<BMemberDependency> MemberDependencies { get; set; }
+        public DbSet<CMemberDependency> MemberDependencies { get; set; }
 
-        public BMember GetMember(int id)
+        public CMember GetMember(int id)
         {
-            var membership = Members
-                .Include(nameof(BMember.Dependencies))
+            var member = Members
+                .Include(nameof(CMember.Dependencies))
                 .Include(m => m.Dependencies.Select(d => d.Person))
-                .Include(nameof(BMember.Agent))
+                .Include(nameof(CMember.Agent))
                 .AsQueryable()
                 .FirstOrDefault(m => m.Id == id);
-            return membership;
+            return member;
         }
 
-        public DbSet<BPerson> People { get; set; }
+        public DbSet<CPerson> People { get; set; }
 
         public DbSet<AulPolicyPlan> PolicyPlans { get; set; }
 
@@ -111,7 +111,7 @@ namespace BetterAfrica.Benefits.Entities
 
         private static void MapPerson(DbModelBuilder modelBuilder)
         {
-            var person = MapBase<BPerson>(modelBuilder, "Person");
+            var person = MapBase<CPerson>(modelBuilder, "Person");
 
             person.Property(p => p.DateOfBirth).IsOptional().HasColumnType("date");
             person.Property(p => p.DateOfDeath).IsOptional().HasColumnType("date");
@@ -127,16 +127,16 @@ namespace BetterAfrica.Benefits.Entities
 
         private static void MapMember(DbModelBuilder modelBuilder)
         {
-            var membership = MapBase<BMember>(modelBuilder, "Member");
+            var member = MapBase<CMember>(modelBuilder, "Member");
 
-            membership.Property(p => p.Number).IsOptional();
-            membership.Property(p => p.AgentId).IsOptional();
-            membership.Property(p => p.EntityUserId).IsRequired();
-            membership.Property(p => p.InceptionDate).IsOptional();
-            membership.Property(p => p.Number).IsRequired();
-            membership.Property(p => p.SignDate).IsOptional();
+            member.Property(p => p.Number).IsOptional();
+            member.Property(p => p.AgentId).IsOptional();
+            member.Property(p => p.EntityUserId).IsRequired();
+            member.Property(p => p.InceptionDate).IsOptional();
+            member.Property(p => p.Number).IsRequired();
+            member.Property(p => p.SignDate).IsOptional();
 
-            var e = modelBuilder.Entity<BMemberDependency>();
+            var e = modelBuilder.Entity<CMemberDependency>();
             e.ToTable("MemberDependency");
             e.HasKey(s => new { s.MemberId, s.PersonId });
             e.Property(p => p.Type).IsRequired();

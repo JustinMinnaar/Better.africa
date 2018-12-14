@@ -71,26 +71,26 @@ namespace BetterAfrica.Benefits.Entities
             MaxAgeAdult.Bound(0, 99);
         }
 
-        public int MaxAgeInYears(BDependencyType type, bool isTertiaryStudent)
+        public int MaxAgeInYears(EDependencyType type, bool isTertiaryStudent)
         {
             switch (type)
             {
-                case BDependencyType.Principal: return MaxAgePrincipal;
-                case BDependencyType.Spouse: return MaxAgeSpouse;
-                case BDependencyType.Child: return isTertiaryStudent ? MaxAgeChildScholar : MaxAgeChild;
-                case BDependencyType.Family: return MaxAgeAdult;
+                case EDependencyType.Principal: return MaxAgePrincipal;
+                case EDependencyType.Spouse: return MaxAgeSpouse;
+                case EDependencyType.Child: return isTertiaryStudent ? MaxAgeChildScholar : MaxAgeChild;
+                case EDependencyType.Family: return MaxAgeAdult;
                 default: return 0;
             }
         }
 
-        public int MinAgeInYears(BDependencyType type)
+        public int MinAgeInYears(EDependencyType type)
         {
             switch (type)
             {
-                case BDependencyType.Principal: return MinAgePrincipal;
-                case BDependencyType.Spouse: return MinAgeSpouse;
-                case BDependencyType.Child: return MinAgeChild;
-                case BDependencyType.Family: return MinAgeAdult;
+                case EDependencyType.Principal: return MinAgePrincipal;
+                case EDependencyType.Spouse: return MinAgeSpouse;
+                case EDependencyType.Child: return MinAgeChild;
+                case EDependencyType.Family: return MinAgeAdult;
                 default: return 0;
             }
         }

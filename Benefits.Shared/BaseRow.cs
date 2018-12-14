@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace BetterAfrica.Shared
 {
-    public abstract class BaseRow : IImportExport, IToNode
+    public abstract class CRow : IImportExport, IToNode
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -52,7 +52,7 @@ namespace BetterAfrica.Shared
 
         //private List<PropertyInfo> ComplexProperties { get; } = new List<PropertyInfo>();
 
-        public BaseRow()
+        public CRow()
         {
             var type = this.GetType();
             var properties = type.GetPublicProperties();

@@ -12,7 +12,7 @@ namespace BetterAfrica.Benefits.Entities
 
         public long? AgentId { get; set; }
 
-        public virtual BPerson Agent { get; set; }
+        public virtual CPerson Agent { get; set; }
 
         public string AgentError
         {
@@ -59,23 +59,25 @@ namespace BetterAfrica.Benefits.Entities
                     return "Sign Date is required to calculate Inception Date";
 
                 var isNull = (InceptionDate == null);
-                var minDate = new DateTime(2018, 12, 1);
+                DateTime? minDate = new DateTime(2018, 12, 1);
                 var maxDate = SignDate.Value.AddMonths(6);
                 var isOutOfRange = (InceptionDate < minDate || InceptionDate > maxDate);
                 if (isNull || isOutOfRange)
-                    return $"Inception date is required and must be on or after {minDate.ToShortDateString()} and before {maxDate.ToShortDateString()}.";
+                    return $"Inception date is required and must be on or after {minDate.ToStringYMD()} and before {maxDate.ToStringYMD()}.";
 
                 if (SignDate != null)
                 {
                     if (SignDate.Value.Day <= 7)
                     {
-                        if (InceptionDate < SignDate.Value.FirstDayOfMonth())
-                            return "Inception date cannot be before the month in which the contract was signed, when sign date is before the 8th.";
+                        var firstDayOfMonth = SignDate.Value.FirstDayOfMonth();
+                        if (InceptionDate < firstDayOfMonth)
+                            return $"Inception date {InceptionDate.ToStringYMD()} cannot be before {firstDayOfMonth.ToStringYMD()}, the month in which the contract was signed, when sign date is before the 8th.";
                     }
                     else
                     {
-                        if (InceptionDate < SignDate.Value.FirstDayOfNextMonth())
-                            return "Inception date cannot be before the month following the month in which the contract was signed, when sign date is after the 7th.";
+                        var firstDayOfNextMonth = SignDate.Value.FirstDayOfNextMonth();
+                        if (InceptionDate < firstDayOfNextMonth)
+                            return $"Inception date {InceptionDate.ToStringYMD()} cannot be before {firstDayOfNextMonth.ToStringYMD()}, the month following the month in which the contract was signed, when sign date is after the 7th.";
                     }
 
                     if (InceptionDate > SignDate.Value.FirstDayOfMonth().AddMonths(6))
@@ -117,7 +119,7 @@ namespace BetterAfrica.Benefits.Entities
 
     public static class ContractHelpers
     {
-        public static T WithAgent<T>(this T contract, BPerson agent)
+        public static T WithAgent<T>(this T contract, CPerson agent)
             where T : BContract
         {
             contract.AgentId = agent.Id;

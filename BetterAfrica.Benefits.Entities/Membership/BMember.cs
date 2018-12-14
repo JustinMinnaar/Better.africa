@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace BetterAfrica.Benefits.Entities
 {
-    public class BMember : BContract
+    public class CMember : BContract
     {
         #region Properties
 
@@ -23,10 +23,10 @@ namespace BetterAfrica.Benefits.Entities
         public EBeneficiariesType? BeneficiariesType { get; set; }
 
         /// <summary>A member may have any number of dependencies. This includes the Principal, Spouse, Children and extended Family.</summary>
-        public virtual ICollection<BMemberDependency> Dependencies { get; } = new HashSet<BMemberDependency>();
+        public virtual ICollection<CMemberDependency> Dependencies { get; } = new HashSet<CMemberDependency>();
 
         /// <summary>A member may have any number of beneficiaries.</summary>
-        public virtual ICollection<BMemberBeneficiary> Beneficiaries { get; } = new HashSet<BMemberBeneficiary>();
+        public virtual ICollection<CMemberBeneficiary> Beneficiaries { get; } = new HashSet<CMemberBeneficiary>();
 
         /// <summary>A member may have any number of accounts, each linked to a plan. This supports policies
         /// likes medical, funeral and supports products like hamper, education and loyalty.</summary>
@@ -50,9 +50,9 @@ namespace BetterAfrica.Benefits.Entities
                 beneficiary.BeforeSave(errors);
             }
 
-            foreach (var membershipPackage in Accounts)
+            foreach (var memberPackage in Accounts)
             {
-                membershipPackage.BeforeSave(errors);
+                memberPackage.BeforeSave(errors);
             }
         }
 
@@ -60,7 +60,7 @@ namespace BetterAfrica.Benefits.Entities
         {
             get
             {
-                var principalsCount = Dependencies.Count(p => p.Type == BDependencyType.Principal);
+                var principalsCount = Dependencies.Count(p => p.Type == EDependencyType.Principal);
                 if (principalsCount != 1) return "There must be one principal.";
 
                 if (InceptionDate != null)
@@ -81,7 +81,7 @@ namespace BetterAfrica.Benefits.Entities
                 var spouse = Spouse;
                 if (spouse == null) return null;
 
-                var spouseValid = Dependencies.Count(p => p.Type == BDependencyType.Spouse) == 1;
+                var spouseValid = Dependencies.Count(p => p.Type == EDependencyType.Spouse) == 1;
                 if (!spouseValid) return "There may not be more than one spouse.";
 
                 if (InceptionDate != null)
@@ -100,18 +100,18 @@ namespace BetterAfrica.Benefits.Entities
         #region Helper Properties
 
         [NotMapped]
-        public BPerson Principal => GetPeople(BDependencyType.Principal).FirstOrDefault();
+        public CPerson Principal => GetPeople(EDependencyType.Principal).FirstOrDefault();
 
         [NotMapped]
-        public BPerson Spouse => GetPeople(BDependencyType.Spouse).FirstOrDefault();
+        public CPerson Spouse => GetPeople(EDependencyType.Spouse).FirstOrDefault();
 
         [NotMapped]
-        public IList<BPerson> Children => GetPeople(BDependencyType.Child).ToList();
+        public IList<CPerson> Children => GetPeople(EDependencyType.Child).ToList();
 
         [NotMapped]
-        public IList<BPerson> Family => GetPeople(BDependencyType.Family).ToList();
+        public IList<CPerson> Family => GetPeople(EDependencyType.Family).ToList();
 
-        private IEnumerable<BPerson> GetPeople(BDependencyType type)
+        private IEnumerable<CPerson> GetPeople(EDependencyType type)
         {
             return from d in Dependencies where d.Type == type select d.Person;
         }
@@ -120,51 +120,51 @@ namespace BetterAfrica.Benefits.Entities
 
         #region Helper Methods
 
-        public BMember WithPrincipal(BPerson principal)
+        public CMember WithPrincipal(CPerson principal)
         {
-            Dependencies.Add(new BMemberDependency
+            Dependencies.Add(new CMemberDependency
             {
                 Member = this,
                 Person = principal,
-                Type = BDependencyType.Principal
+                Type = EDependencyType.Principal
             });
             return this;
         }
 
-        public BMember WithSpouse(BPerson spouse)
+        public CMember WithSpouse(CPerson spouse)
         {
-            Dependencies.Add(new BMemberDependency
+            Dependencies.Add(new CMemberDependency
             {
                 Member = this,
                 Person = spouse,
-                Type = BDependencyType.Spouse
+                Type = EDependencyType.Spouse
             });
             return this;
         }
 
-        public BMember WithChildren(params BPerson[] children)
+        public CMember WithChildren(params CPerson[] children)
         {
             foreach (var child in children)
             {
-                Dependencies.Add(new BMemberDependency
+                Dependencies.Add(new CMemberDependency
                 {
                     Member = this,
                     Person = child,
-                    Type = BDependencyType.Child
+                    Type = EDependencyType.Child
                 });
             }
             return this;
         }
 
-        public BMember WithFamily(params BPerson[] persons)
+        public CMember WithFamily(params CPerson[] persons)
         {
             foreach (var person in persons)
             {
-                Dependencies.Add(new BMemberDependency
+                Dependencies.Add(new CMemberDependency
                 {
                     Member = this,
                     Person = person,
-                    Type = BDependencyType.Family
+                    Type = EDependencyType.Family
                 });
             }
             return this;
@@ -194,11 +194,11 @@ namespace BetterAfrica.Benefits.Entities
             {
                 switch (childNode.Type.ToLower())
                 {
-                    case "principal": Dependencies.Add(new BMemberDependency { Member = this, Person = childNode.To<BPerson>(), Type = BDependencyType.Principal }); break;
-                    case "spouse": Dependencies.Add(new BMemberDependency { Member = this, Person = childNode.To<BPerson>(), Type = BDependencyType.Spouse }); break;
-                    case "child": Dependencies.Add(new BMemberDependency { Member = this, Person = childNode.To<BPerson>(), Type = BDependencyType.Child }); break;
-                    case "family": Dependencies.Add(new BMemberDependency { Member = this, Person = childNode.To<BPerson>(), Type = BDependencyType.Family }); break;
-                    case "beneficiary": Beneficiaries.Add(childNode.To<BMemberBeneficiary>()); break;
+                    case "principal": Dependencies.Add(new CMemberDependency { Member = this, Person = childNode.To<CPerson>(), Type = EDependencyType.Principal }); break;
+                    case "spouse": Dependencies.Add(new CMemberDependency { Member = this, Person = childNode.To<CPerson>(), Type = EDependencyType.Spouse }); break;
+                    case "child": Dependencies.Add(new CMemberDependency { Member = this, Person = childNode.To<CPerson>(), Type = EDependencyType.Child }); break;
+                    case "family": Dependencies.Add(new CMemberDependency { Member = this, Person = childNode.To<CPerson>(), Type = EDependencyType.Family }); break;
+                    case "beneficiary": Beneficiaries.Add(childNode.To<CMemberBeneficiary>()); break;
                     case "product": Accounts.Add(childNode.To<BMemberAccount>()); break;
                     default:
                         throw new BenefitsException("Unknown node " + childNode.Err);

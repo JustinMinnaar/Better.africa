@@ -13,7 +13,7 @@ namespace BetterAfrica.Benefits.Entities
         public string Name { get; set; }
 
         public long? MemberId { get; set; }
-        public virtual BMember Member { get; set; }
+        public virtual CMember Member { get; set; }
 
         public BPlanPolicyFuneral Funeral { get; set; }
         public BPlanPolicyMedical Medical { get; set; }

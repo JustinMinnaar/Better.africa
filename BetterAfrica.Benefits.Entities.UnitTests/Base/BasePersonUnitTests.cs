@@ -3,28 +3,25 @@ using System;
 
 namespace BetterAfrica.Benefits.Entities.UnitTests
 {
-    public abstract class BaseValidationUnitTests
+    public abstract class BasePersonUnitTests
     {
         // NOTE: It is necessary for testing duplications to always create a new person
 
-        protected BPerson p1Adam49 => new BPerson
+        protected CPerson p1Adam49 => new CPerson
         {
             FirstName = "Adam",
             LastName = "Adams",
             DateOfBirth = new DateTime(1969, 07, 31),
             IdentityNumber = SouthAfricanIdentityNumber.Random(1960, 1980, true).Number,
             Gender = EPersonGenders.Male,
-            CellPhone = "0813702097",
-            CellPhoneDial = "0813702097",
-            HomePhone = "",
-            HomePhoneDial = "",
-            WorkPhone = "",
-            WorkPhoneDial = "",
-            EmailAddress = "",
-            Work = "",
+            CellPhone = new Phone("0813702097"),
+            HomePhone = null,
+            WorkPhone = null,
+            EmailAddress = null,
+            WorkName = null,
         };
 
-        protected BPerson p2Bertha47 => new BPerson
+        protected CPerson p2Bertha47 => new CPerson
         {
             FirstName = "Bertha",
             LastName = "Adams",
@@ -33,7 +30,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
             IdentityNumber = SouthAfricanIdentityNumber.Random(1960, 1980, true).Number
         };
 
-        protected BPerson p3Charles11 => new BPerson
+        protected CPerson p3Charles11 => new CPerson
         {
             FirstName = "Charles",
             LastName = "Adams",
@@ -42,7 +39,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
             IdentityNumber = SouthAfricanIdentityNumber.Random(2007, 2009, true).Number
         };
 
-        protected BPerson p4Debbie1 => new BPerson
+        protected CPerson p4Debbie1 => new CPerson
         {
             FirstName = "Debbie",
             LastName = "Adams",
@@ -51,7 +48,7 @@ namespace BetterAfrica.Benefits.Entities.UnitTests
             IdentityNumber = SouthAfricanIdentityNumber.Random(2017, 2018, true).Number
         };
 
-        protected BPerson p5Eddie27 = new BPerson
+        protected CPerson p5Eddie27 = new CPerson
         {
             FirstName = "Eddie",
             LastName = "Adams",

@@ -4,10 +4,10 @@ using System;
 
 namespace BetterAfrica.Benefits.Entities
 {
-    public class BForm : BaseRow
-    {
-        public string Err => $"agent={Agent} number={Number} action={Action}";
+    //public class BForm : BaseRow
+    //{
+    //    public string Err => $"agent={Agent} number={Number} action={Action}";
 
-        public EFormAction? Action { get; set; }
-    }
+    //    public EFormAction? Action { get; set; }
+    //}
 }

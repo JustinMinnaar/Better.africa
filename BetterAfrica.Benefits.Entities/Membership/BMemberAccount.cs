@@ -9,13 +9,13 @@ namespace BetterAfrica.Benefits.Entities
     public class BMemberAccount : BContract
     {
         public long? MemberId { get; set; }
-        public virtual BMember Member { get; set; }
+        public virtual CMember Member { get; set; }
 
         public long PackageId { get; set; }
         public virtual BPackage Package { get; set; }
 
-        public virtual ICollection<BMemberDependency> Dependencies { get; } = new HashSet<BMemberDependency>();
+        public virtual ICollection<CMemberDependency> Dependencies { get; } = new HashSet<CMemberDependency>();
 
-        public virtual ICollection<BMemberBeneficiary> Beneficiaries { get; } = new HashSet<BMemberBeneficiary>();
+        public virtual ICollection<CMemberBeneficiary> Beneficiaries { get; } = new HashSet<CMemberBeneficiary>();
     }
 }

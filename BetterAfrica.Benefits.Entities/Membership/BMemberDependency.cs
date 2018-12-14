@@ -4,15 +4,15 @@ using BetterAfrica.Shared;
 namespace BetterAfrica.Benefits.Entities
 {
     /// <summary>
-    ///     A person of a particular type to be included in the membership.
+    ///     A person of a particular type to be included in the member.
     /// </summary>
-    public class BMemberDependency : BContractDependency
+    public class CMemberDependency : CPersonDependency
     {
         /// <summary></summary>
         public int MemberId { get; set; }
 
         /// <summary></summary>
-        public virtual BMember Member { get; set; }
+        public virtual CMember Member { get; set; }
 
         protected override void BeforeSaveOverride(EntityErrors errors)
         {

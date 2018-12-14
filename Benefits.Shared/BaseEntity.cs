@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace BetterAfrica.Shared
 {
-    public abstract class BaseEntity : BaseRow
+    public abstract class BaseEntity : CRow
     {
         public int EntityVersion { get; set; } = 1;
 

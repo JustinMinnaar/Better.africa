@@ -3,7 +3,7 @@
 namespace BetterAfrica.Benefits.Entities.UnitTests
 {
     [TestClass]
-    public class ContractUnitTests : BaseValidationUnitTests
+    public class ContractUnitTests : BasePersonUnitTests
     {
         [TestMethod]
         public void Contract_RequiresSignDate()

@@ -3,7 +3,7 @@ using System;
 
 namespace BetterAfrica.Benefits.Entities
 {
-    public class TransactionItem : BaseRow
+    public class TransactionItem : CRow
     {
         public int TransactionId { get; set; }
 

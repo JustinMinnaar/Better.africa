@@ -4,7 +4,7 @@ using Knights.Core.Common;
 namespace BetterAfrica.Benefits.Entities
 {
     [Nickname("account")]
-    public class BMemberEducation : BaseRow
+    public class BMemberEducation : CRow
     {
         public long? PlanId { get; set; }
 
@@ -12,7 +12,7 @@ namespace BetterAfrica.Benefits.Entities
     }
 
     [Nickname("plan-education")]
-    public class BPlanEducation : BaseRow
+    public class BPlanEducation : CRow
     {
     }
 }

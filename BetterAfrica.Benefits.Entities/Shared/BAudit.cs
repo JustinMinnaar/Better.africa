@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BetterAfrica.Benefits.Entities
 {
-    public class BAudit : BaseRow
+    public class BAudit : CRow
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }

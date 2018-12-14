@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Benefits.Provider;
-using BetterAfrica.Benefits.Entities;
+﻿using BetterAfrica.Benefits.Entities;
 using Knights.Core.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,7 +12,7 @@ namespace BetterAfrica.Benefits.Providers.UnitTests
         [TestMethod]
         public void GivenMemberForm_ProviderCreatesMember()
         {
-            var member1 = new BMember
+            var member1 = new CMember
             {
                 Address = "PO Box 1180",
                 AddressCity = "Kempton Park",
@@ -52,8 +49,8 @@ namespace BetterAfrica.Benefits.Providers.UnitTests
         //    //var forms = FormMembership.ManyFromXmlFile("Memberships.xml");
 
         //    var newMemberForm = forms.FirstOrDefault(p => p.Detail.Number == "1");
-        //    var membership = provider.ApplyMembershipForm(newMemberForm);
-        //    Assert.IsNotNull(membership);
+        //    var member = provider.ApplyMembershipForm(newMemberForm);
+        //    Assert.IsNotNull(member);
         //}
     }
 }

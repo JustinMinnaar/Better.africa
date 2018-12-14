@@ -16,17 +16,17 @@ namespace BetterAfrica.Benefits.Providers
             this.userId = userId;
         }
 
-        public void CreateMember(BMember member)
+        public void CreateMember(CMember member)
         {
             throw new NotImplementedException();
         }
 
-        public BMember TryGetMember(long id)
+        public CMember TryGetMember(long id)
         {
             throw new NotImplementedException();
         }
 
-        //public BMembership ApplyMembershipForm(FormMembership membership)
+        //public BMembership ApplyMembershipForm(FormMembership member)
         //{
         //    // Create a single transaction to ensure everything saves, or nothing changes.
         //    using (var db = new BenefitsDbContext())
